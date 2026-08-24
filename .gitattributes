@@ -1,0 +1,14 @@
+# Normalize line endings — keep LF in the repo regardless of contributor OS.
+* text=auto eol=lf
+
+# Explicit for the file types this repo ships
+*.ts    text eol=lf
+*.tsx   text eol=lf
+*.css   text eol=lf
+*.md    text eol=lf
+*.json  text eol=lf
+
+# Binary
+*.png binary
+*.jpg binary
+*.ico binary
