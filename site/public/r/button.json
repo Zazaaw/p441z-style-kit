@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button",
+  "title": "Button",
+  "description": "Tailwind v4.",
+  "dependencies": [
+    "@radix-ui/react-slot",
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "https://style.p441z.my.id/r/utils.json"
+  ],
+  "files": [
+    {
+      "path": "v4/components/ui/button.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { Slot } from \"@radix-ui/react-slot\";\nimport { cva, type VariantProps } from \"class-variance-authority\";\n\nimport { cn } from \"@/lib/utils\";\n\n/**\n * Button — Tailwind v4.\n *\n * NOTE: the original in the portfolio also fires UI sound cues on click and\n * hover via a SoundProvider. That dependency is stripped here so the button\n * drops into any project. To restore it, see README §\"Adding sound\".\n *\n * The base string carries everything shared: layout, radius, text scale,\n * transition, focus ring, and disabled state. Variants only change color.\n *\n * `asChild` renders a Radix Slot instead of a <button>, so you can style a\n * Next.js <Link> as a button without nesting an <a> inside a <button>:\n *\n *   <Button asChild><Link href=\"/contacts\">Contact me</Link></Button>\n *\n * v4 notes:\n *  - `shrink-0` on the SVG child: v4 no longer normalises flex children the\n *    way v3 did, so an icon in a flex button can squash without it.\n *  - `outline-hidden` replaces v3's `outline-none` (which now means\n *    \"outline: none\" literally and hurts forced-colors accessibility).\n */\n\nconst buttonVariants = cva(\n  \"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4\",\n  {\n    variants: {\n      variant: {\n        // Solid — the one primary action on a screen.\n        default:\n          \"bg-primary text-primary-foreground shadow-sm hover:bg-primary/90\",\n        destructive:\n          \"bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90\",\n        // Bordered — secondary actions that still need to look clickable.\n        outline:\n          \"border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground\",\n        // Filled but quiet — also the \"active nav item\" look.\n        secondary:\n          \"bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80\",\n        // No chrome until hover — toolbars, icon buttons, nav rows.\n        ghost: \"hover:bg-accent hover:text-accent-foreground\",\n        link: \"text-primary underline-offset-4 hover:underline\",\n      },\n      size: {\n        default: \"h-9 px-4 py-2\",\n        sm: \"h-8 rounded-md px-3 text-xs\",\n        lg: \"h-10 rounded-md px-8\",\n        icon: \"h-9 w-9\",\n      },\n    },\n    defaultVariants: {\n      variant: \"default\",\n      size: \"default\",\n    },\n  }\n);\n\nexport interface ButtonProps\n  extends React.ButtonHTMLAttributes<HTMLButtonElement>,\n    VariantProps<typeof buttonVariants> {\n  asChild?: boolean;\n}\n\nconst Button = React.forwardRef<HTMLButtonElement, ButtonProps>(\n  ({ className, variant, size, asChild = false, ...props }, ref) => {\n    const Comp = asChild ? Slot : \"button\";\n\n    return (\n      <Comp\n        className={cn(buttonVariants({ variant, size, className }))}\n        ref={ref}\n        {...props}\n      />\n    );\n  }\n);\nButton.displayName = \"Button\";\n\n// `buttonVariants` is exported so non-button elements can borrow the styling:\n//   <Link className={cn(buttonVariants({ variant: \"ghost\", size: \"icon\" }))} />\nexport { Button, buttonVariants };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "ui"
+  ],
+  "type": "registry:ui"
+}

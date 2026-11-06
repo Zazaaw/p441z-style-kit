@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "magnetic",
+  "title": "Magnetic",
+  "description": "The element leans toward the pointer while it hovers nearby, then springs back.",
+  "dependencies": [
+    "framer-motion"
+  ],
+  "registryDependencies": [
+    "https://style.p441z.my.id/r/utils.json"
+  ],
+  "files": [
+    {
+      "path": "v4/components/effects/magnetic.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion, useMotionValue, useReducedMotion, useSpring } from \"framer-motion\";\n\nimport { cn } from \"@/lib/utils\";\n\n/**\n * Magnetic — the element leans toward the pointer while it hovers nearby, then springs back.\n * Wrap the one CTA per page that deserves it; on every button it becomes noise.\n *\n * USAGE\n *   <Magnetic><Button size=\"lg\">Get the kit</Button></Magnetic>\n *   <Magnetic strength={0.5}>…</Magnetic>\n */\n\ninterface MagneticProps {\n  children: React.ReactNode;\n  /** 0–1: how far it follows (fraction of the pointer offset). */\n  strength?: number;\n  className?: string;\n}\n\nexport default function Magnetic({ children, strength = 0.3, className }: MagneticProps) {\n  const reduce = useReducedMotion();\n  const x = useMotionValue(0);\n  const y = useMotionValue(0);\n  const sx = useSpring(x, { stiffness: 220, damping: 18, mass: 0.4 });\n  const sy = useSpring(y, { stiffness: 220, damping: 18, mass: 0.4 });\n\n  const move = (e: React.PointerEvent<HTMLDivElement>) => {\n    if (reduce || e.pointerType === \"touch\") return;\n    const r = e.currentTarget.getBoundingClientRect();\n    x.set((e.clientX - (r.left + r.width / 2)) * strength);\n    y.set((e.clientY - (r.top + r.height / 2)) * strength);\n  };\n  const reset = () => {\n    x.set(0);\n    y.set(0);\n  };\n\n  return (\n    <motion.div onPointerMove={move} onPointerLeave={reset} style={{ x: sx, y: sy }} className={cn(\"inline-block\", className)}>\n      {children}\n    </motion.div>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/effects/magnetic.tsx"
+    }
+  ],
+  "categories": [
+    "effects"
+  ],
+  "type": "registry:component"
+}

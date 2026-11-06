@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "marquee",
+  "title": "Marquee",
+  "description": "An endless ribbon of items (logos, component names, quotes).",
+  "registryDependencies": [
+    "https://style.p441z.my.id/r/utils.json"
+  ],
+  "files": [
+    {
+      "path": "v4/components/effects/marquee.tsx",
+      "content": "import * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\n/**\n * Marquee — an endless ribbon of items (logos, component names, quotes). Content is rendered twice\n * and slid by exactly one copy, so the loop has no seam. Edges fade out; hover pauses.\n *\n * Uses the kit's `animate-marquee` utility (globals.css). Pure CSS — no client JS.\n * Reduced motion: the ribbon stands still.\n *\n * USAGE\n *   <Marquee duration=\"40s\">{names.map((n) => <span key={n}>{n}</span>)}</Marquee>\n *   <Marquee reverse gap=\"3rem\">…</Marquee>\n */\n\ninterface MarqueeProps {\n  children: React.ReactNode;\n  className?: string;\n  /** One full loop. Longer = calmer. */\n  duration?: string;\n  gap?: string;\n  reverse?: boolean;\n  pauseOnHover?: boolean;\n}\n\nexport default function Marquee({ children, className, duration = \"36s\", gap = \"2.5rem\", reverse = false, pauseOnHover = true }: MarqueeProps) {\n  return (\n    <div\n      className={cn(\"group/mq flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]\", className)}\n      style={{ \"--duration\": duration, \"--gap\": gap, gap } as React.CSSProperties}\n    >\n      {[0, 1].map((copy) => (\n        <div\n          key={copy}\n          aria-hidden={copy === 1}\n          className={cn(\n            \"flex shrink-0 animate-marquee items-center justify-around motion-reduce:animate-none\",\n            reverse && \"[animation-direction:reverse]\",\n            pauseOnHover && \"group-hover/mq:[animation-play-state:paused]\",\n          )}\n          style={{ gap }}\n        >\n          {children}\n        </div>\n      ))}\n    </div>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/effects/marquee.tsx"
+    }
+  ],
+  "categories": [
+    "effects"
+  ],
+  "type": "registry:component"
+}

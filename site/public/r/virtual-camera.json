@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "virtual-camera",
+  "title": "VirtualCamera",
+  "description": "Frames part of its content like a film camera: zoom in on a button, glide to a table, pull back to the whole screen.",
+  "dependencies": [
+    "framer-motion"
+  ],
+  "registryDependencies": [
+    "https://style.p441z.my.id/r/motion.json",
+    "https://style.p441z.my.id/r/utils.json"
+  ],
+  "files": [
+    {
+      "path": "v4/components/motion/virtual-camera.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { cubicBezier, motion, useReducedMotion, useTransform, type MotionValue } from \"framer-motion\";\n\nimport { cn } from \"@/lib/utils\";\nimport { EASE, DUR, clamp } from \"@/lib/motion\";\n\n/**\n * VirtualCamera — frames part of its content like a film camera: zoom in on a button, glide to a\n * table, pull back to the whole screen. The content itself never re-renders; only one transform moves.\n *\n * A shot is a point and a zoom:  { x, y, zoom }  — x/y are 0–1 fractions of the content box,\n * zoom 1 = everything visible. The point is clamped so the content's edges never enter the frame.\n *\n * Two ways to drive it:\n *   • shot      — controlled: change the prop, the camera glides there (symmetric camera ease).\n *   • progress  — scroll-scrubbed: pass a MotionValue 0→1 plus `path` (shots with an `at` stop),\n *                 and the camera interpolates between them as the user scrolls.\n *\n * USAGE\n *   <VirtualCamera shot={{ x: 0.72, y: 0.3, zoom: 2 }}><Screen /></VirtualCamera>\n *\n *   <VirtualCamera progress={scrollYProgress} path={[\n *     { at: 0, x: 0.5, y: 0.5, zoom: 1 },\n *     { at: 0.4, x: 0.25, y: 0.6, zoom: 1.8 },\n *     { at: 1, x: 0.5, y: 0.5, zoom: 1 },\n *   ]}><Screen /></VirtualCamera>\n */\n\nexport type Shot = { x: number; y: number; zoom: number };\nexport type PathShot = Shot & { at: number };\n\n/** Translate (as % of the box) that puts point (x, y) at the center at `zoom`, edges clamped. */\nexport function framing({ x, y, zoom }: Shot) {\n  const s = Math.max(1, zoom);\n  const cx = clamp(x, 0.5 / s, 1 - 0.5 / s);\n  const cy = clamp(y, 0.5 / s, 1 - 0.5 / s);\n  return { tx: (0.5 - cx * s) * 100, ty: (0.5 - cy * s) * 100, s };\n}\n\ninterface VirtualCameraProps {\n  children: React.ReactNode;\n  className?: string;\n  shot?: Shot;\n  progress?: MotionValue<number>;\n  path?: PathShot[];\n  /** Seconds per move in controlled mode. */\n  duration?: number;\n}\n\nconst ease = cubicBezier(...EASE.camera);\n\nfunction Scrubbed({ progress, path, children }: { progress: MotionValue<number>; path: PathShot[]; children: React.ReactNode }) {\n  const at = path.map((p) => p.at);\n  const f = path.map(framing);\n  const opts = { ease: path.slice(1).map(() => ease) };\n  const x = useTransform(progress, at, f.map((v) => `${v.tx}%`), opts);\n  const y = useTransform(progress, at, f.map((v) => `${v.ty}%`), opts);\n  const scale = useTransform(progress, at, f.map((v) => v.s), opts);\n  return (\n    <motion.div className=\"absolute inset-0 origin-top-left will-change-transform\" style={{ x, y, scale }}>\n      {children}\n    </motion.div>\n  );\n}\n\nexport default function VirtualCamera({ children, className, shot = { x: 0.5, y: 0.5, zoom: 1 }, progress, path, duration = DUR.camera }: VirtualCameraProps) {\n  const reduce = useReducedMotion();\n  const f = framing(shot);\n  return (\n    <div className={cn(\"relative h-full w-full overflow-hidden\", className)}>\n      {progress && path && path.length > 1 && !reduce ? (\n        <Scrubbed progress={progress} path={path}>\n          {children}\n        </Scrubbed>\n      ) : (\n        <motion.div\n          className=\"absolute inset-0 origin-top-left will-change-transform\"\n          initial={false}\n          animate={{ x: `${f.tx}%`, y: `${f.ty}%`, scale: f.s }}\n          transition={reduce ? { duration: 0 } : { duration, ease: EASE.camera }}\n        >\n          {children}\n        </motion.div>\n      )}\n    </div>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/motion/virtual-camera.tsx"
+    }
+  ],
+  "categories": [
+    "motion"
+  ],
+  "type": "registry:component"
+}

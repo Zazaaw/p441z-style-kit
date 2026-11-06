@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-hydrated",
+  "title": "true after hydration, false during SSR and the hydration pass",
+  "description": "Without setState-in-effect.",
+  "files": [
+    {
+      "path": "v4/lib/use-hydrated.ts",
+      "content": "import { useSyncExternalStore } from \"react\";\n\nconst noop = () => () => {};\n\n/**\n * true after hydration, false during SSR and the hydration pass — without setState-in-effect.\n * Use it to render client-only things (portals, theme icons, clocks) without a hydration mismatch.\n */\nexport function useHydrated() {\n  return useSyncExternalStore(noop, () => true, () => false);\n}\n",
+      "type": "registry:lib",
+      "target": "@lib/use-hydrated.ts"
+    }
+  ],
+  "categories": [
+    "lib"
+  ],
+  "type": "registry:lib"
+}

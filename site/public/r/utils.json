@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "utils",
+  "title": "utils",
+  "description": "The single most-used helper in the whole system.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": [
+    {
+      "path": "v4/lib/utils.ts",
+      "content": "import { clsx, type ClassValue } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\n/**\n * The single most-used helper in the whole system.\n *\n * `clsx` handles conditionals and arrays; `twMerge` resolves Tailwind\n * conflicts so a later class actually wins:\n *\n *   cn(\"px-4 py-2\", \"px-8\")            → \"py-2 px-8\"     (not both px)\n *   cn(\"text-sm\", isBig && \"text-lg\")  → \"text-lg\"        when isBig\n *\n * Without twMerge, `className` overrides passed into a component would fight\n * the component's own defaults instead of replacing them. Every component in\n * this kit accepts a `className` prop and pipes it through cn() last, so\n * callers can always override.\n */\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n",
+      "type": "registry:lib",
+      "target": "@lib/utils.ts"
+    }
+  ],
+  "categories": [
+    "lib"
+  ],
+  "type": "registry:lib"
+}

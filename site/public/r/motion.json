@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "motion",
+  "title": "motion",
+  "description": "Motion vocabulary shared by every component in components/motion and components/mac.",
+  "files": [
+    {
+      "path": "v4/lib/motion.ts",
+      "content": "/**\n * Motion vocabulary shared by every component in `components/motion` and `components/mac`.\n *\n * The first two curves are the kit's UI curves (see docs/DESIGN.md → Easing). The third,\n * `camera`, is symmetric — it leaves slowly AND lands slowly — and exists only for\n * choreographed motion graphics (camera moves, devices entering, cards flying). Never use it\n * for UI feedback such as hovers or toggles: there it reads as lag.\n *\n *   EASE.reveal   [0.22, 1, 0.36, 1]   entrances, text, labels          ≤ 500 ms\n *   EASE.toggle   [0.4, 0, 0.2, 1]     collapses, switches, pills       ≤ 300 ms\n *   EASE.camera   [0.65, 0, 0.35, 1]   choreography: camera, flights    0.7 – 1.1 s\n */\nexport const EASE = {\n  reveal: [0.22, 1, 0.36, 1],\n  toggle: [0.4, 0, 0.2, 1],\n  camera: [0.65, 0, 0.35, 1],\n} as const;\n\n/** Durations in seconds — motion graphics run longer than UI, but never past ~1.1 s per move. */\nexport const DUR = {\n  ui: 0.3,\n  reveal: 0.5,\n  camera: 0.9,\n} as const;\n\n/** Spring for small \"pop\" moments (cards, badges). */\nexport const POP = { type: \"spring\", damping: 16, stiffness: 180 } as const;\n\n/** Clamp helper used by camera math. */\nexport const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));\n",
+      "type": "registry:lib",
+      "target": "@lib/motion.ts"
+    }
+  ],
+  "categories": [
+    "lib"
+  ],
+  "type": "registry:lib"
+}

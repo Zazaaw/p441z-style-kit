@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "word-rotator",
+  "title": "WordRotator",
+  "description": "One word that keeps changing (design → code → motion → ship).",
+  "dependencies": [
+    "framer-motion"
+  ],
+  "registryDependencies": [
+    "https://style.p441z.my.id/r/motion.json",
+    "https://style.p441z.my.id/r/utils.json"
+  ],
+  "files": [
+    {
+      "path": "v4/components/motion/word-rotator.tsx",
+      "content": "\"use client\";\n\nimport { useEffect, useState } from \"react\";\nimport { AnimatePresence, motion, useReducedMotion } from \"framer-motion\";\n\nimport { cn } from \"@/lib/utils\";\nimport { EASE } from \"@/lib/motion\";\n\n/**\n * WordRotator — one word that keeps changing (design → code → motion → ship).\n *\n * The outgoing word blurs up and away, the incoming one rises from below. By default the box width\n * glides to fit each word; with `reserve` it is locked to the widest word, so nothing around it\n * ever moves — use that in headlines, where a reflowing line looks broken.\n *\n * This is the kit's single editorial accent: give it the serif italic, and use it ONCE per page.\n *\n * Text-painting effects (gradient text via `background-clip: text`) go in `wordClassName`, which\n * lands on the word's own text node. On the wrapper they vanish in Safari: the animated word is\n * composited on its own layer, so the clipped background never reaches it and the text stays\n * transparent.\n *\n * USAGE\n *   <h1>Interfaces that <WordRotator words={[\"move\", \"breathe\", \"ship\"]} className=\"font-serif italic\" /></h1>\n */\n\ninterface WordRotatorProps {\n  words: string[];\n  className?: string;\n  /** Seconds each word stays. */\n  interval?: number;\n  /** Lock the width to the widest word (no reflow). */\n  reserve?: boolean;\n  /** Horizontal alignment inside a reserved box. */\n  align?: \"start\" | \"center\" | \"end\";\n  /** Classes on the word itself — put gradient-text / background-clip effects here. */\n  wordClassName?: string;\n}\n\nexport default function WordRotator({ words, className, interval = 2.2, reserve = false, align = \"start\", wordClassName }: WordRotatorProps) {\n  const [i, setI] = useState(0);\n  const reduce = useReducedMotion();\n\n  useEffect(() => {\n    if (reduce || words.length < 2) return;\n    const t = setInterval(() => setI((x) => (x + 1) % words.length), interval * 1000);\n    return () => clearInterval(t);\n  }, [reduce, words.length, interval]);\n\n  if (reserve) {\n    return (\n      <span className={cn(\"relative inline-grid overflow-hidden align-bottom\", className)} aria-live=\"polite\">\n        {/* Every word sits invisibly in the same cell, so the cell is exactly as wide as the widest. */}\n        {words.map((w) => (\n          <span key={w} aria-hidden className=\"invisible col-start-1 row-start-1 whitespace-nowrap pb-[0.1em]\">\n            {w}\n          </span>\n        ))}\n        <AnimatePresence initial={false}>\n          <motion.span\n            key={words[i]}\n            className={cn(\"col-start-1 row-start-1 whitespace-nowrap pb-[0.1em]\", align === \"center\" && \"justify-self-center\", align === \"end\" && \"justify-self-end\")}\n            initial={{ y: \"70%\", opacity: 0, filter: \"blur(6px)\" }}\n            animate={{ y: \"0%\", opacity: 1, filter: \"blur(0px)\" }}\n            exit={{ y: \"-70%\", opacity: 0, filter: \"blur(6px)\" }}\n            transition={{ duration: 0.5, ease: EASE.reveal }}\n          >\n            <span className={wordClassName}>{words[i]}</span>\n          </motion.span>\n        </AnimatePresence>\n      </span>\n    );\n  }\n\n  return (\n    <motion.span layout transition={{ duration: 0.45, ease: EASE.reveal }} className={cn(\"relative inline-flex overflow-hidden align-bottom\", className)}>\n      <AnimatePresence mode=\"popLayout\" initial={false}>\n        <motion.span\n          key={words[i]}\n          className=\"inline-block whitespace-nowrap pb-[0.1em] -mb-[0.1em]\"\n          initial={{ y: \"70%\", opacity: 0, filter: \"blur(6px)\" }}\n          animate={{ y: \"0%\", opacity: 1, filter: \"blur(0px)\" }}\n          exit={{ y: \"-70%\", opacity: 0, filter: \"blur(6px)\" }}\n          transition={{ duration: 0.5, ease: EASE.reveal }}\n        >\n          <span className={wordClassName}>{words[i]}</span>\n        </motion.span>\n      </AnimatePresence>\n    </motion.span>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/motion/word-rotator.tsx"
+    }
+  ],
+  "categories": [
+    "motion"
+  ],
+  "type": "registry:component"
+}

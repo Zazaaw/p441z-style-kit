@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "blur-fade",
+  "title": "BlurFade",
+  "description": "The signature entrance of this design system.",
+  "dependencies": [
+    "framer-motion"
+  ],
+  "files": [
+    {
+      "path": "v4/components/effects/blur-fade.tsx",
+      "content": "\"use client\";\n\nimport { useRef } from \"react\";\nimport {\n  AnimatePresence,\n  motion,\n  useInView,\n  UseInViewOptions,\n  Variants,\n} from \"framer-motion\";\n\n/**\n * BlurFade — the signature entrance of this design system.\n *\n * Content fades in while un-blurring and drifting up slightly. It's the single\n * highest-leverage component here: wrapping each page body in one instantly\n * gives the whole site its calm, considered feel.\n *\n * Requires:  npm i framer-motion\n *\n * TWO MODES\n *   inView={false}  (default) — animates immediately on mount.\n *                   Use for above-the-fold content / whole page bodies.\n *   inView={true}   — waits until scrolled into view.\n *                   Use for sections further down the page.\n *\n * USAGE\n *   // page body\n *   <BlurFade><YourPage /></BlurFade>\n *\n *   // section that reveals on scroll\n *   <BlurFade inView className=\"space-y-3\"><Section /></BlurFade>\n *\n *   // staggered list — delay each item slightly\n *   {items.map((it, i) => (\n *     <BlurFade key={it.id} inView delay={i * 0.05}><Card {...it} /></BlurFade>\n *   ))}\n *\n * `once: true` means it never replays on scroll-back — replaying reads as a\n * glitch rather than an effect.\n */\n\ntype MarginType = UseInViewOptions[\"margin\"];\n\ninterface BlurFadeProps {\n  children: React.ReactNode;\n  className?: string;\n  variant?: {\n    hidden: { y: number };\n    visible: { y: number };\n  };\n  /** Seconds. 0.4 default; 0.5–0.6 feels more deliberate for hero content. */\n  duration?: number;\n  /** Seconds to wait before starting — stagger lists with `i * 0.05`. */\n  delay?: number;\n  /** Vertical travel in px. Keep it small; large values feel like a slide. */\n  yOffset?: number;\n  /** true = wait for scroll-into-view. false = animate on mount. */\n  inView?: boolean;\n  /** Negative margin fires the trigger slightly before the element is visible. */\n  inViewMargin?: MarginType;\n  /** Starting blur. \"6px\" default, \"10px\" for a softer, slower reveal. */\n  blur?: string;\n}\n\nexport default function BlurFade({\n  children,\n  className,\n  variant,\n  duration = 0.4,\n  delay = 0,\n  yOffset = 6,\n  inView = false,\n  inViewMargin = \"-50px\",\n  blur = \"6px\",\n}: BlurFadeProps) {\n  const ref = useRef(null);\n  const inViewResult = useInView(ref, { once: true, margin: inViewMargin });\n  const isInView = !inView || inViewResult;\n\n  const defaultVariants: Variants = {\n    hidden: { y: yOffset, opacity: 0, filter: `blur(${blur})` },\n    visible: { y: -yOffset, opacity: 1, filter: `blur(0px)` },\n  };\n  const combinedVariants = variant || defaultVariants;\n\n  return (\n    <AnimatePresence>\n      <motion.div\n        ref={ref}\n        initial=\"hidden\"\n        animate={isInView ? \"visible\" : \"hidden\"}\n        exit=\"hidden\"\n        variants={combinedVariants}\n        transition={{\n          // The tiny 0.04 base delay lets the browser paint one frame first,\n          // which prevents a flash of un-animated content on fast loads.\n          delay: 0.04 + delay,\n          duration,\n          ease: \"easeOut\",\n        }}\n        className={className}\n      >\n        {children}\n      </motion.div>\n    </AnimatePresence>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/effects/blur-fade.tsx"
+    }
+  ],
+  "categories": [
+    "effects"
+  ],
+  "type": "registry:component"
+}

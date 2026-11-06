@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mask-reveal",
+  "title": "MaskReveal",
+  "description": "The keynote headline.",
+  "dependencies": [
+    "framer-motion"
+  ],
+  "registryDependencies": [
+    "https://style.p441z.my.id/r/motion.json",
+    "https://style.p441z.my.id/r/utils.json"
+  ],
+  "files": [
+    {
+      "path": "v4/components/motion/mask-reveal.tsx",
+      "content": "\"use client\";\n\nimport { useRef } from \"react\";\nimport { motion, useInView, useReducedMotion } from \"framer-motion\";\n\nimport { cn } from \"@/lib/utils\";\nimport { EASE } from \"@/lib/motion\";\n\n/**\n * MaskReveal — the keynote headline. Each word slides up from behind an invisible mask\n * (an `overflow: hidden` box), one after another. It is the most recognisable move of\n * product-launch videos, and it costs nothing: transform only.\n *\n * Requires:  npm i framer-motion\n *\n * USAGE\n *   <MaskReveal as=\"h1\" text=\"Download. Print. Share.\" className=\"text-6xl font-extrabold\" />\n *   <MaskReveal text=\"Quiet by default.\" inView={false} delay={0.2} />   // on mount\n *\n * Keep headlines to 2–5 words ending with a period — that is what makes it feel like a keynote.\n * Reduced motion: renders the text immediately.\n */\n\ninterface MaskRevealProps {\n  text: string;\n  as?: \"h1\" | \"h2\" | \"h3\" | \"p\" | \"span\";\n  className?: string;\n  /** Seconds before the first word moves. */\n  delay?: number;\n  /** Seconds between words. */\n  stagger?: number;\n  /** Seconds per word. 0.7 is the keynote tempo. */\n  duration?: number;\n  /** true = wait until scrolled into view (default). false = play on mount. */\n  inView?: boolean;\n  /** Replay every time it re-enters the viewport. Default false — replays read as glitches. */\n  repeat?: boolean;\n}\n\nexport default function MaskReveal({\n  text,\n  as: Tag = \"h2\",\n  className,\n  delay = 0,\n  stagger = 0.08,\n  duration = 0.7,\n  inView = true,\n  repeat = false,\n}: MaskRevealProps) {\n  const ref = useRef<HTMLElement>(null);\n  const seen = useInView(ref, { once: !repeat, margin: \"-10% 0px\" });\n  const reduce = useReducedMotion();\n  const show = !inView || seen;\n  const words = text.split(/\\s+/).filter(Boolean);\n\n  return (\n    <Tag ref={ref as never} className={cn(\"text-balance\", className)} aria-label={text}>\n      {words.map((w, i) => (\n        // pb/-mb gives descenders (g, y, p) room inside the mask without changing line height.\n        <span key={`${w}-${i}`} aria-hidden className=\"inline-block overflow-hidden pb-[0.12em] -mb-[0.12em] align-bottom\">\n          <motion.span\n            className=\"inline-block\"\n            initial={reduce ? false : { y: \"110%\" }}\n            animate={reduce || show ? { y: \"0%\" } : { y: \"110%\" }}\n            transition={{ duration, delay: delay + i * stagger, ease: EASE.reveal }}\n          >\n            {w}\n            {i < words.length - 1 ? \" \" : \"\"}\n          </motion.span>\n        </span>\n      ))}\n    </Tag>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/motion/mask-reveal.tsx"
+    }
+  ],
+  "categories": [
+    "motion"
+  ],
+  "type": "registry:component"
+}

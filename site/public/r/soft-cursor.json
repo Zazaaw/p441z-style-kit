@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "soft-cursor",
+  "title": "SoftCursor",
+  "description": "A demo pointer that moves like a hand and clicks without any red ring or box.",
+  "dependencies": [
+    "framer-motion"
+  ],
+  "registryDependencies": [
+    "https://style.p441z.my.id/r/motion.json",
+    "https://style.p441z.my.id/r/utils.json"
+  ],
+  "files": [
+    {
+      "path": "v4/components/motion/soft-cursor.tsx",
+      "content": "\"use client\";\n\nimport { useEffect, useRef, useState } from \"react\";\nimport { motion, useAnimate, useInView, useReducedMotion } from \"framer-motion\";\n\nimport { cn } from \"@/lib/utils\";\nimport { EASE } from \"@/lib/motion\";\n\n/**\n * SoftCursor — a demo pointer that moves like a hand and clicks without any red ring or box.\n *\n * It glides along a slightly curved path with the symmetric camera ease, and a click is just the\n * arrow shrinking for a beat plus a soft halo — the way product videos show interaction.\n * Place it inside a `relative` container; points are 0–1 fractions of that container.\n *\n * `onClick(index)` fires on every click point, so the demo UI underneath can react for real\n * (toggle a switch, open a sheet). That is the rule: every click must show its consequence.\n *\n * USAGE\n *   <div className=\"relative\">\n *     <MyDemoUI pressed={pressed} />\n *     <SoftCursor\n *       points={[{ x: 0.3, y: 0.4 }, { x: 0.72, y: 0.62, click: true }]}\n *       onClick={() => setPressed(true)}\n *       loop\n *     />\n *   </div>\n */\n\nexport type CursorPoint = { x: number; y: number; click?: boolean; /** seconds to rest here */ hold?: number };\n\ninterface SoftCursorProps {\n  points: CursorPoint[];\n  onClick?: (index: number) => void;\n  /** Restart from the first point after the last one. */\n  loop?: boolean;\n  /** Seconds per move. */\n  move?: number;\n  className?: string;\n}\n\nconst sleep = (s: number) => new Promise((r) => setTimeout(r, s * 1000));\n\nexport default function SoftCursor({ points, onClick, loop = false, move = 0.85, className }: SoftCursorProps) {\n  const [scope, animate] = useAnimate();\n  const box = useRef<HTMLDivElement>(null);\n  const seen = useInView(box, { margin: \"-10% 0px\" });\n  const reduce = useReducedMotion();\n  const [halo, setHalo] = useState<{ x: number; y: number; k: number } | null>(null);\n  const clickRef = useRef(onClick);\n  useEffect(() => {\n    clickRef.current = onClick;\n  }, [onClick]);\n\n  useEffect(() => {\n    if (!seen || reduce || points.length === 0) return;\n    let stop = false;\n    (async () => {\n      const el = box.current!;\n      const pos = (p: CursorPoint) => ({ x: p.x * el.clientWidth, y: p.y * el.clientHeight });\n      const start = pos(points[0]);\n      await animate(scope.current, { x: start.x, y: start.y, opacity: 1 }, { duration: 0 });\n      do {\n        for (let i = 0; i < points.length && !stop; i++) {\n          const p = pos(points[i]);\n          if (i > 0) {\n            // A gentle arc: route through a mid-point pushed perpendicular to the straight line.\n            const a = pos(points[i - 1]);\n            const mx = (a.x + p.x) / 2 - (p.y - a.y) * 0.12;\n            const my = (a.y + p.y) / 2 + (p.x - a.x) * 0.12;\n            await animate(scope.current, { x: [a.x, mx, p.x], y: [a.y, my, p.y] }, { duration: move, ease: EASE.camera });\n          }\n          if (stop) return;\n          if (points[i].click) {\n            setHalo({ ...p, k: Date.now() });\n            clickRef.current?.(i);\n            await animate(scope.current, { scale: [1, 0.84, 1] }, { duration: 0.24 });\n          }\n          await sleep(points[i].hold ?? 0.5);\n        }\n        if (loop && !stop) await sleep(0.8);\n      } while (loop && !stop);\n    })();\n    return () => {\n      stop = true;\n    };\n  }, [seen, reduce, points, loop, move, animate, scope]);\n\n  if (reduce) return null;\n  return (\n    <div ref={box} aria-hidden className={cn(\"pointer-events-none absolute inset-0 z-20\", className)}>\n      {halo && (\n        <motion.span\n          key={halo.k}\n          className=\"absolute size-16 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/25\"\n          style={{ left: halo.x, top: halo.y }}\n          initial={{ scale: 0.3, opacity: 0.9 }}\n          animate={{ scale: 1.25, opacity: 0 }}\n          transition={{ duration: 0.6, ease: EASE.reveal }}\n        />\n      )}\n      <motion.svg ref={scope} width=\"22\" height=\"26\" viewBox=\"0 0 22 26\" className=\"absolute left-0 top-0 opacity-0 drop-shadow-[0_3px_6px_rgba(0,0,0,0.35)]\" style={{ originX: 0, originY: 0 }}>\n        <path d=\"M2 1.5v19.2l5.1-4.6 3.3 7.4 3.4-1.5-3.3-7.3 6.9-.4L2 1.5z\" fill=\"#0a0a0a\" stroke=\"#fff\" strokeWidth=\"1.6\" strokeLinejoin=\"round\" />\n      </motion.svg>\n    </div>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/motion/soft-cursor.tsx"
+    }
+  ],
+  "categories": [
+    "motion"
+  ],
+  "type": "registry:component"
+}

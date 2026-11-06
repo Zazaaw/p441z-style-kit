@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "menu-bar",
+  "title": "MenuBar",
+  "description": "The slim frosted bar across the top of a desktop: a brand mark and menu items on the left, status items and a live clock on the right.",
+  "registryDependencies": [
+    "https://style.p441z.my.id/r/utils.json"
+  ],
+  "files": [
+    {
+      "path": "v4/components/mac/menu-bar.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\n/**\n * MenuBar — the slim frosted bar across the top of a desktop: a brand mark and menu items on the\n * left, status items and a live clock on the right. Works as a site header. On small screens the\n * menu items and the date fold away so the bar never overflows.\n *\n * USAGE\n *   <MenuBar brand=\"p441z\" items={[{ label: \"Kit\", href: \"#kit\" }, { label: \"Motion\", href: \"#motion\" }]}\n *     right={<ThemeToggle />} className=\"fixed inset-x-0 top-0\" />\n */\n\ninterface MenuBarProps {\n  brand: React.ReactNode;\n  items?: { label: string; href?: string; onClick?: () => void }[];\n  right?: React.ReactNode;\n  /** Show the clock (updates every 20 s; hidden until mounted to avoid hydration mismatch). */\n  clock?: boolean;\n  className?: string;\n}\n\nconst TICK = 20_000;\nconst subscribe = (cb: () => void) => {\n  const t = setInterval(cb, TICK);\n  return () => clearInterval(t);\n};\n// Snapshot = the current 20-second slot, so it stays stable between renders.\nconst slot = () => Math.floor(Date.now() / TICK);\n\nfunction Clock() {\n  const s = React.useSyncExternalStore(subscribe, slot, () => null);\n  if (s === null) return <span className=\"w-28\" />;\n  const now = new Date();\n  const d = now.toLocaleDateString(\"en-US\", { weekday: \"short\", month: \"short\", day: \"numeric\" });\n  const t = now.toLocaleTimeString(\"en-US\", { hour: \"numeric\", minute: \"2-digit\" });\n  return (\n    <span className=\"whitespace-nowrap tabular-nums\">\n      <span className=\"hidden sm:inline\">{d}&nbsp;&nbsp;</span>\n      {t}\n    </span>\n  );\n}\n\nexport default function MenuBar({ brand, items = [], right, clock = true, className }: MenuBarProps) {\n  return (\n    <header className={cn(\"z-50 flex h-8 items-center gap-1 border-b border-black/5 bg-background/60 px-3 text-[13px] backdrop-blur-2xl backdrop-saturate-150 dark:border-white/10\", className)}>\n      <span className=\"mr-2 font-bold\">{brand}</span>\n      <nav className=\"hidden items-center sm:flex\" aria-label=\"Main\">\n        {items.map((it) =>\n          it.href ? (\n            <a key={it.label} href={it.href} className=\"rounded px-2 py-0.5 font-medium text-foreground/85 transition-colors duration-150 hover:bg-foreground/10\">\n              {it.label}\n            </a>\n          ) : (\n            <button key={it.label} type=\"button\" onClick={it.onClick} className=\"rounded px-2 py-0.5 font-medium text-foreground/85 transition-colors duration-150 hover:bg-foreground/10\">\n              {it.label}\n            </button>\n          ),\n        )}\n      </nav>\n      <div className=\"ml-auto flex items-center gap-3 font-medium text-foreground/85\">\n        {right}\n        {clock && <Clock />}\n      </div>\n    </header>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/mac/menu-bar.tsx"
+    }
+  ],
+  "categories": [
+    "desktop"
+  ],
+  "type": "registry:component"
+}

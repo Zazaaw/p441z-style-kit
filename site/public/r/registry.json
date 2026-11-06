@@ -1,0 +1,1253 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "p441z",
+  "homepage": "https://style.p441z.my.id",
+  "items": [
+    {
+      "name": "style-kit",
+      "type": "registry:theme",
+      "title": "p441z Style Kit",
+      "description": "Everything: the theme plus every UI, effect, motion, and desktop component.",
+      "dependencies": [
+        "tw-animate-css"
+      ],
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/aurora.json",
+        "https://style.p441z.my.id/r/blur-fade.json",
+        "https://style.p441z.my.id/r/border-beam.json",
+        "https://style.p441z.my.id/r/dot-pattern.json",
+        "https://style.p441z.my.id/r/grid-pattern.json",
+        "https://style.p441z.my.id/r/magnetic.json",
+        "https://style.p441z.my.id/r/marquee.json",
+        "https://style.p441z.my.id/r/spotlight-card.json",
+        "https://style.p441z.my.id/r/dock.json",
+        "https://style.p441z.my.id/r/menu-bar.json",
+        "https://style.p441z.my.id/r/notification.json",
+        "https://style.p441z.my.id/r/spotlight.json",
+        "https://style.p441z.my.id/r/terminal.json",
+        "https://style.p441z.my.id/r/mac-window.json",
+        "https://style.p441z.my.id/r/count-up.json",
+        "https://style.p441z.my.id/r/device-frame.json",
+        "https://style.p441z.my.id/r/element-lift.json",
+        "https://style.p441z.my.id/r/flying-pill.json",
+        "https://style.p441z.my.id/r/karaoke-text.json",
+        "https://style.p441z.my.id/r/logo-collapse.json",
+        "https://style.p441z.my.id/r/mask-reveal.json",
+        "https://style.p441z.my.id/r/soft-cursor.json",
+        "https://style.p441z.my.id/r/stepper.json",
+        "https://style.p441z.my.id/r/virtual-camera.json",
+        "https://style.p441z.my.id/r/word-rotator.json",
+        "https://style.p441z.my.id/r/badge.json",
+        "https://style.p441z.my.id/r/button.json",
+        "https://style.p441z.my.id/r/card.json",
+        "https://style.p441z.my.id/r/input.json",
+        "https://style.p441z.my.id/r/page-header.json",
+        "https://style.p441z.my.id/r/pill-tabs.json",
+        "https://style.p441z.my.id/r/skeleton.json",
+        "https://style.p441z.my.id/r/typography.json",
+        "https://style.p441z.my.id/r/motion.json",
+        "https://style.p441z.my.id/r/use-hydrated.json",
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "cssVars": {
+        "theme": {
+          "radius-sm": "calc(var(--radius) - 4px)",
+          "radius-md": "calc(var(--radius) - 2px)",
+          "radius-lg": "var(--radius)",
+          "animate-shimmer": "shimmer 8s infinite",
+          "animate-marquee": "marquee var(--duration, 20s) linear infinite",
+          "animate-marquee-vertical": "marquee-vertical var(--duration, 20s) linear infinite",
+          "animate-spin-around": "spin-around calc(var(--speed, 2s) * 2) infinite linear",
+          "animate-slide": "slide var(--speed, 4s) ease-in-out infinite alternate",
+          "animate-gradient-x": "gradient-x 4s ease infinite",
+          "animate-spin-slow": "spin 4s linear infinite",
+          "animate-shine": "shine 3s linear infinite",
+          "animate-ripple": "ripple 0.6s ease-out",
+          "animate-rainbow": "rainbow 3s linear infinite",
+          "animate-border-beam": "border-beam var(--duration, 4s) linear infinite",
+          "animate-meteor": "meteor 5s linear infinite",
+          "animate-orbit": "orbit var(--duration, 20s) linear infinite"
+        },
+        "light": {
+          "background": "hsl(0 0% 100%)",
+          "foreground": "hsl(0 0% 3.9%)",
+          "card": "hsl(0 0% 100%)",
+          "card-foreground": "hsl(0 0% 3.9%)",
+          "popover": "hsl(0 0% 100%)",
+          "popover-foreground": "hsl(0 0% 3.9%)",
+          "primary": "hsl(0 0% 9%)",
+          "primary-foreground": "hsl(0 0% 98%)",
+          "secondary": "hsl(0 0% 96.1%)",
+          "secondary-foreground": "hsl(0 0% 9%)",
+          "muted": "hsl(0 0% 96.1%)",
+          "muted-foreground": "hsl(0 0% 45.1%)",
+          "accent": "hsl(0 0% 96.1%)",
+          "accent-foreground": "hsl(0 0% 9%)",
+          "destructive": "hsl(0 84.2% 60.2%)",
+          "destructive-foreground": "hsl(0 0% 98%)",
+          "border": "hsl(0 0% 89.8%)",
+          "input": "hsl(0 0% 89.8%)",
+          "ring": "hsl(0 0% 3.9%)",
+          "chart-1": "hsl(12 76% 61%)",
+          "chart-2": "hsl(173 58% 39%)",
+          "chart-3": "hsl(197 37% 24%)",
+          "chart-4": "hsl(43 74% 66%)",
+          "chart-5": "hsl(27 87% 67%)",
+          "radius": "0.5rem",
+          "sb-size": "12px",
+          "sb-thumb": "hsl(0 0% 60%)",
+          "sb-thumb-hover": "hsl(0 0% 45%)"
+        },
+        "dark": {
+          "background": "hsl(0 0% 3.9%)",
+          "foreground": "hsl(0 0% 98%)",
+          "card": "hsl(0 0% 3.9%)",
+          "card-foreground": "hsl(0 0% 98%)",
+          "popover": "hsl(0 0% 3.9%)",
+          "popover-foreground": "hsl(0 0% 98%)",
+          "primary": "hsl(0 0% 98%)",
+          "primary-foreground": "hsl(0 0% 9%)",
+          "secondary": "hsl(0 0% 14.9%)",
+          "secondary-foreground": "hsl(0 0% 98%)",
+          "muted": "hsl(0 0% 14.9%)",
+          "muted-foreground": "hsl(0 0% 63.9%)",
+          "accent": "hsl(0 0% 14.9%)",
+          "accent-foreground": "hsl(0 0% 98%)",
+          "destructive": "hsl(0 62.8% 30.6%)",
+          "destructive-foreground": "hsl(0 0% 98%)",
+          "border": "hsl(0 0% 14.9%)",
+          "input": "hsl(0 0% 14.9%)",
+          "ring": "hsl(0 0% 83.1%)",
+          "chart-1": "hsl(220 70% 50%)",
+          "chart-2": "hsl(160 60% 45%)",
+          "chart-3": "hsl(30 80% 55%)",
+          "chart-4": "hsl(280 65% 60%)",
+          "chart-5": "hsl(340 75% 55%)",
+          "sb-thumb": "hsl(0 0% 40%)",
+          "sb-thumb-hover": "hsl(0 0% 55%)"
+        }
+      },
+      "css": {
+        "@keyframes gradient-x": {
+          "0%, 100%": {
+            "background-position": "0% 50%"
+          },
+          "50%": {
+            "background-position": "100% 50%"
+          }
+        },
+        "@keyframes shine": {
+          "from": {
+            "background-position": "200% 0"
+          },
+          "to": {
+            "background-position": "-200% 0"
+          }
+        },
+        "@keyframes ripple": {
+          "to": {
+            "transform": "translate(-50%, -50%) scale(28)",
+            "opacity": "0"
+          }
+        },
+        "@keyframes rainbow": {
+          "0%": {
+            "background-position": "0% 50%"
+          },
+          "100%": {
+            "background-position": "200% 50%"
+          }
+        },
+        "@keyframes border-beam": {
+          "100%": {
+            "offset-distance": "100%"
+          }
+        },
+        "@keyframes meteor": {
+          "0%": {
+            "transform": "rotate(215deg) translateX(0)",
+            "opacity": "1"
+          },
+          "70%": {
+            "opacity": "1"
+          },
+          "100%": {
+            "transform": "rotate(215deg) translateX(-500px)",
+            "opacity": "0"
+          }
+        },
+        "@keyframes grid-scroll": {
+          "0%": {
+            "transform": "translateY(0)"
+          },
+          "100%": {
+            "transform": "translateY(40px)"
+          }
+        },
+        "@keyframes orbit": {
+          "0%": {
+            "transform": "rotate(0deg) translateY(calc(var(--radius, 80px) * 1px)) rotate(0deg)"
+          },
+          "100%": {
+            "transform": "rotate(360deg) translateY(calc(var(--radius, 80px) * 1px)) rotate(-360deg)"
+          }
+        },
+        "@keyframes shimmer": {
+          "0%, 90%, 100%": {
+            "background-position": "calc(-100% - var(--shimmer-width, 100px)) 0"
+          },
+          "30%, 60%": {
+            "background-position": "calc(100% + var(--shimmer-width, 100px)) 0"
+          }
+        },
+        "@keyframes marquee": {
+          "from": {
+            "transform": "translateX(0)"
+          },
+          "to": {
+            "transform": "translateX(calc(-100% - var(--gap, 1rem)))"
+          }
+        },
+        "@keyframes marquee-vertical": {
+          "from": {
+            "transform": "translateY(0)"
+          },
+          "to": {
+            "transform": "translateY(calc(-100% - var(--gap, 1rem)))"
+          }
+        },
+        "@keyframes spin-around": {
+          "0%": {
+            "transform": "translateZ(0) rotate(0)"
+          },
+          "15%, 35%": {
+            "transform": "translateZ(0) rotate(90deg)"
+          },
+          "65%, 85%": {
+            "transform": "translateZ(0) rotate(270deg)"
+          },
+          "100%": {
+            "transform": "translateZ(0) rotate(360deg)"
+          }
+        },
+        "@keyframes slide": {
+          "to": {
+            "transform": "translate(calc(100cqw - 100%), 0)"
+          }
+        },
+        "@layer base": {
+          "*, ::after, ::before, ::backdrop, ::file-selector-button": {
+            "border-color": "var(--border)"
+          },
+          "body": {
+            "background-color": "var(--background)",
+            "color": "var(--foreground)"
+          },
+          "::-webkit-scrollbar": {
+            "width": "var(--sb-size)",
+            "height": "var(--sb-size)"
+          },
+          "::-webkit-scrollbar-track": {
+            "background": "transparent",
+            "border-radius": "9999px"
+          },
+          "::-webkit-scrollbar-thumb": {
+            "background-color": "color-mix(in oklab, var(--sb-thumb) 45%, transparent)",
+            "border-radius": "9999px",
+            "border": "3px solid transparent",
+            "background-clip": "content-box",
+            "transition": "background-color 0.2s ease"
+          },
+          "::-webkit-scrollbar-thumb:hover": {
+            "background-color": "color-mix(in oklab, var(--sb-thumb-hover) 70%, transparent)"
+          },
+          "::-webkit-scrollbar-thumb:active": {
+            "background-color": "color-mix(in oklab, var(--sb-thumb-hover) 85%, transparent)"
+          },
+          "::-webkit-scrollbar-corner": {
+            "background": "transparent"
+          },
+          "*": {
+            "scrollbar-width": "thin",
+            "scrollbar-color": "color-mix(in oklab, var(--sb-thumb) 50%, transparent) transparent"
+          }
+        }
+      }
+    },
+    {
+      "name": "theme",
+      "type": "registry:theme",
+      "title": "p441z theme",
+      "description": "Greyscale tokens (HSL triplets), the hsl() color mapping, radius scale, 13 animations with keyframes, and the pill scrollbar.",
+      "dependencies": [
+        "tw-animate-css"
+      ],
+      "cssVars": {
+        "theme": {
+          "radius-sm": "calc(var(--radius) - 4px)",
+          "radius-md": "calc(var(--radius) - 2px)",
+          "radius-lg": "var(--radius)",
+          "animate-shimmer": "shimmer 8s infinite",
+          "animate-marquee": "marquee var(--duration, 20s) linear infinite",
+          "animate-marquee-vertical": "marquee-vertical var(--duration, 20s) linear infinite",
+          "animate-spin-around": "spin-around calc(var(--speed, 2s) * 2) infinite linear",
+          "animate-slide": "slide var(--speed, 4s) ease-in-out infinite alternate",
+          "animate-gradient-x": "gradient-x 4s ease infinite",
+          "animate-spin-slow": "spin 4s linear infinite",
+          "animate-shine": "shine 3s linear infinite",
+          "animate-ripple": "ripple 0.6s ease-out",
+          "animate-rainbow": "rainbow 3s linear infinite",
+          "animate-border-beam": "border-beam var(--duration, 4s) linear infinite",
+          "animate-meteor": "meteor 5s linear infinite",
+          "animate-orbit": "orbit var(--duration, 20s) linear infinite"
+        },
+        "light": {
+          "background": "hsl(0 0% 100%)",
+          "foreground": "hsl(0 0% 3.9%)",
+          "card": "hsl(0 0% 100%)",
+          "card-foreground": "hsl(0 0% 3.9%)",
+          "popover": "hsl(0 0% 100%)",
+          "popover-foreground": "hsl(0 0% 3.9%)",
+          "primary": "hsl(0 0% 9%)",
+          "primary-foreground": "hsl(0 0% 98%)",
+          "secondary": "hsl(0 0% 96.1%)",
+          "secondary-foreground": "hsl(0 0% 9%)",
+          "muted": "hsl(0 0% 96.1%)",
+          "muted-foreground": "hsl(0 0% 45.1%)",
+          "accent": "hsl(0 0% 96.1%)",
+          "accent-foreground": "hsl(0 0% 9%)",
+          "destructive": "hsl(0 84.2% 60.2%)",
+          "destructive-foreground": "hsl(0 0% 98%)",
+          "border": "hsl(0 0% 89.8%)",
+          "input": "hsl(0 0% 89.8%)",
+          "ring": "hsl(0 0% 3.9%)",
+          "chart-1": "hsl(12 76% 61%)",
+          "chart-2": "hsl(173 58% 39%)",
+          "chart-3": "hsl(197 37% 24%)",
+          "chart-4": "hsl(43 74% 66%)",
+          "chart-5": "hsl(27 87% 67%)",
+          "radius": "0.5rem",
+          "sb-size": "12px",
+          "sb-thumb": "hsl(0 0% 60%)",
+          "sb-thumb-hover": "hsl(0 0% 45%)"
+        },
+        "dark": {
+          "background": "hsl(0 0% 3.9%)",
+          "foreground": "hsl(0 0% 98%)",
+          "card": "hsl(0 0% 3.9%)",
+          "card-foreground": "hsl(0 0% 98%)",
+          "popover": "hsl(0 0% 3.9%)",
+          "popover-foreground": "hsl(0 0% 98%)",
+          "primary": "hsl(0 0% 98%)",
+          "primary-foreground": "hsl(0 0% 9%)",
+          "secondary": "hsl(0 0% 14.9%)",
+          "secondary-foreground": "hsl(0 0% 98%)",
+          "muted": "hsl(0 0% 14.9%)",
+          "muted-foreground": "hsl(0 0% 63.9%)",
+          "accent": "hsl(0 0% 14.9%)",
+          "accent-foreground": "hsl(0 0% 98%)",
+          "destructive": "hsl(0 62.8% 30.6%)",
+          "destructive-foreground": "hsl(0 0% 98%)",
+          "border": "hsl(0 0% 14.9%)",
+          "input": "hsl(0 0% 14.9%)",
+          "ring": "hsl(0 0% 83.1%)",
+          "chart-1": "hsl(220 70% 50%)",
+          "chart-2": "hsl(160 60% 45%)",
+          "chart-3": "hsl(30 80% 55%)",
+          "chart-4": "hsl(280 65% 60%)",
+          "chart-5": "hsl(340 75% 55%)",
+          "sb-thumb": "hsl(0 0% 40%)",
+          "sb-thumb-hover": "hsl(0 0% 55%)"
+        }
+      },
+      "css": {
+        "@keyframes gradient-x": {
+          "0%, 100%": {
+            "background-position": "0% 50%"
+          },
+          "50%": {
+            "background-position": "100% 50%"
+          }
+        },
+        "@keyframes shine": {
+          "from": {
+            "background-position": "200% 0"
+          },
+          "to": {
+            "background-position": "-200% 0"
+          }
+        },
+        "@keyframes ripple": {
+          "to": {
+            "transform": "translate(-50%, -50%) scale(28)",
+            "opacity": "0"
+          }
+        },
+        "@keyframes rainbow": {
+          "0%": {
+            "background-position": "0% 50%"
+          },
+          "100%": {
+            "background-position": "200% 50%"
+          }
+        },
+        "@keyframes border-beam": {
+          "100%": {
+            "offset-distance": "100%"
+          }
+        },
+        "@keyframes meteor": {
+          "0%": {
+            "transform": "rotate(215deg) translateX(0)",
+            "opacity": "1"
+          },
+          "70%": {
+            "opacity": "1"
+          },
+          "100%": {
+            "transform": "rotate(215deg) translateX(-500px)",
+            "opacity": "0"
+          }
+        },
+        "@keyframes grid-scroll": {
+          "0%": {
+            "transform": "translateY(0)"
+          },
+          "100%": {
+            "transform": "translateY(40px)"
+          }
+        },
+        "@keyframes orbit": {
+          "0%": {
+            "transform": "rotate(0deg) translateY(calc(var(--radius, 80px) * 1px)) rotate(0deg)"
+          },
+          "100%": {
+            "transform": "rotate(360deg) translateY(calc(var(--radius, 80px) * 1px)) rotate(-360deg)"
+          }
+        },
+        "@keyframes shimmer": {
+          "0%, 90%, 100%": {
+            "background-position": "calc(-100% - var(--shimmer-width, 100px)) 0"
+          },
+          "30%, 60%": {
+            "background-position": "calc(100% + var(--shimmer-width, 100px)) 0"
+          }
+        },
+        "@keyframes marquee": {
+          "from": {
+            "transform": "translateX(0)"
+          },
+          "to": {
+            "transform": "translateX(calc(-100% - var(--gap, 1rem)))"
+          }
+        },
+        "@keyframes marquee-vertical": {
+          "from": {
+            "transform": "translateY(0)"
+          },
+          "to": {
+            "transform": "translateY(calc(-100% - var(--gap, 1rem)))"
+          }
+        },
+        "@keyframes spin-around": {
+          "0%": {
+            "transform": "translateZ(0) rotate(0)"
+          },
+          "15%, 35%": {
+            "transform": "translateZ(0) rotate(90deg)"
+          },
+          "65%, 85%": {
+            "transform": "translateZ(0) rotate(270deg)"
+          },
+          "100%": {
+            "transform": "translateZ(0) rotate(360deg)"
+          }
+        },
+        "@keyframes slide": {
+          "to": {
+            "transform": "translate(calc(100cqw - 100%), 0)"
+          }
+        },
+        "@layer base": {
+          "*, ::after, ::before, ::backdrop, ::file-selector-button": {
+            "border-color": "var(--border)"
+          },
+          "body": {
+            "background-color": "var(--background)",
+            "color": "var(--foreground)"
+          },
+          "::-webkit-scrollbar": {
+            "width": "var(--sb-size)",
+            "height": "var(--sb-size)"
+          },
+          "::-webkit-scrollbar-track": {
+            "background": "transparent",
+            "border-radius": "9999px"
+          },
+          "::-webkit-scrollbar-thumb": {
+            "background-color": "color-mix(in oklab, var(--sb-thumb) 45%, transparent)",
+            "border-radius": "9999px",
+            "border": "3px solid transparent",
+            "background-clip": "content-box",
+            "transition": "background-color 0.2s ease"
+          },
+          "::-webkit-scrollbar-thumb:hover": {
+            "background-color": "color-mix(in oklab, var(--sb-thumb-hover) 70%, transparent)"
+          },
+          "::-webkit-scrollbar-thumb:active": {
+            "background-color": "color-mix(in oklab, var(--sb-thumb-hover) 85%, transparent)"
+          },
+          "::-webkit-scrollbar-corner": {
+            "background": "transparent"
+          },
+          "*": {
+            "scrollbar-width": "thin",
+            "scrollbar-color": "color-mix(in oklab, var(--sb-thumb) 50%, transparent) transparent"
+          }
+        }
+      }
+    },
+    {
+      "name": "dock",
+      "type": "registry:component",
+      "title": "Dock",
+      "description": "A desktop dock: icons grow as the pointer passes over them (magnification), the label floats above the hovered icon, and a small dot marks the active item.",
+      "dependencies": [
+        "framer-motion"
+      ],
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "desktop"
+      ],
+      "files": [
+        {
+          "path": "v4/components/mac/dock.tsx",
+          "type": "registry:component",
+          "target": "@components/mac/dock.tsx"
+        }
+      ]
+    },
+    {
+      "name": "mac-window",
+      "type": "registry:component",
+      "title": "MacWindow",
+      "description": "A desktop-style window: title centered in a slim bar, the three traffic-light buttons on the left that reveal their × – + glyphs on hover.",
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "desktop"
+      ],
+      "files": [
+        {
+          "path": "v4/components/mac/window.tsx",
+          "type": "registry:component",
+          "target": "@components/mac/window.tsx"
+        }
+      ]
+    },
+    {
+      "name": "menu-bar",
+      "type": "registry:component",
+      "title": "MenuBar",
+      "description": "The slim frosted bar across the top of a desktop: a brand mark and menu items on the left, status items and a live clock on the right.",
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "desktop"
+      ],
+      "files": [
+        {
+          "path": "v4/components/mac/menu-bar.tsx",
+          "type": "registry:component",
+          "target": "@components/mac/menu-bar.tsx"
+        }
+      ]
+    },
+    {
+      "name": "notification",
+      "type": "registry:component",
+      "title": "Notifications",
+      "description": "Desktop-style banners that slide in at the top-right, stack, and leave on their own after a few seconds (hovering pauses nothing on purpose",
+      "dependencies": [
+        "framer-motion"
+      ],
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/motion.json",
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "desktop"
+      ],
+      "files": [
+        {
+          "path": "v4/components/mac/notification.tsx",
+          "type": "registry:component",
+          "target": "@components/mac/notification.tsx"
+        }
+      ]
+    },
+    {
+      "name": "spotlight",
+      "type": "registry:component",
+      "title": "Spotlight",
+      "description": "A desktop-search command palette: a frosted bar floating in the upper third of the screen, results grouped under it, fully keyboard driven (↑ ↓ Enter, Esc to close).",
+      "dependencies": [
+        "framer-motion"
+      ],
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/motion.json",
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "desktop"
+      ],
+      "files": [
+        {
+          "path": "v4/components/mac/spotlight.tsx",
+          "type": "registry:component",
+          "target": "@components/mac/spotlight.tsx"
+        }
+      ]
+    },
+    {
+      "name": "terminal",
+      "type": "registry:component",
+      "title": "Terminal",
+      "description": "A desktop terminal window whose commands type themselves when it scrolls into view; each command's output fades in after it \"runs\".",
+      "dependencies": [
+        "framer-motion"
+      ],
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/mac-window.json",
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "desktop"
+      ],
+      "files": [
+        {
+          "path": "v4/components/mac/terminal.tsx",
+          "type": "registry:component",
+          "target": "@components/mac/terminal.tsx"
+        }
+      ]
+    },
+    {
+      "name": "aurora",
+      "type": "registry:component",
+      "title": "Aurora",
+      "description": "Slow, soft light behind a hero: three blurred blobs drifting out of phase.",
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "files": [
+        {
+          "path": "v4/components/effects/aurora.tsx",
+          "type": "registry:component",
+          "target": "@components/effects/aurora.tsx"
+        }
+      ]
+    },
+    {
+      "name": "blur-fade",
+      "type": "registry:component",
+      "title": "BlurFade",
+      "description": "The signature entrance of this design system.",
+      "dependencies": [
+        "framer-motion"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "files": [
+        {
+          "path": "v4/components/effects/blur-fade.tsx",
+          "type": "registry:component",
+          "target": "@components/effects/blur-fade.tsx"
+        }
+      ]
+    },
+    {
+      "name": "border-beam",
+      "type": "registry:component",
+      "title": "BorderBeam",
+      "description": "A short beam of light that travels around a card's border.",
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "files": [
+        {
+          "path": "v4/components/effects/border-beam.tsx",
+          "type": "registry:component",
+          "target": "@components/effects/border-beam.tsx"
+        }
+      ]
+    },
+    {
+      "name": "dot-pattern",
+      "type": "registry:component",
+      "title": "DotPattern",
+      "description": "An SVG dot grid used as an ambient page background.",
+      "dependencies": [
+        "framer-motion"
+      ],
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "files": [
+        {
+          "path": "v4/components/effects/dot-pattern.tsx",
+          "type": "registry:component",
+          "target": "@components/effects/dot-pattern.tsx"
+        }
+      ]
+    },
+    {
+      "name": "grid-pattern",
+      "type": "registry:component",
+      "title": "GridPattern",
+      "description": "A line grid where random cells softly light up and fade.",
+      "dependencies": [
+        "framer-motion"
+      ],
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "files": [
+        {
+          "path": "v4/components/effects/grid-pattern.tsx",
+          "type": "registry:component",
+          "target": "@components/effects/grid-pattern.tsx"
+        }
+      ]
+    },
+    {
+      "name": "magnetic",
+      "type": "registry:component",
+      "title": "Magnetic",
+      "description": "The element leans toward the pointer while it hovers nearby, then springs back.",
+      "dependencies": [
+        "framer-motion"
+      ],
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "files": [
+        {
+          "path": "v4/components/effects/magnetic.tsx",
+          "type": "registry:component",
+          "target": "@components/effects/magnetic.tsx"
+        }
+      ]
+    },
+    {
+      "name": "marquee",
+      "type": "registry:component",
+      "title": "Marquee",
+      "description": "An endless ribbon of items (logos, component names, quotes).",
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "files": [
+        {
+          "path": "v4/components/effects/marquee.tsx",
+          "type": "registry:component",
+          "target": "@components/effects/marquee.tsx"
+        }
+      ]
+    },
+    {
+      "name": "spotlight-card",
+      "type": "registry:component",
+      "title": "SpotlightCard",
+      "description": "A card lit by the pointer: a soft radial glow follows the cursor across the surface, and the border brightens where the light touches it.",
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "files": [
+        {
+          "path": "v4/components/effects/spotlight-card.tsx",
+          "type": "registry:component",
+          "target": "@components/effects/spotlight-card.tsx"
+        }
+      ]
+    },
+    {
+      "name": "motion",
+      "type": "registry:lib",
+      "title": "motion",
+      "description": "Motion vocabulary shared by every component in components/motion and components/mac.",
+      "categories": [
+        "lib"
+      ],
+      "files": [
+        {
+          "path": "v4/lib/motion.ts",
+          "type": "registry:lib",
+          "target": "@lib/motion.ts"
+        }
+      ]
+    },
+    {
+      "name": "use-hydrated",
+      "type": "registry:lib",
+      "title": "true after hydration, false during SSR and the hydration pass",
+      "description": "Without setState-in-effect.",
+      "categories": [
+        "lib"
+      ],
+      "files": [
+        {
+          "path": "v4/lib/use-hydrated.ts",
+          "type": "registry:lib",
+          "target": "@lib/use-hydrated.ts"
+        }
+      ]
+    },
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "utils",
+      "description": "The single most-used helper in the whole system.",
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "categories": [
+        "lib"
+      ],
+      "files": [
+        {
+          "path": "v4/lib/utils.ts",
+          "type": "registry:lib",
+          "target": "@lib/utils.ts"
+        }
+      ]
+    },
+    {
+      "name": "count-up",
+      "type": "registry:component",
+      "title": "CountUp",
+      "description": "A number that counts to its value when it scrolls into view.",
+      "dependencies": [
+        "framer-motion"
+      ],
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/motion.json",
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "v4/components/motion/count-up.tsx",
+          "type": "registry:component",
+          "target": "@components/motion/count-up.tsx"
+        }
+      ]
+    },
+    {
+      "name": "device-frame",
+      "type": "registry:component",
+      "title": "LaptopFrame",
+      "description": "Brandless CSS device mockups for showing a UI inside a \"real\" device.",
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "v4/components/motion/device-frame.tsx",
+          "type": "registry:component",
+          "target": "@components/motion/device-frame.tsx"
+        }
+      ]
+    },
+    {
+      "name": "element-lift",
+      "type": "registry:component",
+      "title": "ElementLift",
+      "description": "The \"wow\" moment of a keynote: a card rises out of the page to the center, floats, flips in 3D to show its back, then flies home to the exact spot it came from.",
+      "dependencies": [
+        "framer-motion"
+      ],
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/motion.json",
+        "https://style.p441z.my.id/r/use-hydrated.json",
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "v4/components/motion/element-lift.tsx",
+          "type": "registry:component",
+          "target": "@components/motion/element-lift.tsx"
+        }
+      ]
+    },
+    {
+      "name": "flying-pill",
+      "type": "registry:component",
+      "title": "FlyingPill",
+      "description": "A small \"message\" that leaves one place and lands in another along an arc: \"Request sent to your manager\" flying from the laptop's button to the phone.",
+      "dependencies": [
+        "framer-motion"
+      ],
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/motion.json",
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "v4/components/motion/flying-pill.tsx",
+          "type": "registry:component",
+          "target": "@components/motion/flying-pill.tsx"
+        }
+      ]
+    },
+    {
+      "name": "karaoke-text",
+      "type": "registry:component",
+      "title": "KaraokeText",
+      "description": "Words light up one by one, like subtitles following a narrator.",
+      "dependencies": [
+        "framer-motion"
+      ],
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "v4/components/motion/karaoke-text.tsx",
+          "type": "registry:component",
+          "target": "@components/motion/karaoke-text.tsx"
+        }
+      ]
+    },
+    {
+      "name": "logo-collapse",
+      "type": "registry:component",
+      "title": "LogoCollapse",
+      "description": "The outro of a product video: feature cards pop in one by one, then all of them pull into the center and become the logo.",
+      "dependencies": [
+        "framer-motion"
+      ],
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/motion.json",
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "v4/components/motion/logo-collapse.tsx",
+          "type": "registry:component",
+          "target": "@components/motion/logo-collapse.tsx"
+        }
+      ]
+    },
+    {
+      "name": "mask-reveal",
+      "type": "registry:component",
+      "title": "MaskReveal",
+      "description": "The keynote headline.",
+      "dependencies": [
+        "framer-motion"
+      ],
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/motion.json",
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "v4/components/motion/mask-reveal.tsx",
+          "type": "registry:component",
+          "target": "@components/motion/mask-reveal.tsx"
+        }
+      ]
+    },
+    {
+      "name": "soft-cursor",
+      "type": "registry:component",
+      "title": "SoftCursor",
+      "description": "A demo pointer that moves like a hand and clicks without any red ring or box.",
+      "dependencies": [
+        "framer-motion"
+      ],
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/motion.json",
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "v4/components/motion/soft-cursor.tsx",
+          "type": "registry:component",
+          "target": "@components/motion/soft-cursor.tsx"
+        }
+      ]
+    },
+    {
+      "name": "stepper",
+      "type": "registry:component",
+      "title": "Stepper",
+      "description": "The progress line at the top of a story: Request → Review → Approved → Letter.",
+      "dependencies": [
+        "framer-motion"
+      ],
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/motion.json",
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "v4/components/motion/stepper.tsx",
+          "type": "registry:component",
+          "target": "@components/motion/stepper.tsx"
+        }
+      ]
+    },
+    {
+      "name": "virtual-camera",
+      "type": "registry:component",
+      "title": "VirtualCamera",
+      "description": "Frames part of its content like a film camera: zoom in on a button, glide to a table, pull back to the whole screen.",
+      "dependencies": [
+        "framer-motion"
+      ],
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/motion.json",
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "v4/components/motion/virtual-camera.tsx",
+          "type": "registry:component",
+          "target": "@components/motion/virtual-camera.tsx"
+        }
+      ]
+    },
+    {
+      "name": "word-rotator",
+      "type": "registry:component",
+      "title": "WordRotator",
+      "description": "One word that keeps changing (design → code → motion → ship).",
+      "dependencies": [
+        "framer-motion"
+      ],
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/motion.json",
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "v4/components/motion/word-rotator.tsx",
+          "type": "registry:component",
+          "target": "@components/motion/word-rotator.tsx"
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Small labels: tags, counts, categories.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "files": [
+        {
+          "path": "v4/components/ui/badge.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Tailwind v4.",
+      "dependencies": [
+        "@radix-ui/react-slot",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "files": [
+        {
+          "path": "v4/components/ui/button.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "The base surface.",
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "files": [
+        {
+          "path": "v4/components/ui/card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "H-9 to match Button's default height, so a field and a button sit flush side by side in a row without manual alignment.",
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "files": [
+        {
+          "path": "v4/components/ui/input.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "page-header",
+      "type": "registry:ui",
+      "title": "PageHeader",
+      "description": "The opening block every top-level page uses.",
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "files": [
+        {
+          "path": "v4/components/ui/page-header.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "pill-tabs",
+      "type": "registry:ui",
+      "title": "PillTabs",
+      "description": "The rounded segmented filter used for status filters, view switchers, and category toggles.",
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "files": [
+        {
+          "path": "v4/components/ui/pill-tabs.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "A pulsing placeholder block.",
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "files": [
+        {
+          "path": "v4/components/ui/skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "typography",
+      "type": "registry:ui",
+      "title": "Typography",
+      "description": "A namespace of text primitives.",
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "files": [
+        {
+          "path": "v4/components/ui/typography.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

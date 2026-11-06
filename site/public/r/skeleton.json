@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "skeleton",
+  "title": "Skeleton",
+  "description": "A pulsing placeholder block.",
+  "registryDependencies": [
+    "https://style.p441z.my.id/r/utils.json"
+  ],
+  "files": [
+    {
+      "path": "v4/components/ui/skeleton.tsx",
+      "content": "import { cn } from \"@/lib/utils\";\n\n/**\n * Skeleton — a pulsing placeholder block.\n *\n * `bg-primary/10` rather than a fixed grey: it derives from the theme, so it\n * works in light AND dark without a second class.\n *\n * THE RULE THAT MATTERS: a skeleton must mirror the real layout of the page\n * it stands in for — same number of blocks, same rough sizes, same grid.\n * A generic centered spinner makes the page appear to jump when content\n * lands; a matching skeleton makes it appear to resolve.\n *\n *   // good — mirrors a 2-column card grid\n *   <div className=\"grid gap-5 sm:grid-cols-2\">\n *     {Array.from({ length: 4 }).map((_, i) => (\n *       <Skeleton key={i} className=\"h-48 rounded-xl\" />\n *     ))}\n *   </div>\n */\nfunction Skeleton({\n  className,\n  ...props\n}: React.HTMLAttributes<HTMLDivElement>) {\n  return (\n    <div\n      className={cn(\"animate-pulse rounded-md bg-primary/10\", className)}\n      {...props}\n    />\n  );\n}\n\nexport { Skeleton };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "ui"
+  ],
+  "type": "registry:ui"
+}

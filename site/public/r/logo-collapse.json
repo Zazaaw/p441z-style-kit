@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "logo-collapse",
+  "title": "LogoCollapse",
+  "description": "The outro of a product video: feature cards pop in one by one, then all of them pull into the center and become the logo.",
+  "dependencies": [
+    "framer-motion"
+  ],
+  "registryDependencies": [
+    "https://style.p441z.my.id/r/motion.json",
+    "https://style.p441z.my.id/r/utils.json"
+  ],
+  "files": [
+    {
+      "path": "v4/components/motion/logo-collapse.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { useAnimate, useInView, useReducedMotion } from \"framer-motion\";\n\nimport { cn } from \"@/lib/utils\";\nimport { EASE, POP } from \"@/lib/motion\";\n\n/**\n * LogoCollapse — the outro of a product video: feature cards pop in one by one, then all of them\n * pull into the center and become the logo.\n *\n * Each card measures its own offset from the stage center at the moment of collapse, so it\n * travels exactly to the middle whatever the layout or screen size. Controlled with `collapsed`,\n * or set `auto` to play the whole sequence once when scrolled into view.\n *\n * USAGE\n *   <LogoCollapse auto items={[<Card key=\"a\"/>, <Card key=\"b\"/>, <Card key=\"c\"/>]} logo={<Wordmark />} />\n */\n\ninterface LogoCollapseProps {\n  items: React.ReactNode[];\n  logo: React.ReactNode;\n  /** Controlled mode. */\n  collapsed?: boolean;\n  /** Play pop-in → collapse once on scroll-into-view. */\n  auto?: boolean;\n  /** Seconds the cards stay before collapsing (auto mode). */\n  hold?: number;\n  className?: string;\n}\n\nexport default function LogoCollapse({ items, logo, collapsed, auto = false, hold = 1.6, className }: LogoCollapseProps) {\n  const [scope, animate] = useAnimate<HTMLDivElement>();\n  const seen = useInView(scope, { once: true, margin: \"-20% 0px\" });\n  const reduce = useReducedMotion();\n\n  // Imperative choreography: the DOM is the external system here, so no state round-trips.\n  const show = React.useCallback(() => {\n    if (!scope.current) return;\n    const cards = [...scope.current.querySelectorAll<HTMLElement>(\"[data-card]\")];\n    cards.forEach((c, i) => animate(c, { x: 0, y: 0, scale: 1, opacity: 1, filter: \"blur(0px)\" }, { ...POP, delay: i * 0.12 }));\n    animate(\"[data-logo]\", { opacity: 0, scale: 0.85, filter: \"blur(8px)\" }, { duration: 0.3 });\n  }, [animate, scope]);\n\n  const collapse = React.useCallback(() => {\n    if (!scope.current) return;\n    const s = scope.current.getBoundingClientRect();\n    const cx = s.left + s.width / 2;\n    const cy = s.top + s.height / 2;\n    const cards = [...scope.current.querySelectorAll<HTMLElement>(\"[data-card]\")];\n    cards.forEach((c, i) => {\n      // Cards are at rest (no transform) when this runs, so the rect is their true layout position.\n      const r = c.getBoundingClientRect();\n      const ox = cx - (r.left + r.width / 2);\n      const oy = cy - (r.top + r.height / 2);\n      animate(c, { x: ox, y: oy, scale: 0.35, opacity: 0, filter: \"blur(4px)\" }, { duration: 0.8, ease: EASE.camera, delay: i * 0.03 });\n    });\n    animate(\"[data-logo]\", { opacity: 1, scale: 1, filter: \"blur(0px)\" }, { duration: 0.7, ease: EASE.reveal, delay: 0.45 });\n  }, [animate, scope]);\n\n  React.useEffect(() => {\n    if (reduce) {\n      animate(\"[data-card]\", { opacity: 0 }, { duration: 0 });\n      animate(\"[data-logo]\", { opacity: 1, scale: 1, filter: \"blur(0px)\" }, { duration: 0 });\n      return;\n    }\n    if (collapsed === undefined) return;\n    if (collapsed) collapse();\n    else show();\n  }, [collapsed, reduce, show, collapse, animate]);\n\n  React.useEffect(() => {\n    if (!auto || !seen || reduce) return;\n    show();\n    const t = setTimeout(collapse, (0.12 * items.length + hold) * 1000);\n    return () => clearTimeout(t);\n  }, [auto, seen, reduce, hold, items.length, show, collapse]);\n\n  return (\n    <div ref={scope} className={cn(\"relative grid place-items-center\", className)}>\n      <div className=\"flex flex-wrap items-center justify-center gap-4\">\n        {items.map((it, i) => (\n          <div key={i} data-card style={{ opacity: 0, transform: \"translateY(16px) scale(0.9)\" }}>\n            {it}\n          </div>\n        ))}\n      </div>\n      <div data-logo className=\"pointer-events-none absolute inset-0 grid place-items-center\" style={{ opacity: 0, transform: \"scale(0.85)\", filter: \"blur(8px)\" }}>\n        {logo}\n      </div>\n    </div>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/motion/logo-collapse.tsx"
+    }
+  ],
+  "categories": [
+    "motion"
+  ],
+  "type": "registry:component"
+}

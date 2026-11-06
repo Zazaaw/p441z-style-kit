@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "stepper",
+  "title": "Stepper",
+  "description": "The progress line at the top of a story: Request → Review → Approved → Letter.",
+  "dependencies": [
+    "framer-motion"
+  ],
+  "registryDependencies": [
+    "https://style.p441z.my.id/r/motion.json",
+    "https://style.p441z.my.id/r/utils.json"
+  ],
+  "files": [
+    {
+      "path": "v4/components/motion/stepper.tsx",
+      "content": "\"use client\";\n\nimport { motion } from \"framer-motion\";\n\nimport { cn } from \"@/lib/utils\";\nimport { EASE } from \"@/lib/motion\";\n\n/**\n * Stepper — the progress line at the top of a story: Request → Review → Approved → Letter.\n *\n * The active stage is a solid pill that glides between steps (shared layout), finished steps get\n * a check, upcoming ones stay muted. Drive `active` from a timeline or scroll progress.\n *\n * USAGE\n *   <Stepper steps={[\"Request\", \"Review\", \"Approved\", \"Letter\"]} active={stage} />\n */\n\ninterface StepperProps {\n  steps: string[];\n  active: number;\n  className?: string;\n  /** Unique per page when several steppers are visible at once. */\n  id?: string;\n}\n\nexport default function Stepper({ steps, active, className, id = \"stepper\" }: StepperProps) {\n  return (\n    <ol className={cn(\"inline-flex items-center gap-1 rounded-full border border-border bg-background/80 p-1 text-[13px] backdrop-blur\", className)} aria-label=\"Progress\">\n      {steps.map((s, i) => {\n        const done = i < active;\n        const now = i === active;\n        return (\n          <li key={s} className=\"relative\" aria-current={now ? \"step\" : undefined}>\n            {now && <motion.span layoutId={`${id}-pill`} className=\"absolute inset-0 rounded-full bg-primary\" transition={{ duration: 0.5, ease: EASE.reveal }} />}\n            <span className={cn(\"relative flex items-center gap-1.5 px-3 py-1.5 font-medium transition-colors duration-300\", now ? \"text-primary-foreground\" : done ? \"text-foreground\" : \"text-muted-foreground\")}>\n              <span className={cn(\"grid size-4 place-items-center rounded-full text-[10px]\", now ? \"bg-primary-foreground/20\" : done ? \"bg-primary text-primary-foreground\" : \"border border-border\")}>{done ? \"✓\" : i + 1}</span>\n              {s}\n            </span>\n          </li>\n        );\n      })}\n    </ol>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/motion/stepper.tsx"
+    }
+  ],
+  "categories": [
+    "motion"
+  ],
+  "type": "registry:component"
+}

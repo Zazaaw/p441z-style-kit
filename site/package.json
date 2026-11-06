@@ -9,7 +9,8 @@
     "prebuild": "node scripts/sync-kit.mjs",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "registry": "node ../scripts/build-registry.mjs && cd .. && npx shadcn@latest build ./registry.json --output ./site/public/r"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

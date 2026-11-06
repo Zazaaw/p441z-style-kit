@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "aurora",
+  "title": "Aurora",
+  "description": "Slow, soft light behind a hero: three blurred blobs drifting out of phase.",
+  "registryDependencies": [
+    "https://style.p441z.my.id/r/utils.json"
+  ],
+  "files": [
+    {
+      "path": "v4/components/effects/aurora.tsx",
+      "content": "import { cn } from \"@/lib/utils\";\n\n/**\n * Aurora — slow, soft light behind a hero: three blurred blobs drifting out of phase.\n * Tinted with the theme primary via `color-mix()` (neutral in the plain kit, your accent after a\n * rebrand; works with triplet and full-color tokens). CSS only.\n *\n * Keep it behind ONE section. Two auroras on a page read as a theme, not a moment.\n * Reduced motion: the light stays still.\n *\n * USAGE\n *   <section className=\"relative overflow-hidden\">\n *     <Aurora />\n *     …\n *   </section>\n */\n\ninterface AuroraProps {\n  className?: string;\n  /** Overall opacity (0–1). 0.35–0.6 reads as atmosphere, not decoration. */\n  intensity?: number;\n}\n\nexport default function Aurora({ className, intensity = 0.5 }: AuroraProps) {\n  const blob = \"absolute rounded-full blur-[90px] will-change-transform motion-reduce:!animate-none\";\n  return (\n    <div aria-hidden className={cn(\"pointer-events-none absolute inset-0 overflow-hidden\", className)} style={{ opacity: intensity }}>\n      <style>{`\n        @keyframes p441z-aurora-a { 0%,100% { transform: translate(0,0) scale(1) } 50% { transform: translate(8%,6%) scale(1.15) } }\n        @keyframes p441z-aurora-b { 0%,100% { transform: translate(0,0) scale(1.1) } 50% { transform: translate(-10%,4%) scale(0.95) } }\n        @keyframes p441z-aurora-c { 0%,100% { transform: translate(0,0) scale(1) } 50% { transform: translate(4%,-8%) scale(1.2) } }\n      `}</style>\n      <div className={blob} style={{ left: \"8%\", top: \"-10%\", width: \"46%\", height: \"60%\", background: \"color-mix(in oklab, var(--color-primary) 55%, transparent)\", animation: \"p441z-aurora-a 18s ease-in-out infinite\" }} />\n      <div className={blob} style={{ right: \"4%\", top: \"6%\", width: \"40%\", height: \"55%\", background: \"color-mix(in oklab, var(--color-primary) 32%, transparent)\", animation: \"p441z-aurora-b 22s ease-in-out infinite\" }} />\n      <div className={blob} style={{ left: \"30%\", bottom: \"-20%\", width: \"50%\", height: \"50%\", background: \"color-mix(in oklab, var(--color-foreground) 8%, transparent)\", animation: \"p441z-aurora-c 26s ease-in-out infinite\" }} />\n    </div>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/effects/aurora.tsx"
+    }
+  ],
+  "categories": [
+    "effects"
+  ],
+  "type": "registry:component"
+}

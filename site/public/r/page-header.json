@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "page-header",
+  "title": "PageHeader",
+  "description": "The opening block every top-level page uses.",
+  "registryDependencies": [
+    "https://style.p441z.my.id/r/utils.json"
+  ],
+  "files": [
+    {
+      "path": "v4/components/ui/page-header.tsx",
+      "content": "import Typography from \"./typography\";\nimport { cn } from \"@/lib/utils\";\n\n/**\n * PageHeader — the opening block every top-level page uses.\n *\n * This is the most-repeated pattern in the whole design: a bold 3xl heading\n * with a muted one-line subtitle underneath. Extracting it means every page\n * starts identically, which is a big part of why the site feels coherent.\n *\n *   <PageHeader\n *     title=\"Projects\"\n *     subtitle=\"Several projects that I have worked on, both private and open source.\"\n *   />\n *\n * Note the `text-3xl font-bold` override on H3: the heading LEVEL is h3 for\n * document outline purposes (the page's h1 lives in the layout/metadata),\n * but visually it's the largest text on the page.\n */\n\ntype PageHeaderProps = {\n  title: string;\n  subtitle?: string;\n  /** Optional right-aligned slot — a button, a toggle, a link. */\n  action?: React.ReactNode;\n  className?: string;\n};\n\nexport default function PageHeader({\n  title,\n  subtitle,\n  action,\n  className,\n}: PageHeaderProps) {\n  return (\n    <div className={cn(\"mb-6\", className)}>\n      <div className=\"flex items-start justify-between gap-4\">\n        <Typography.H3 className=\"text-3xl font-bold\">{title}</Typography.H3>\n        {action ? <div className=\"shrink-0\">{action}</div> : null}\n      </div>\n      {subtitle ? (\n        <Typography.P className=\"mt-2 max-w-2xl text-muted-foreground\">\n          {subtitle}\n        </Typography.P>\n      ) : null}\n    </div>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "ui"
+  ],
+  "type": "registry:ui"
+}
