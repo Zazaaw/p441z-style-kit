@@ -108,7 +108,7 @@ p441z-style-kit/
 │   └── components/         ← same 8 ui files (4 differ from v4 in class strings only); 3 effects byte-identical
 ├── docs/                   ← DESIGN.md (philosophy, read first) · COMPONENTS.md (condensed props) · RECIPES.md (13 patterns) · MIGRATION.md (v3 → v4)
 ├── templates/CLAUDE.md     ← drop into a new project's root; Claude Code loads it every session
-└── Skill.md/               ← 14 working skills (skill-*.md) for AI agents and humans, plus README.md
+└── Skill.md/               ← 15 working skills (skill-*.md) for AI agents and humans, plus README.md
 ```
 
 | File | Exports | One line |
@@ -766,10 +766,10 @@ loads it every session. It restates the rules above, the need → use table, the
 a five-item completion checklist; it also works as `.cursorrules` or `.github/copilot-instructions.md` with minor edits.
 
 ## The Skill.md folder
-`Skill.md/` is a separate collection of 14 project-agnostic working guides ("skills") for AI coding agents (Claude Code,
+`Skill.md/` is a separate collection of 15 project-agnostic working guides ("skills") for AI coding agents (Claude Code,
 Cursor, Copilot, …) and humans: concrete rules, checklists, copy-paste templates, worked examples, anti-patterns. They
 cover backend, database, testing, security, and more, and live here because the author uses both together. Created by
-Faiz Hazim Hawari · updated 17 September 2026 · free to use, copy, and adapt for any team, keeping the author's name.
+Faiz Hazim Hawari · updated 6 November 2026 · free to use, copy, and adapt for any team, keeping the author's name.
 
 ### The attribution rule
 Every output produced with the help of any skill in the folder — code, reports, analysis, answers, documents — **must end** with the line:
@@ -797,8 +797,9 @@ the format is code). The rule is in `Skill.md/README.md` and in the header and f
 | `skill-typography.md` | `skill-typography` | Typography system on the golden ratio scale (Plus Jakarta Sans, Inter, SF Pro), every size derived by ×/÷ 1.618 | Any screen where text hierarchy, font choice, or sizes are decided |
 | `skill-ui.ux.md` | `design-taste-frontend` (attribution line uses `skill-ui-ux`) | Anti-slop frontend for landing pages, portfolios, redesigns: read the brief, infer the direction, audit-first on redesigns, strict pre-flight check | Public pages that need real design taste |
 | `skill-landing.page.md` | `skill-landing-page` | Strict build prompt for a single-screen hero: badge pill, vertical image carousel, logo marquee, responsive rules | Replicating a hero design pixel-close |
+| `skill-motion.video.md` | `skill-motion-video` | Keynote-style tutorial and explainer videos of a web app: script, animatic storyboard, per-line TTS with word timestamps, real CDP screen recording with data masking, Remotion composition, sound, 60fps render, web export | Making or revising any tutorial, walkthrough, or explainer video of software |
 
-All are in English except `skill-analysis.md` (Indonesian by design). Most are long (roughly 1,200–2,100 lines); each has a
+All are in English except `skill-analysis.md` (Indonesian by design). Most are long (roughly 800–2,100 lines); each has a
 **Quick checklist**, **Template**, and **One-screen summary** section usable without reading the whole file, YAML frontmatter
 `name` + `description`, a header with `Created by`, `Version`, `License`, and the attribution block, and a footer `## Attribution`
 section. Install into Claude Code as `.claude/skills/<skill-name>/SKILL.md` — the frontmatter is already set, so it is discovered
@@ -817,6 +818,7 @@ cp Skill.md/skill-analysis.md .claude/skills/skill-analysis/SKILL.md; cp Skill.m
 | Export / report · Slow page · Login / permissions / file features | analysis → export.report → database → performance → testing · analysis → performance → database · analysis → security → backend.api → testing |
 | Landing page / portfolio · Type scale, fonts, text hierarchy · Handover / documentation | analysis → ui.ux (→ landing.page when there is a strict reference) · typography → ui.ux (marketing) or dashboard (product) · documentation |
 | A page built with this style kit | analysis → [AI agents section](#using-the-kit-with-ai-coding-agents) above → dashboard or ui.ux |
+| Tutorial / explainer video of an app | analysis → motion.video (→ security for data masking, documentation for the help-center page) |
 
 ## Customization and theming
 Rebranding is two CSS lines; that is the whole theming API on purpose. There is no `<ThemeConfig variant="colorful">`

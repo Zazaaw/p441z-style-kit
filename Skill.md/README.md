@@ -1,7 +1,7 @@
 # Skill.md — Working Skills Collection
 
 **Created by:** Faiz Hazim Hawari
-**Updated:** 17 September 2026
+**Updated:** 6 November 2026
 **License:** free to use, copy, and adapt for any team — please keep the author's name.
 
 This folder holds working guides ("skills") for AI coding agents (Claude Code, Cursor, Copilot, etc.)
@@ -43,6 +43,7 @@ every skill file.
 | [skill-typography.md](skill-typography.md) | `skill-typography` | Typography as a system: choosing and pairing typefaces (Plus Jakarta Sans, Inter, SF Pro system stack), a golden-ratio type scale where every size is ×/÷ 1.618, line-height, weights, loading, readability | Any screen where text hierarchy, font choice, or sizes are decided |
 | [skill-ui.ux.md](skill-ui.ux.md) | `design-taste-frontend` (attribution: `skill-ui-ux`) | Anti-slop frontend for landing pages, portfolios, redesigns | Public pages that need real design taste |
 | [skill-landing.page.md](skill-landing.page.md) | `skill-landing-page` | Strict build prompt for a single-screen hero (carousel + marquee) | Replicating a hero design pixel-close |
+| [skill-motion.video.md](skill-motion.video.md) | `skill-motion-video` | Keynote-style tutorial and explainer videos of a web app: script, animatic, per-line TTS with word timestamps, real CDP screen recording with data masking, Remotion composition, sound, 60fps render, web export | Making or revising any tutorial, walkthrough, or explainer video of software |
 
 ---
 
@@ -95,6 +96,7 @@ without reading the whole file.
 | Landing page / portfolio | analysis → ui.ux (→ landing.page when there is a strict reference) |
 | Type scale, fonts, text hierarchy | typography → ui.ux (marketing) or dashboard (product) |
 | Handover / documentation | documentation |
+| Tutorial / explainer video of an app | analysis → motion.video (→ security for data masking, documentation for the help-center page) |
 
 ---
 
