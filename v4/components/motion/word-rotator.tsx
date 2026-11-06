@@ -15,6 +15,11 @@ import { EASE } from "@/lib/motion";
  *
  * This is the kit's single editorial accent: give it the serif italic, and use it ONCE per page.
  *
+ * Text-painting effects (gradient text via `background-clip: text`) go in `wordClassName`, which
+ * lands on the word's own text node. On the wrapper they vanish in Safari: the animated word is
+ * composited on its own layer, so the clipped background never reaches it and the text stays
+ * transparent.
+ *
  * USAGE
  *   <h1>Interfaces that <WordRotator words={["move", "breathe", "ship"]} className="font-serif italic" /></h1>
  */
@@ -28,9 +33,11 @@ interface WordRotatorProps {
   reserve?: boolean;
   /** Horizontal alignment inside a reserved box. */
   align?: "start" | "center" | "end";
+  /** Classes on the word itself — put gradient-text / background-clip effects here. */
+  wordClassName?: string;
 }
 
-export default function WordRotator({ words, className, interval = 2.2, reserve = false, align = "start" }: WordRotatorProps) {
+export default function WordRotator({ words, className, interval = 2.2, reserve = false, align = "start", wordClassName }: WordRotatorProps) {
   const [i, setI] = useState(0);
   const reduce = useReducedMotion();
 
@@ -58,7 +65,7 @@ export default function WordRotator({ words, className, interval = 2.2, reserve 
             exit={{ y: "-70%", opacity: 0, filter: "blur(6px)" }}
             transition={{ duration: 0.5, ease: EASE.reveal }}
           >
-            {words[i]}
+            <span className={wordClassName}>{words[i]}</span>
           </motion.span>
         </AnimatePresence>
       </span>
@@ -76,7 +83,7 @@ export default function WordRotator({ words, className, interval = 2.2, reserve 
           exit={{ y: "-70%", opacity: 0, filter: "blur(6px)" }}
           transition={{ duration: 0.5, ease: EASE.reveal }}
         >
-          {words[i]}
+          <span className={wordClassName}>{words[i]}</span>
         </motion.span>
       </AnimatePresence>
     </motion.span>

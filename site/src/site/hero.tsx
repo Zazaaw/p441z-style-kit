@@ -63,7 +63,7 @@ export default function Hero({ skillCount, skillLines, componentCount }: { skill
       <h1 className="mt-8 font-display text-[clamp(2.6rem,7.2vw,7.4rem)] font-extrabold leading-[0.98] tracking-[-0.05em]">
         <span className="hero-line block whitespace-nowrap">Interfaces that</span>
         <span className="hero-rot block whitespace-nowrap py-[0.04em]">
-          <WordRotator reserve align="center" words={["move", "breathe", "ship", "feel right"]} interval={2.6} className="text-sheen font-serif text-[1.08em] font-normal italic tracking-[-0.02em]" />
+          <WordRotator reserve align="center" words={["move", "breathe", "ship", "feel right"]} interval={2.6} wordClassName="text-sheen" className="font-serif text-[1.08em] font-normal italic tracking-[-0.02em]" />
         </span>
         <span className="hero-line block whitespace-nowrap">like a keynote.</span>
       </h1>

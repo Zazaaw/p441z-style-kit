@@ -298,7 +298,9 @@ plain kit and take your accent after a rebrand. Each one is a single moment — 
 | `Aurora` | `effects/aurora.tsx` | Slow blurred light behind a hero (CSS only) | `intensity` |
 | `BorderBeam` | `effects/border-beam.tsx` | A beam of light circling a card's border (CSS only) | `size`, `duration`, `colorFrom`/`colorTo` |
 
-`WordRotator` also gained `reserve`: the box is locked to the widest word, so a headline never reflows.
+`WordRotator` also gained `reserve` (the box is locked to the widest word, so a headline never reflows) and
+`wordClassName` — put gradient-text / `background-clip: text` effects there, never on `className`: on the
+wrapper they make the word invisible in Safari.
 
 ---
 
