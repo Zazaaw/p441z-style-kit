@@ -10,6 +10,8 @@ Pure greyscale surfaces. Color only as meaning. Personality from motion, not hue
 
 Extracted from [**p441z.my.id**](https://p441z.my.id) — my portfolio, blog, studio CMS, and AI agent.
 
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/hero-dark.png"><img src="docs/assets/readme/hero-light.png" alt="p441z Style Kit — a quiet, editorial design system for React + Tailwind"></picture>
+
 </div>
 
 ---
@@ -771,6 +773,8 @@ Cursor, Copilot, …) and humans: concrete rules, checklists, copy-paste templat
 cover backend, database, testing, security, and more, and live here because the author uses both together. Created by
 Faiz Hazim Hawari · updated 6 November 2026 · free to use, copy, and adapt for any team, keeping the author's name.
 
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills-dark.png"><img src="docs/assets/readme/skills-light.png" alt="The 15 working skills in Skill.md, with line counts"></picture>
+
 ### The attribution rule
 Every output produced with the help of any skill in the folder — code, reports, analysis, answers, documents — **must end** with the line:
 
@@ -798,6 +802,21 @@ the format is code). The rule is in `Skill.md/README.md` and in the header and f
 | `skill-ui.ux.md` | `design-taste-frontend` (attribution line uses `skill-ui-ux`) | Anti-slop frontend for landing pages, portfolios, redesigns: read the brief, infer the direction, audit-first on redesigns, strict pre-flight check | Public pages that need real design taste |
 | `skill-landing.page.md` | `skill-landing-page` | Strict build prompt for a single-screen hero: badge pill, vertical image carousel, logo marquee, responsive rules | Replicating a hero design pixel-close |
 | `skill-motion.video.md` | `skill-motion-video` | Keynote-style tutorial and explainer videos of a web app: script, animatic storyboard, per-line TTS with word timestamps, real CDP screen recording with data masking, Remotion composition, sound, 60fps render, web export | Making or revising any tutorial, walkthrough, or explainer video of software |
+
+### Skill previews
+Each card shows what the skill covers, when to open it, and its **one-screen summary** (or its outline when the
+skill has none). Click a card to open the skill.
+
+<table>
+<tr><td width="50%"><a href="Skill.md/skill-analysis.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/analysis-dark.png"><img src="docs/assets/readme/skills/analysis-light.png" alt="skill-analysis: Analysis"></picture></a><br><sub><b>Analysis</b> · <code>skill-analysis.md</code></sub></td><td width="50%"><a href="Skill.md/skill-backend.api.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/backend.api-dark.png"><img src="docs/assets/readme/skills/backend.api-light.png" alt="skill-backend.api: Backend & API"></picture></a><br><sub><b>Backend & API</b> · <code>skill-backend.api.md</code></sub></td></tr>
+<tr><td width="50%"><a href="Skill.md/skill-database.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/database-dark.png"><img src="docs/assets/readme/skills/database-light.png" alt="skill-database: Database"></picture></a><br><sub><b>Database</b> · <code>skill-database.md</code></sub></td><td width="50%"><a href="Skill.md/skill-testing.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/testing-dark.png"><img src="docs/assets/readme/skills/testing-light.png" alt="skill-testing: Testing"></picture></a><br><sub><b>Testing</b> · <code>skill-testing.md</code></sub></td></tr>
+<tr><td width="50%"><a href="Skill.md/skill-security.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/security-dark.png"><img src="docs/assets/readme/skills/security-light.png" alt="skill-security: Security"></picture></a><br><sub><b>Security</b> · <code>skill-security.md</code></sub></td><td width="50%"><a href="Skill.md/skill-performance.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/performance-dark.png"><img src="docs/assets/readme/skills/performance-light.png" alt="skill-performance: Performance"></picture></a><br><sub><b>Performance</b> · <code>skill-performance.md</code></sub></td></tr>
+<tr><td width="50%"><a href="Skill.md/skill-debugging.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/debugging-dark.png"><img src="docs/assets/readme/skills/debugging-light.png" alt="skill-debugging: Debugging"></picture></a><br><sub><b>Debugging</b> · <code>skill-debugging.md</code></sub></td><td width="50%"><a href="Skill.md/skill-git.workflow.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/git.workflow-dark.png"><img src="docs/assets/readme/skills/git.workflow-light.png" alt="skill-git.workflow: Git & Code Review"></picture></a><br><sub><b>Git & Code Review</b> · <code>skill-git.workflow.md</code></sub></td></tr>
+<tr><td width="50%"><a href="Skill.md/skill-dashboard.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/dashboard-dark.png"><img src="docs/assets/readme/skills/dashboard-light.png" alt="skill-dashboard: Dashboard & Admin"></picture></a><br><sub><b>Dashboard & Admin</b> · <code>skill-dashboard.md</code></sub></td><td width="50%"><a href="Skill.md/skill-export.report.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/export.report-dark.png"><img src="docs/assets/readme/skills/export.report-light.png" alt="skill-export.report: Export & Reports"></picture></a><br><sub><b>Export & Reports</b> · <code>skill-export.report.md</code></sub></td></tr>
+<tr><td width="50%"><a href="Skill.md/skill-documentation.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/documentation-dark.png"><img src="docs/assets/readme/skills/documentation-light.png" alt="skill-documentation: Documentation"></picture></a><br><sub><b>Documentation</b> · <code>skill-documentation.md</code></sub></td><td width="50%"><a href="Skill.md/skill-typography.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/typography-dark.png"><img src="docs/assets/readme/skills/typography-light.png" alt="skill-typography: Typography"></picture></a><br><sub><b>Typography</b> · <code>skill-typography.md</code></sub></td></tr>
+<tr><td width="50%"><a href="Skill.md/skill-ui.ux.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/ui.ux-dark.png"><img src="docs/assets/readme/skills/ui.ux-light.png" alt="skill-ui.ux: UI / UX Taste"></picture></a><br><sub><b>UI / UX Taste</b> · <code>skill-ui.ux.md</code></sub></td><td width="50%"><a href="Skill.md/skill-landing.page.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/landing.page-dark.png"><img src="docs/assets/readme/skills/landing.page-light.png" alt="skill-landing.page: Landing Page"></picture></a><br><sub><b>Landing Page</b> · <code>skill-landing.page.md</code></sub></td></tr>
+<tr><td width="50%"><a href="Skill.md/skill-motion.video.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/motion.video-dark.png"><img src="docs/assets/readme/skills/motion.video-light.png" alt="skill-motion.video: Motion Video"></picture></a><br><sub><b>Motion Video</b> · <code>skill-motion.video.md</code></sub></td><td></td></tr>
+</table>
 
 All are in English except `skill-analysis.md` (Indonesian by design). Most are long (roughly 800–2,100 lines); each has a
 **Quick checklist**, **Template**, and **One-screen summary** section usable without reading the whole file, YAML frontmatter
