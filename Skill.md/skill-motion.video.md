@@ -463,7 +463,7 @@ captures compositor frames at full quality, runs headless, and needs no OS scree
 
 | Problem | Fix |
 |---|---|
-| Screencast captures the **real window**, not the emulated viewport | `viewport: null` + `--window-size=W,H+143` (headless adds ~143 px of window chrome) |
+| Screencast captures the **real window**, not the emulated viewport | `viewport: null` + `--window-size=W,H+chrome`. The chrome height **differs per Chrome version** (143 px in older builds, 87 px in current headless) — measure it: open a page, read `innerHeight`, and add the difference |
 | Frames not 2× (not crisp) | `--force-device-scale-factor=2` → 1920×1080 becomes 3840×2160 |
 | Chrome refuses windows narrower than 500 px (phones) | 500 px window + `Emulation.setDeviceMetricsOverride({ width: 390, height: 844, deviceScaleFactor: 3, mobile: true })`, then crop with ffmpeg `crop=1170:2532:0:0` |
 | Phone layout needs touch (`pointer: coarse`) | `Emulation.setTouchEmulationEnabled({ enabled: true })` |
@@ -802,7 +802,7 @@ ffmpeg -i raw.mp4 -c:v copy -af "alimiter=limit=0.8:attack=3:release=60:level=fa
 | Subtitle fills half the screen | Showing the whole narration → one sentence at a time |
 | Words clipped at line edges | One long audio file cut per sentence → one file per line |
 | Video shorter than the action log | Still page sends no frames → hold first/last frame |
-| Odd frame size (1920×937) | Screencast records the window → window size + 143 px |
+| Odd frame size (1920×937), or black side bars | Screencast records the window → add the measured chrome height to `--window-size` |
 | Phone recording 500 px wide | Chrome minimum window width → emulate + crop |
 | Synthetic cursor off the button | Recorder path/easing ≠ composition → use identical formulas |
 | Target cropped in split mode | Camera limits computed for the wrong center |
@@ -934,7 +934,7 @@ FLOW       brief → script → animatic APPROVED → TTS per line → shared ti
 TIME       narration word timestamps drive EVERYTHING; move 0.6–0.9 s before the word, click ON it
 VOICE      one file per line · pronunciation map (1 word per replacement) · cache unchanged lines
 DEVICES    one step = one device: camera/notifications → phone; forms/typing/print → laptop; handoffs → duo
-RECORD     Page.startScreencast · window +143 px · DPR 2 · phone 500 px + emulate + crop · CFR 60 via concat
+RECORD     Page.startScreencast · window + measured chrome · DPR 2 · phone 500 px + emulate + crop · CFR 60 via concat
            move before click · map positions first · segments with --from/--to · FAILED-<seg>.png
 PRIVACY    filter all JSON → replace identity endpoints → DOM observer · reverse-map outgoing IDs
            mocks for writes · mail disabled · inspect 6–8 frames per segment
