@@ -97,7 +97,7 @@ export default function Dock({ items, className, size = 44, magnified = 68, reac
   const mouseX = useMotionValue(Infinity);
   const reduce = useReducedMotion();
   return (
-    <nav aria-label="Dock" className={cn("z-50", className)}>
+    <nav aria-label="Dock" className={cn("z-50 w-fit", className)}>
       <motion.div
         onMouseMove={(e) => !reduce && mouseX.set(e.clientX)}
         onMouseLeave={() => mouseX.set(Infinity)}

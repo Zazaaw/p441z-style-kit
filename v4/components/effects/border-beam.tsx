@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 /**
  * BorderBeam — a short beam of light that travels around a card's border. Put it inside any
  * `relative` element with a border radius; it follows the radius. CSS only, uses the kit's
- * `animate-border-beam` utility. Color defaults to `--primary`.
+ * `animate-border-beam` utility. Color defaults to the theme primary (`--color-primary`).
  *
  * Use on the single highlighted card of a section (the recommended plan, the featured video).
  * Reduced motion: the beam is hidden.
@@ -26,7 +26,7 @@ interface BorderBeamProps {
   colorTo?: string;
 }
 
-export default function BorderBeam({ className, size = 220, duration = 9, delay = 0, colorFrom = "hsl(var(--primary))", colorTo = "hsl(var(--primary) / 0)" }: BorderBeamProps) {
+export default function BorderBeam({ className, size = 220, duration = 9, delay = 0, colorFrom = "var(--color-primary)", colorTo = "transparent" }: BorderBeamProps) {
   return (
     <div
       aria-hidden
