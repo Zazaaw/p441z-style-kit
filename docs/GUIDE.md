@@ -102,7 +102,7 @@ p441z-style-kit/
 │   ├── SETUP.md            ← step-by-step install (Indonesian) with a success checklist and troubleshooting
 │   ├── globals.css         ← THE config: tokens, dark variant, @theme mapping, 13 keyframes, scrollbar
 │   ├── lib/utils.ts        ← cn() = clsx + tailwind-merge
-│   └── components/         ← ui/ (8 files, table below) and effects/ (3 files)
+│   └── components/         ← ui/ (8 files, table below), effects/ (3), motion/ (12), mac/ (7 desktop components)
 ├── v3/                     ← Tailwind v3 kit (legacy)
 │   ├── SETUP.md            ← same walkthrough for v3, plus an appendix on converting to v4
 │   ├── globals.css         ← tokens + base layer + scrollbar (@tailwind directives)

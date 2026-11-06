@@ -1,6 +1,6 @@
 # Component Reference
 
-Eleven components. Props, variants, and when to reach for each.
+Thirty components — 8 UI, 3 effects, 12 motion, 7 desktop (motion and desktop are v4 only). Props, variants, and when to reach for each.
 
 ---
 
@@ -234,6 +234,54 @@ Line grid where random cells light up and fade.
 
 When a square finishes fading it teleports elsewhere — that's what makes the
 twinkle endless without re-running the whole animation.
+
+---
+
+## Motion (v4)
+
+Keynote-grade motion graphics as components — the moves of product-launch videos. All need
+`framer-motion` and import the shared curves from `lib/motion.ts`; every one respects
+`prefers-reduced-motion` (renders the end state, or nothing for purely decorative pieces).
+Live demos: the landing page in [`site/`](../site/).
+
+| Component | File | What it does | Key props |
+|---|---|---|---|
+| `MaskReveal` | `motion/mask-reveal.tsx` | Keynote headline: words rise from behind a mask | `text`, `as`, `delay`, `stagger`, `inView` |
+| `KaraokeText` | `motion/karaoke-text.tsx` | Words light up like a narrator — by time or by scroll | `text`, `progress` (MotionValue) or `duration`, `dim` |
+| `WordRotator` | `motion/word-rotator.tsx` | One word that keeps changing; box width glides | `words`, `interval` — use the serif italic, once per page |
+| `CountUp` | `motion/count-up.tsx` | Counts to its value in view, tabular figures | `to`, `from`, `decimals`, `prefix`/`suffix`, `format` |
+| `LaptopFrame` · `PhoneFrame` | `motion/device-frame.tsx` | Brandless CSS devices that size to their container | `url` (browser bar), `ratio` · `time` |
+| `VirtualCamera` | `motion/virtual-camera.tsx` | Frames part of its content: zoom, glide, pull back | `shot={{ x, y, zoom }}` or `progress` + `path` (scroll-scrubbed) |
+| `SoftCursor` | `motion/soft-cursor.tsx` | Hand-like pointer, click = shrink + soft halo | `points`, `onClick(i)`, `loop` |
+| `FlyingPill` | `motion/flying-pill.tsx` | A message that flies from one place to another on an arc | `run` (bump to launch), `from`, `to`, `title`, `onLand` |
+| `ElementLift` | `motion/element-lift.tsx` | Card rises to center, floats, flips in 3D, flies home | `id`, `front`, `back`, `lifted`, `onLower` |
+| `LogoCollapse` | `motion/logo-collapse.tsx` | Outro: feature cards pull into the logo | `items`, `logo`, `auto` or `collapsed` |
+| `Stepper` | `motion/stepper.tsx` | Story progress; the active pill glides between steps | `steps`, `active`, `id` |
+
+**Curves** (`lib/motion.ts`): `EASE.reveal` and `EASE.toggle` are the kit's UI curves;
+`EASE.camera = [0.65, 0, 0.35, 1]` is symmetric and exists only for choreography (camera moves,
+flights, devices). Never use it for hovers or toggles — there it reads as lag.
+
+**Rule:** every click a `SoftCursor` makes must change something on screen — wire `onClick`.
+
+---
+
+## Desktop (v4)
+
+Desktop-style UI. Generic on purpose: no system logos, no bundled system fonts. Color stays
+greyscale except the traffic lights, which carry meaning (close / minimize / zoom).
+
+| Component | File | What it does | Key props |
+|---|---|---|---|
+| `MacWindow` · `TrafficLights` | `mac/window.tsx` | Window with title bar; lights reveal × – + on hover | `title`, `toolbar`, `glass`, `onClose`/`onMinimize`/`onZoom` |
+| `Terminal` | `mac/terminal.tsx` | Commands type themselves in view; output fades in; Copy | `lines` (`{ cmd }` / `{ out, dim }`), `prompt`, `speed` |
+| `Dock` | `mac/dock.tsx` | Icons magnify near the pointer; labels; active dot | `items` (`href` or `onClick`), `size`, `magnified` |
+| `Spotlight` | `mac/spotlight.tsx` | ⌘K command palette, grouped, keyboard driven | `open`, `onOpenChange`, `items` + `useSpotlightHotkey()` |
+| `NotificationProvider` · `useNotify` | `mac/notification.tsx` | Frosted banners slide in top-right, stack, auto-dismiss | `notify({ title, body, icon, duration })` |
+| `MenuBar` | `mac/menu-bar.tsx` | Slim frosted top bar with menus and a live clock | `brand`, `items`, `right`, `clock` |
+
+Frosted surfaces use `backdrop-blur-2xl backdrop-saturate-150` over `bg-background/60–70`, so
+they work in light and dark without extra tokens.
 
 ---
 

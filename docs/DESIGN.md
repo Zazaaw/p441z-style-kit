@@ -95,6 +95,17 @@ Two curves, both decelerating hard at the end:
 That hard deceleration is what makes motion read as *expensive* rather than
 mechanical. Linear easing is the tell of an unconsidered animation.
 
+A third curve exists only for **choreography** — the motion graphics in
+`components/motion` (camera moves, cards flying, devices entering):
+
+```
+[0.65, 0, 0.35, 1]    camera — symmetric: leaves slowly, lands slowly   0.7–1.1 s
+```
+
+It is deliberately slower and symmetric, like a film camera. Never use it for
+UI feedback (hover, toggle, press): there the same curve reads as lag. All three
+live in `lib/motion.ts` as `EASE.reveal`, `EASE.toggle`, `EASE.camera`.
+
 ### Duration discipline
 
 | Duration | Use |

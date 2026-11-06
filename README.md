@@ -15,7 +15,9 @@
 ## What it is
 The design system behind [p441z.my.id](https://p441z.my.id), packaged as files you copy into a Next.js project: one
 `globals.css` (tokens, dark mode, keyframes), a `cn()` helper, eight shadcn-style UI primitives, three ambient effects, and
-the reasoning behind every decision. Pure greyscale surfaces, color only as meaning, personality from motion.
+the reasoning behind every decision — plus keynote-style motion graphics (mask reveals, a virtual
+camera, cursors that click, cards that lift) and desktop-style windows, terminal, dock, and ⌘K search.
+Pure greyscale surfaces, color only as meaning, personality from motion.
 
 ```
 ✓ Copy-paste, not a dependency      ✓ Light + dark, no extra classes
@@ -35,7 +37,8 @@ Then add the font and theme provider to `layout.tsx` — the full ten-minute wal
 ## What's inside
 | Folder | Contents |
 |---|---|
-| [`v4/`](v4/) · [`v3/`](v3/) | `globals.css`, `lib/utils.ts`, 8 UI components, 3 effects, and a step-by-step `SETUP.md` |
+| [`v4/`](v4/) · [`v3/`](v3/) | `globals.css`, `lib/`, 8 UI components, 3 effects, and a step-by-step `SETUP.md` — v4 adds **12 motion** and **7 desktop** components |
+| [`site/`](site/) | The landing page (Next.js 16), built from the kit itself — a scroll-driven keynote demo of every motion component |
 | [`docs/`](docs/) | [GUIDE](docs/GUIDE.md) (everything, one file) · [DESIGN](docs/DESIGN.md) (read first) · [COMPONENTS](docs/COMPONENTS.md) · [RECIPES](docs/RECIPES.md) · [MIGRATION](docs/MIGRATION.md) |
 | [`Skill.md/`](Skill.md/) | 15 project-agnostic working guides for AI agents and humans |
 | [`templates/CLAUDE.md`](templates/CLAUDE.md) · [`AGENTS.md`](AGENTS.md) | Drop-in instructions so AI agents follow the kit |
