@@ -25,14 +25,24 @@ Pure greyscale surfaces, color only as meaning, personality from motion.
 ✓ Tailwind v4 and v3                ✓ Verified against a real build
 ```
 
-## Quick start (Tailwind v4)
+## Install (one command)
+The kit is a [shadcn](https://ui.shadcn.com) registry — files are **copied into your project** (still your
+code), and every npm dependency is installed for you. In a project with `components.json` (`npx shadcn@latest init`):
+
 ```bash
-npx create-next-app@latest my-app && cd my-app
-npm i tw-animate-css clsx tailwind-merge class-variance-authority @radix-ui/react-slot framer-motion next-themes
-# copy v4/globals.css → src/app/globals.css, v4/lib → src/lib, v4/components → src/components
+npx shadcn@latest add https://style.p441z.my.id/r/style-kit.json      # everything + the theme
+npx shadcn@latest add https://style.p441z.my.id/r/dock.json           # or one component
 ```
-Then add the font and theme provider to `layout.tsx` — the full ten-minute walkthrough is in [`v4/SETUP.md`](v4/SETUP.md)
-([v3](v3/SETUP.md) for legacy projects).
+
+Prefer the short `@p441z/…` names? Add the namespace to `components.json` once, then `npx shadcn@latest add @p441z/dock`:
+
+```json
+"registries": { "@p441z": "https://style.p441z.my.id/r/{name}.json" }
+```
+
+Each item pulls in what it needs (`terminal` brings `mac-window` and `utils`). Manual setup, step by step:
+[`v4/SETUP.md`](v4/SETUP.md) ([v3](v3/SETUP.md) for legacy projects). Maintainers: `cd site && npm run registry`
+regenerates `registry.json` and `site/public/r/` from `v4/`.
 
 ## What's inside
 | Folder | Contents |
