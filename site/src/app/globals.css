@@ -1,0 +1,21 @@
+/* The kit IS the theme (kit.css = ../v4/globals.css, synced). This file only adds the site's fonts
+   and a few page-level helpers — never tokens. */
+@import "./kit.css";
+
+/* The synced kit copies are gitignored, and Tailwind v4 skips gitignored files when it scans for
+   classes — so register them explicitly, or every kit component renders unstyled. */
+@source "../components";
+@source "../lib";
+
+@theme inline {
+  /* Platform stack first: real SF on Apple devices, Plus Jakarta Sans everywhere else. */
+  --font-sans: -apple-system, BlinkMacSystemFont, var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-jakarta), -apple-system, ui-sans-serif, sans-serif;
+  --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { font-family: var(--font-sans); }
+.font-display { font-family: var(--font-display); }
