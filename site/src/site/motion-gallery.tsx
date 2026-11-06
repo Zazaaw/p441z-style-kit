@@ -19,7 +19,8 @@ import LogoCollapse from "@/components/motion/logo-collapse";
 import { LaptopFrame, PhoneFrame } from "@/components/motion/device-frame";
 import { useNotify } from "@/components/mac/notification";
 import { cn } from "@/lib/utils";
-import { IconBell, IconCheck, IconSend } from "@/site/icons";
+import { IconBell, IconCheck, IconCopy, IconSend } from "@/site/icons";
+import { installFor } from "@/site/chrome";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -33,13 +34,40 @@ function Demo({ name, file, wide, children, onReplay, note }: { name: string; fi
           <div className="mt-0.5 text-[13px] leading-snug text-muted-foreground">{note}</div>
           <code className="mt-2 inline-block text-[11.5px] text-muted-foreground">{file}</code>
         </div>
-        {onReplay && (
-          <button type="button" onClick={onReplay} className="shrink-0 rounded-md border border-border px-2.5 py-1 text-[12px] font-medium transition-colors duration-200 hover:bg-muted">
-            Replay
-          </button>
-        )}
+        <div className="flex shrink-0 flex-col items-end gap-1.5">
+          {onReplay && (
+            <button type="button" onClick={onReplay} className="rounded-md border border-border px-2.5 py-1 text-[12px] font-medium transition-colors duration-200 hover:bg-muted">
+              Replay
+            </button>
+          )}
+          <CopyInstall file={file} />
+        </div>
       </div>
     </SpotlightCard>
+  );
+}
+
+/** Copies the shadcn command that installs this one component (and whatever it depends on). */
+function CopyInstall({ file }: { file: string }) {
+  const [done, setDone] = useState(false);
+  return (
+    <button
+      type="button"
+      onClick={() =>
+        navigator.clipboard
+          ?.writeText(installFor(file))
+          .then(() => {
+            setDone(true);
+            setTimeout(() => setDone(false), 1500);
+          })
+          .catch(() => undefined)
+      }
+      className="flex items-center gap-1 rounded-md px-2 py-1 text-[12px] font-medium text-primary transition-colors duration-200 hover:bg-primary/10"
+      aria-label={`Copy install command for ${file}`}
+    >
+      <span className="size-3.5 [&_svg]:size-3.5">{done ? <IconCheck /> : <IconCopy />}</span>
+      {done ? "Copied" : "Install"}
+    </button>
   );
 }
 

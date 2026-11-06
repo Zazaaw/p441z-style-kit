@@ -86,7 +86,7 @@ export default function Desk() {
           "term",
           "left-[28%] top-[44%] hidden w-[min(500px,90%)] sm:block",
           <div onPointerDownCapture={() => front("term")}>
-            <Terminal title="zsh — p441z" lines={[{ cmd: "cp -R kit/v4/components/mac src/components/" }, { cmd: "cp -R kit/v4/components/motion src/components/" }, { cmd: "git status --short" }, { out: "?? src/components/mac/\n?? src/components/motion/", dim: true }]} />
+            <Terminal title="zsh — p441z" lines={[{ cmd: "npx shadcn@latest add style.p441z.my.id/r/dock.json" }, { out: "✔ Created components/mac/dock.tsx", dim: true }, { cmd: "npx shadcn@latest add style.p441z.my.id/r/element-lift.json" }, { out: "✔ Created components/motion/element-lift.tsx", dim: true }]} />
           </div>,
         )}
         {frame(

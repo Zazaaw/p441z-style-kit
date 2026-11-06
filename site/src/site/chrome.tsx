@@ -14,7 +14,11 @@ import { ThemeToggle } from "@/site/theme";
 import { IconBell, IconBook, IconCopy, IconGitHub, IconHome, IconMoon, IconPlay, IconSearch, IconSpark, IconWindow } from "@/site/icons";
 
 export const REPO = "https://github.com/Zazaaw/p441z-style-kit";
-export const INSTALL = "npm i framer-motion clsx tailwind-merge class-variance-authority @radix-ui/react-slot next-themes tw-animate-css";
+export const REGISTRY = "https://style.p441z.my.id/r";
+/** One command installs every component, its npm dependencies, and the theme (shadcn registry). */
+export const INSTALL = `npx shadcn@latest add ${REGISTRY}/style-kit.json`;
+/** Registry item for a kit file path like "motion/mask-reveal.tsx" (the desktop window is "mac-window"). */
+export const installFor = (file: string) => `npx shadcn@latest add ${REGISTRY}/${file === "mac/window.tsx" ? "mac-window" : file.replace(/^.*\//, "").replace(/\.tsx?$/, "")}.json`;
 
 // Smooth jump that also works with Lenis (it intercepts anchors; programmatic jumps go through scrollIntoView).
 const go = (hash: string) => document.querySelector(hash)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -58,7 +62,7 @@ export default function Chrome({ skills }: { skills: { name: string; title: stri
       group: "Actions",
       label: "Copy install command",
       icon: <IconCopy />,
-      keywords: "npm install",
+      keywords: "npm install shadcn registry",
       onSelect: () => navigator.clipboard?.writeText(INSTALL).then(() => notify({ title: "Copied", body: "Install command is on your clipboard.", icon: <IconCopy /> })),
     },
     { group: "Actions", label: `Switch to ${resolvedTheme === "dark" ? "light" : "dark"} mode`, icon: <IconMoon />, keywords: "theme dark light", onSelect: () => setTheme(resolvedTheme === "dark" ? "light" : "dark") },

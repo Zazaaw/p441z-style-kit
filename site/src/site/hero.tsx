@@ -99,7 +99,7 @@ export default function Hero({ skillCount, skillLines, componentCount }: { skill
         aria-label="Copy install command"
       >
         <span className="text-primary">$</span>
-        <span className="truncate">npm i framer-motion clsx tailwind-merge next-themes …</span>
+        <span className="truncate">npx shadcn@latest add style.p441z.my.id/r/style-kit.json</span>
         <span className="grid size-7 shrink-0 place-items-center rounded-full bg-muted text-foreground [&_svg]:size-3.5">{copied ? <IconCheck /> : <IconCopy />}</span>
       </button>
 
