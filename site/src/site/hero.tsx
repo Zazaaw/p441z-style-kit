@@ -26,7 +26,14 @@ export default function Hero({ skillCount, skillLines, componentCount }: { skill
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         const split = SplitText.create(".hero-line", { type: "chars", mask: "chars" });
-        const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
+        // Masks are as tall as the (tight) line box, which would clip descenders like the "y" in
+        // "keynote" — give each mask room below the baseline without changing the line height.
+        split.masks.forEach((m) => {
+          (m as HTMLElement).style.paddingBottom = "0.2em";
+          (m as HTMLElement).style.marginBottom = "-0.2em";
+        });
+        // Once the intro is done, put the headline back to plain text (no masks left behind).
+        const tl = gsap.timeline({ defaults: { ease: "expo.out" }, onComplete: () => split.revert() });
         tl.from(".hero-chip", { y: 12, opacity: 0, duration: 0.8 })
           .from(split.chars, { yPercent: 110, duration: 1.1, stagger: 0.018 }, 0.1)
           .from(".hero-rot", { yPercent: 40, opacity: 0, filter: "blur(10px)", duration: 1.1 }, 0.35)
