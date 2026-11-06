@@ -70,7 +70,7 @@ h3 for document outline, but visually it's the largest text on the page.
 ```
 
 > The original also plays UI sound cues on click/hover. That's stripped here —
-> see the README's "Adding sound back" note.
+> see "[Adding sound back](GUIDE.md#adding-sound-back)" in the full guide.
 
 ---
 
