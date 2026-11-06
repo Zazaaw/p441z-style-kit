@@ -69,7 +69,7 @@ function Icon({ item, mouseX, size, magnified, reach }: { item: DockItem; mouseX
       <motion.span style={{ width: w, height: w }} className="grid place-items-center rounded-[22%] border border-border/70 bg-background shadow-[0_6px_14px_-6px_rgba(0,0,0,0.35)] [&_svg]:size-[46%]">
         {item.icon}
       </motion.span>
-      {item.active && <span className="absolute -bottom-1.5 left-1/2 size-1 -translate-x-1/2 rounded-full bg-foreground/70" aria-hidden />}
+      {item.active && <span className="absolute -bottom-1.5 left-1/2 size-1 -translate-x-1/2 rounded-full bg-primary" aria-hidden />}
     </>
   );
   const common = {

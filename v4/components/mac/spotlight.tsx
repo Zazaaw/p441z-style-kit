@@ -134,11 +134,11 @@ function Panel({ items, placeholder, close }: { items: SpotlightItem[]; placehol
                   aria-selected={i === sel}
                   onMouseMove={() => setSel(i)}
                   onClick={() => choose(it)}
-                  className={cn("flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left text-[14px] transition-colors duration-100", i === sel ? "bg-foreground text-background" : "hover:bg-muted")}
+                  className={cn("flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left text-[14px] transition-colors duration-100", i === sel ? "bg-primary text-primary-foreground" : "hover:bg-muted")}
                 >
                   {it.icon && <span className="grid size-6 place-items-center [&_svg]:size-4">{it.icon}</span>}
                   <span className="flex-1 truncate">{it.label}</span>
-                  {it.hint && <span className={cn("text-[12px]", i === sel ? "text-background/70" : "text-muted-foreground")}>{it.hint}</span>}
+                  {it.hint && <span className={cn("text-[12px]", i === sel ? "text-primary-foreground/75" : "text-muted-foreground")}>{it.hint}</span>}
                 </button>
               </React.Fragment>
             );

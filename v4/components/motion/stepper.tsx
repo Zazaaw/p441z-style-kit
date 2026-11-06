@@ -31,9 +31,9 @@ export default function Stepper({ steps, active, className, id = "stepper" }: St
         const now = i === active;
         return (
           <li key={s} className="relative" aria-current={now ? "step" : undefined}>
-            {now && <motion.span layoutId={`${id}-pill`} className="absolute inset-0 rounded-full bg-foreground" transition={{ duration: 0.5, ease: EASE.reveal }} />}
-            <span className={cn("relative flex items-center gap-1.5 px-3 py-1.5 font-medium transition-colors duration-300", now ? "text-background" : done ? "text-foreground" : "text-muted-foreground")}>
-              <span className={cn("grid size-4 place-items-center rounded-full text-[10px]", now ? "bg-background/20" : done ? "bg-foreground text-background" : "border border-border")}>{done ? "✓" : i + 1}</span>
+            {now && <motion.span layoutId={`${id}-pill`} className="absolute inset-0 rounded-full bg-primary" transition={{ duration: 0.5, ease: EASE.reveal }} />}
+            <span className={cn("relative flex items-center gap-1.5 px-3 py-1.5 font-medium transition-colors duration-300", now ? "text-primary-foreground" : done ? "text-foreground" : "text-muted-foreground")}>
+              <span className={cn("grid size-4 place-items-center rounded-full text-[10px]", now ? "bg-primary-foreground/20" : done ? "bg-primary text-primary-foreground" : "border border-border")}>{done ? "✓" : i + 1}</span>
               {s}
             </span>
           </li>

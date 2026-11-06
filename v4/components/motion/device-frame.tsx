@@ -68,25 +68,27 @@ interface PhoneFrameProps {
 
 export function PhoneFrame({ children, className, time = "9:41" }: PhoneFrameProps) {
   return (
-    <div className={cn("relative w-[280px] select-none", className)}>
-      <div className="relative rounded-[3rem] bg-neutral-900 p-[3.2%] shadow-[0_40px_80px_-40px_rgba(0,0,0,0.6)] ring-1 ring-black/50 dark:ring-white/10">
-        <div className="relative overflow-hidden rounded-[2.6rem] bg-background" style={{ aspectRatio: 9 / 19.5 }}>
+    // Everything inside scales with the phone's width (container query units), so the island and
+    // status bar keep real-device proportions at any size.
+    <div className={cn("relative w-[280px] select-none [container-type:inline-size]", className)}>
+      <div className="relative rounded-[14cqw] bg-neutral-900 p-[3.2%] shadow-[0_40px_80px_-40px_rgba(0,0,0,0.6)] ring-1 ring-black/50 dark:ring-white/10">
+        <div className="relative overflow-hidden rounded-[11.5cqw] bg-background" style={{ aspectRatio: 9 / 19.5 }}>
           {/* Status bar is taller than the island so the island never covers app content. */}
-          <div className="relative z-10 flex h-11 items-center justify-between px-7 text-[12px] font-semibold">
+          <div className="relative z-10 flex h-[13cqw] items-center justify-between px-[8.5cqw] text-[max(9px,4.2cqw)] font-semibold">
             <span>{time}</span>
-            <div aria-hidden className="absolute left-1/2 top-2.5 h-[26px] w-[90px] -translate-x-1/2 rounded-full bg-black" />
+            <div aria-hidden className="absolute left-1/2 top-[3.2cqw] h-[8.4cqw] w-[29cqw] -translate-x-1/2 rounded-full bg-black" />
             <span className="flex items-center gap-1" aria-hidden>
-              <span className="flex items-end gap-[2px]">
-                {[4, 6, 8, 10].map((h) => (
-                  <span key={h} className="w-[3px] rounded-sm bg-current" style={{ height: h }} />
+              <span className="flex items-end gap-[0.7cqw]">
+                {[1.4, 2.1, 2.8, 3.5].map((h) => (
+                  <span key={h} className="w-[1cqw] rounded-sm bg-current" style={{ height: `${h}cqw` }} />
                 ))}
               </span>
-              <span className="ml-1 h-[10px] w-[20px] rounded-[3px] border border-current p-[1px]">
+              <span className="ml-[1cqw] h-[3.5cqw] w-[7cqw] rounded-[1cqw] border border-current p-[0.35cqw]">
                 <span className="block h-full w-3/4 rounded-[1px] bg-current" />
               </span>
             </span>
           </div>
-          <div className="relative h-[calc(100%-2.75rem)]">{children}</div>
+          <div className="relative h-[calc(100%-13cqw)]">{children}</div>
         </div>
       </div>
     </div>

@@ -92,7 +92,7 @@ export default function SoftCursor({ points, onClick, loop = false, move = 0.85,
       {halo && (
         <motion.span
           key={halo.k}
-          className="absolute size-16 -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground/20"
+          className="absolute size-16 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/25"
           style={{ left: halo.x, top: halo.y }}
           initial={{ scale: 0.3, opacity: 0.9 }}
           animate={{ scale: 1.25, opacity: 0 }}

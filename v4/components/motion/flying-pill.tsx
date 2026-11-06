@@ -79,7 +79,7 @@ export default function FlyingPill({ run, from, to, title, subtitle, icon, arc =
               setTimeout(() => setDone(run), linger * 1000);
             }}
           >
-            <span className="grid size-7 place-items-center rounded-full bg-foreground text-background">{icon ?? "↗"}</span>
+            <span className="grid size-7 place-items-center rounded-full bg-primary text-primary-foreground">{icon ?? "↗"}</span>
             <span className="leading-tight">
               <span className="block text-[13px] font-semibold">{title}</span>
               {subtitle && <span className="block text-[11px] text-muted-foreground">{subtitle}</span>}

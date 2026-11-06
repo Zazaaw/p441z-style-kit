@@ -62,7 +62,7 @@ export function NotificationProvider({ children, max = 3 }: { children: React.Re
               className={cn("pointer-events-auto flex gap-3 rounded-2xl border border-black/10 bg-background/70 p-3 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.45)] backdrop-blur-2xl backdrop-saturate-150 dark:border-white/10")}
               onClick={() => setList((l) => l.filter((x) => x.id !== n.id))}
             >
-              <span className="grid size-9 shrink-0 place-items-center rounded-[10px] bg-foreground text-background [&_svg]:size-5">{n.icon ?? "●"}</span>
+              <span className="grid size-9 shrink-0 place-items-center rounded-[10px] bg-primary text-primary-foreground [&_svg]:size-5">{n.icon ?? "●"}</span>
               <span className="min-w-0 flex-1 leading-snug">
                 <span className="flex items-baseline gap-2">
                   <span className="flex-1 truncate text-[13px] font-semibold">{n.title}</span>

@@ -9,8 +9,9 @@ import { EASE } from "@/lib/motion";
 /**
  * WordRotator — one word that keeps changing (design → code → motion → ship).
  *
- * The outgoing word blurs up and away, the incoming one rises from below, and the box width
- * glides to fit the new word so the rest of the sentence never jumps.
+ * The outgoing word blurs up and away, the incoming one rises from below. By default the box width
+ * glides to fit each word; with `reserve` it is locked to the widest word, so nothing around it
+ * ever moves — use that in headlines, where a reflowing line looks broken.
  *
  * This is the kit's single editorial accent: give it the serif italic, and use it ONCE per page.
  *
@@ -23,9 +24,13 @@ interface WordRotatorProps {
   className?: string;
   /** Seconds each word stays. */
   interval?: number;
+  /** Lock the width to the widest word (no reflow). */
+  reserve?: boolean;
+  /** Horizontal alignment inside a reserved box. */
+  align?: "start" | "center" | "end";
 }
 
-export default function WordRotator({ words, className, interval = 2.2 }: WordRotatorProps) {
+export default function WordRotator({ words, className, interval = 2.2, reserve = false, align = "start" }: WordRotatorProps) {
   const [i, setI] = useState(0);
   const reduce = useReducedMotion();
 
@@ -34,6 +39,31 @@ export default function WordRotator({ words, className, interval = 2.2 }: WordRo
     const t = setInterval(() => setI((x) => (x + 1) % words.length), interval * 1000);
     return () => clearInterval(t);
   }, [reduce, words.length, interval]);
+
+  if (reserve) {
+    return (
+      <span className={cn("relative inline-grid overflow-hidden align-bottom", className)} aria-live="polite">
+        {/* Every word sits invisibly in the same cell, so the cell is exactly as wide as the widest. */}
+        {words.map((w) => (
+          <span key={w} aria-hidden className="invisible col-start-1 row-start-1 whitespace-nowrap pb-[0.1em]">
+            {w}
+          </span>
+        ))}
+        <AnimatePresence initial={false}>
+          <motion.span
+            key={words[i]}
+            className={cn("col-start-1 row-start-1 whitespace-nowrap pb-[0.1em]", align === "center" && "justify-self-center", align === "end" && "justify-self-end")}
+            initial={{ y: "70%", opacity: 0, filter: "blur(6px)" }}
+            animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
+            exit={{ y: "-70%", opacity: 0, filter: "blur(6px)" }}
+            transition={{ duration: 0.5, ease: EASE.reveal }}
+          >
+            {words[i]}
+          </motion.span>
+        </AnimatePresence>
+      </span>
+    );
+  }
 
   return (
     <motion.span layout transition={{ duration: 0.45, ease: EASE.reveal }} className={cn("relative inline-flex overflow-hidden align-bottom", className)}>
