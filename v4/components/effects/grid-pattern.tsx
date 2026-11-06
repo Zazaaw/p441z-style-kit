@@ -64,7 +64,10 @@ export function GridPattern({
   const id = useId();
   const containerRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const [squares, setSquares] = useState(() => generateSquares(numSquares));
+  // Start empty: squares need the measured size, and calling Math.random() during the first render
+  // breaks prerendering on Next.js 16 ("blocking-prerender-random-client"). The effect below fills
+  // them in as soon as the ResizeObserver reports a size.
+  const [squares, setSquares] = useState<{ id: number; pos: number[] }[]>([]);
 
   function getPos() {
     return [
