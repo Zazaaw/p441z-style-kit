@@ -37,7 +37,7 @@ Then add the font and theme provider to `layout.tsx` — the full ten-minute wal
 ## What's inside
 | Folder | Contents |
 |---|---|
-| [`v4/`](v4/) · [`v3/`](v3/) | `globals.css`, `lib/`, 8 UI components, 3 effects, and a step-by-step `SETUP.md` — v4 adds **12 motion** and **7 desktop** components |
+| [`v4/`](v4/) · [`v3/`](v3/) | `globals.css`, `lib/`, 8 UI components, 3 effects, and a step-by-step `SETUP.md` — v4 adds **12 motion**, **7 desktop**, and **5 more effects** (spotlight card, magnetic, marquee, aurora, border beam) |
 | [`site/`](site/) | The landing page (Next.js 16), built from the kit itself — a scroll-driven keynote demo of every motion component |
 | [`docs/`](docs/) | [GUIDE](docs/GUIDE.md) (everything, one file) · [DESIGN](docs/DESIGN.md) (read first) · [COMPONENTS](docs/COMPONENTS.md) · [RECIPES](docs/RECIPES.md) · [MIGRATION](docs/MIGRATION.md) |
 | [`Skill.md/`](Skill.md/) | 15 project-agnostic working guides for AI agents and humans |

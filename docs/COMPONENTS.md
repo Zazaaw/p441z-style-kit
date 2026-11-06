@@ -1,6 +1,6 @@
 # Component Reference
 
-Thirty components — 8 UI, 3 effects, 12 motion, 7 desktop (motion and desktop are v4 only). Props, variants, and when to reach for each.
+Thirty-five components — 8 UI, 8 effects, 12 motion, 7 desktop (the new effects, motion, and desktop are v4 only). Props, variants, and when to reach for each.
 
 ---
 
@@ -282,6 +282,23 @@ greyscale except the traffic lights, which carry meaning (close / minimize / zoo
 
 Frosted surfaces use `backdrop-blur-2xl backdrop-saturate-150` over `bg-background/60–70`, so
 they work in light and dark without extra tokens.
+
+---
+
+## More effects (v4)
+
+Premium touches, written for this kit (MIT). All tint with `--primary`, so they stay neutral in the
+plain kit and take your accent after a rebrand. Each one is a single moment — use one per section.
+
+| Component | File | What it does | Key props |
+|---|---|---|---|
+| `SpotlightCard` | `effects/spotlight-card.tsx` | Card lit by the pointer; the border brightens where the light touches | `size`, `strength` |
+| `Magnetic` | `effects/magnetic.tsx` | Element leans toward the pointer, springs back — for the ONE main CTA | `strength` |
+| `Marquee` | `effects/marquee.tsx` | Endless seamless ribbon, faded edges, pauses on hover (CSS only) | `duration`, `gap`, `reverse` |
+| `Aurora` | `effects/aurora.tsx` | Slow blurred light behind a hero (CSS only) | `intensity` |
+| `BorderBeam` | `effects/border-beam.tsx` | A beam of light circling a card's border (CSS only) | `size`, `duration`, `colorFrom`/`colorTo` |
+
+`WordRotator` also gained `reserve`: the box is locked to the widest word, so a headline never reflows.
 
 ---
 
