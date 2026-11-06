@@ -1,7 +1,7 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useMotionValueEvent, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { AnimatePresence, animate, motion, useInView, useMotionValue, useMotionValueEvent, useReducedMotion, useTransform, type MotionValue } from "framer-motion";
 
 import { LaptopFrame, PhoneFrame } from "@/components/motion/device-frame";
 import VirtualCamera from "@/components/motion/virtual-camera";
@@ -14,8 +14,8 @@ import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { IconCalendar, IconCheck, IconSend } from "@/site/icons";
 
-// One scroll-driven story. The section is 420vh tall; its stage sticks to the viewport while the
-// scrollbar plays the "video". Every visual reads one progress value p (0 → 1).
+// One self-playing story. A single progress value p (0 → 1) is the clock: it advances by itself
+// while the section is on screen, and every visual — camera, cursor, captions, phone — reads it.
 const STAGES = [
   { at: 0, label: "Request", caption: "Fill in the dates and a short reason." },
   { at: 0.27, label: "Review", caption: "Submit — it flies straight to your manager." },
@@ -61,7 +61,7 @@ function AppScreen({ p, typing, sent, approved }: { p: MotionValue<number>; typi
       <aside className="flex w-[220px] flex-col gap-1 border-r border-border bg-background p-4 text-[14px]">
         <div className="mb-4 px-2 font-display text-[17px] font-extrabold tracking-tight">acme hr</div>
         {["Home", "Attendance", "Leave", "Travel", "Payslip"].map((x) => (
-          <div key={x} className={cn("rounded-md px-2.5 py-2", x === "Leave" ? "bg-foreground text-background" : "text-muted-foreground")}>
+          <div key={x} className={cn("rounded-md px-2.5 py-2", x === "Leave" ? "bg-primary text-primary-foreground" : "text-muted-foreground")}>
             {x}
           </div>
         ))}
@@ -98,7 +98,7 @@ function AppScreen({ p, typing, sent, approved }: { p: MotionValue<number>; typi
               Type
               <div className="mt-1.5 flex gap-2">
                 {["Annual", "Sick", "Family"].map((t, i) => (
-                  <span key={t} className={cn("rounded-full border px-3.5 py-1.5 text-[14px]", i === 2 && typing > 0.55 ? "border-foreground bg-foreground text-background" : "border-border text-muted-foreground")}>
+                  <span key={t} className={cn("rounded-full border px-3.5 py-1.5 text-[14px]", i === 2 && typing > 0.55 ? "border-primary bg-primary text-primary-foreground" : "border-border text-muted-foreground")}>
                     {t}
                   </span>
                 ))}
@@ -109,7 +109,7 @@ function AppScreen({ p, typing, sent, approved }: { p: MotionValue<number>; typi
               <div className={cn(field, "mt-1.5 h-24 leading-6 py-2.5")}>{typed("My sister's wedding in Bandung.", typing * 1.6 - 0.6) || <span className="text-muted-foreground/60">A short note for your manager</span>}</div>
             </label>
             <div className="flex justify-end">
-              <span className={cn("inline-flex h-11 items-center gap-2 rounded-lg px-6 text-[15px] font-semibold transition-colors duration-300", sent ? "bg-muted text-foreground" : "bg-foreground text-background")}>
+              <span className={cn("inline-flex h-11 items-center gap-2 rounded-lg px-6 text-[15px] font-semibold transition-colors duration-300", sent ? "bg-muted text-foreground" : "bg-primary text-primary-foreground shadow-[0_10px_24px_-10px_hsl(var(--primary)/0.8)]")}>
                 {sent ? (
                   <>
                     <span className="size-4 [&_svg]:size-4">
@@ -133,13 +133,13 @@ function AppScreen({ p, typing, sent, approved }: { p: MotionValue<number>; typi
               <div className="text-[13px] text-muted-foreground">Remaining</div>
               <div className="mt-1 font-display text-[40px] font-extrabold tracking-tight">{typing > 0.2 ? 9 : 12}<span className="ml-1 text-[16px] font-semibold text-muted-foreground">/ 12 days</span></div>
               <div className="mt-3 h-2 overflow-hidden rounded-full bg-muted">
-                <motion.div className="h-full rounded-full bg-foreground" animate={{ width: typing > 0.2 ? "75%" : "100%" }} transition={{ duration: 0.6, ease: EASE.reveal }} />
+                <motion.div className="h-full rounded-full bg-primary" animate={{ width: typing > 0.2 ? "75%" : "100%" }} transition={{ duration: 0.6, ease: EASE.reveal }} />
               </div>
             </div>
             <div className="rounded-xl border border-border bg-background p-5 text-[14px]">
               <div className="text-[13px] text-muted-foreground">Approver</div>
               <div className="mt-2 flex items-center gap-3">
-                <span className="grid size-9 place-items-center rounded-full bg-foreground text-[13px] font-bold text-background">MK</span>
+                <span className="grid size-9 place-items-center rounded-full bg-primary text-[13px] font-bold text-primary-foreground">MK</span>
                 <div>
                   <div className="font-semibold">Maya Kusuma</div>
                   <div className="text-muted-foreground">Head of People Ops</div>
@@ -157,11 +157,12 @@ function AppScreen({ p, typing, sent, approved }: { p: MotionValue<number>; typi
 }
 
 function PhoneScreen({ notes }: { notes: { title: string; body: string; done?: boolean }[] }) {
+  // Sizes in cqw (PhoneFrame is a size container) so the lock screen scales with the phone.
   return (
-    <div className="flex h-full flex-col items-center bg-linear-to-b from-neutral-200 to-neutral-300 px-3 pt-6 text-neutral-900 dark:from-neutral-800 dark:to-neutral-900 dark:text-neutral-100">
-      <div className="text-[13px] font-medium opacity-70">Monday, 17 November</div>
-      <div className="font-display text-[64px] font-bold leading-none tracking-tight">9:41</div>
-      <div className="mt-6 w-full space-y-2">
+    <div className="flex h-full flex-col items-center bg-linear-to-b from-sky-100 via-neutral-100 to-neutral-200 px-[4cqw] pt-[6cqw] text-neutral-900 dark:from-sky-950/60 dark:via-neutral-900 dark:to-neutral-950 dark:text-neutral-100">
+      <div className="text-[4.4cqw] font-medium opacity-70">Monday, 17 November</div>
+      <div className="font-display text-[22cqw] font-bold leading-none tracking-tight">9:41</div>
+      <div className="mt-[7cqw] w-full space-y-[2.5cqw]">
         <AnimatePresence initial={false}>
           {notes.map((n) => (
             <motion.div
@@ -171,10 +172,10 @@ function PhoneScreen({ notes }: { notes: { title: string; body: string; done?: b
               animate={{ y: 0, opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.96 }}
               transition={{ duration: 0.45, ease: EASE.reveal }}
-              className="flex gap-2.5 rounded-2xl bg-white/70 p-2.5 shadow-sm backdrop-blur dark:bg-white/10"
+              className="flex gap-[3cqw] rounded-[5cqw] bg-white/75 p-[3cqw] shadow-sm backdrop-blur dark:bg-white/10"
             >
-              <span className={cn("grid size-8 shrink-0 place-items-center rounded-[9px] text-white [&_svg]:size-4", n.done ? "bg-[#28c840]" : "bg-neutral-900 dark:bg-neutral-100 dark:text-neutral-900")}>{n.done ? <IconCheck /> : <IconSend />}</span>
-              <span className="min-w-0 text-[11px] leading-snug">
+              <span className={cn("grid size-[10cqw] shrink-0 place-items-center rounded-[2.8cqw] text-white [&_svg]:size-[5cqw]", n.done ? "bg-[#28c840]" : "bg-primary")}>{n.done ? <IconCheck /> : <IconSend />}</span>
+              <span className="min-w-0 text-[3.7cqw] leading-snug">
                 <span className="block font-semibold">{n.title}</span>
                 <span className="block opacity-70">{n.body}</span>
               </span>
@@ -233,9 +234,114 @@ function Letter({ p }: { p: MotionValue<number> }) {
   );
 }
 
+const DURATION = 17; // seconds for one play-through
+const mmss = (sec: number) => `${Math.floor(sec / 60)}:${String(Math.floor(sec % 60)).padStart(2, "0")}`;
+
+/** Video-style controls: play/pause, replay, chapter ticks, click-to-seek, elapsed time. */
+function Controls({ p, playing, onToggle, onReplay, onSeek }: { p: MotionValue<number>; playing: boolean; onToggle: () => void; onReplay: () => void; onSeek: (v: number) => void }) {
+  const time = useRef<HTMLSpanElement>(null);
+  const bar = useRef<HTMLDivElement>(null);
+  const fill = useTransform(p, (v) => `${v * 100}%`);
+  useMotionValueEvent(p, "change", (v) => {
+    if (time.current) time.current.textContent = mmss(v * DURATION);
+    bar.current?.setAttribute("aria-valuenow", String(Math.round(v * 100)));
+  });
+  return (
+    <div className="mx-auto flex w-full max-w-3xl items-center gap-3 rounded-full border border-border bg-background/75 px-2 py-1.5 backdrop-blur-xl">
+      <button type="button" onClick={onToggle} aria-label={playing ? "Pause" : "Play"} className="grid size-8 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground transition-transform duration-200 active:scale-90">
+        <svg viewBox="0 0 24 24" className="size-3.5" fill="currentColor" aria-hidden>
+          {playing ? <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" /> : <path d="M8 5.5v13l10.5-6.5z" />}
+        </svg>
+      </button>
+      <div
+        ref={bar}
+        role="slider"
+        aria-label="Seek"
+        aria-valuenow={0}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        tabIndex={0}
+        className="group relative h-8 flex-1 cursor-pointer"
+        onClick={(e) => {
+          const r = e.currentTarget.getBoundingClientRect();
+          onSeek((e.clientX - r.left) / r.width);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowRight") onSeek(Math.min(1, p.get() + 0.05));
+          if (e.key === "ArrowLeft") onSeek(Math.max(0, p.get() - 0.05));
+        }}
+      >
+        <div className="absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 overflow-hidden rounded-full bg-muted">
+          <motion.div className="h-full rounded-full bg-primary" style={{ width: fill }} />
+        </div>
+        {STAGES.map((s) => (
+          <button
+            key={s.label}
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onSeek(s.at + 0.001);
+            }}
+            className="absolute top-1/2 hidden -translate-x-1/2 -translate-y-1/2 sm:block"
+            style={{ left: `${s.at * 100}%` }}
+            aria-label={`Jump to ${s.label}`}
+          >
+            <span className="block size-2.5 rounded-full border-2 border-background bg-foreground/60 transition-transform duration-200 group-hover:scale-125" />
+          </button>
+        ))}
+      </div>
+      <span ref={time} className="w-9 text-right font-mono text-[12px] tabular-nums text-muted-foreground">0:00</span>
+      <span className="font-mono text-[12px] text-muted-foreground/60">/ {mmss(DURATION)}</span>
+      <button type="button" onClick={onReplay} aria-label="Replay" className="grid size-8 shrink-0 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
+        <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+          <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
+          <path d="M3 3v5h5" />
+        </svg>
+      </button>
+    </div>
+  );
+}
+
 export default function Keynote() {
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
+  const reduce = useReducedMotion();
+  // The story's clock. Plays by itself while the section is on screen — no scrolling required.
+  const p = useMotionValue(0);
+  const inView = useInView(ref, { amount: 0.55 });
+  const [paused, setPaused] = useState<boolean | null>(null); // null = follow reduced-motion preference
+  const [seek, setSeek] = useState(0);
+  const isPaused = paused ?? !!reduce;
+  const playing = inView && !isPaused;
+
+  useEffect(() => {
+    if (reduce && paused === null) p.set(0.6); // a meaningful still frame instead of an empty form
+  }, [reduce, paused, p]);
+
+  useEffect(() => {
+    if (!playing) return;
+    let ctl: ReturnType<typeof animate> | null = null;
+    let loop: ReturnType<typeof setTimeout> | null = null;
+    const run = () => {
+      const from = p.get() >= 0.999 ? 0 : p.get();
+      p.set(from);
+      ctl = animate(p, 1, {
+        duration: DURATION * (1 - from),
+        ease: "linear",
+        onComplete: () => {
+          loop = setTimeout(() => {
+            p.set(0);
+            run();
+          }, 2600);
+        },
+      });
+    };
+    run();
+    return () => {
+      ctl?.stop();
+      if (loop) clearTimeout(loop);
+    };
+  }, [playing, seek, p]);
+
   const [stage, setStage] = useState(0);
   const [typing, setTyping] = useState(0);
   const [sent, setSent] = useState(false);
@@ -271,11 +377,11 @@ export default function Keynote() {
   ];
 
   return (
-    <section id="keynote" ref={ref} className="relative" style={{ height: "420vh" }}>
-      <div className="sticky top-0 flex h-[100svh] flex-col items-center justify-center gap-5 overflow-hidden px-4 pt-10">
+    <section id="keynote" ref={ref} className="relative scroll-mt-10">
+      <div className="flex min-h-[100svh] flex-col items-center justify-center gap-5 overflow-hidden px-4 py-20">
         <div className="text-center">
           <MaskReveal as="h2" text="Watch it move." className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold leading-[1.05] tracking-[-0.04em]" />
-          <p className="mt-2 text-sm text-muted-foreground">Scroll to play — every piece below is a kit component.</p>
+          <p className="mt-2 text-sm text-muted-foreground">It plays by itself — every piece is a kit component, nothing is a video.</p>
         </div>
         <Stepper steps={STAGES.map((s) => s.label)} active={stage} id="keynote" className="hidden sm:inline-flex" />
         <div className="h-9 w-full max-w-3xl text-center">
@@ -315,6 +421,20 @@ export default function Keynote() {
           </div>
           <Letter p={p} />
         </div>
+        <Controls
+          p={p}
+          playing={playing}
+          onToggle={() => setPaused(!isPaused)}
+          onReplay={() => {
+            p.set(0);
+            setPaused(false);
+            setSeek((x) => x + 1);
+          }}
+          onSeek={(v) => {
+            p.set(Math.min(0.999, Math.max(0, v)));
+            setSeek((x) => x + 1);
+          }}
+        />
       </div>
     </section>
   );

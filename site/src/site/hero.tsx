@@ -1,73 +1,115 @@
 "use client";
 
-import BlurFade from "@/components/effects/blur-fade";
+import { useRef, useState } from "react";
+import gsap from "gsap";
+import { SplitText } from "gsap/SplitText";
+import { useGSAP } from "@gsap/react";
+
 import { Button } from "@/components/ui/button";
-import MaskReveal from "@/components/motion/mask-reveal";
 import WordRotator from "@/components/motion/word-rotator";
 import CountUp from "@/components/motion/count-up";
-import Terminal from "@/components/mac/terminal";
-import { REPO } from "@/site/chrome";
+import Aurora from "@/components/effects/aurora";
+import Magnetic from "@/components/effects/magnetic";
+import BorderBeam from "@/components/effects/border-beam";
+import { REPO, INSTALL } from "@/site/chrome";
+import { IconCheck, IconCopy } from "@/site/icons";
 
-export default function Hero({ skillCount, skillLines }: { skillCount: number; skillLines: number }) {
+gsap.registerPlugin(SplitText, useGSAP);
+
+export default function Hero({ skillCount, skillLines, componentCount }: { skillCount: number; skillLines: number; componentCount: number }) {
+  const root = useRef<HTMLElement>(null);
+  const [copied, setCopied] = useState(false);
+
+  // GSAP intro: headline characters rise from a mask line by line, then the rest settles in.
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const split = SplitText.create(".hero-line", { type: "chars", mask: "chars" });
+        const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
+        tl.from(".hero-chip", { y: 12, opacity: 0, duration: 0.8 })
+          .from(split.chars, { yPercent: 110, duration: 1.1, stagger: 0.018 }, 0.1)
+          .from(".hero-rot", { yPercent: 40, opacity: 0, filter: "blur(10px)", duration: 1.1 }, 0.35)
+          .from(".hero-fade", { y: 18, opacity: 0, filter: "blur(6px)", duration: 1, stagger: 0.08 }, 0.6);
+        return () => split.revert();
+      });
+    },
+    { scope: root },
+  );
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(INSTALL);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1600);
+    } catch {
+      /* clipboard blocked */
+    }
+  };
+
   return (
-    <section id="top" className="relative mx-auto grid min-h-[100svh] max-w-6xl items-center gap-14 px-6 pb-20 pt-28 lg:grid-cols-[1.1fr_0.9fr]">
-      <div>
-        <BlurFade delay={0.05}>
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-3 py-1 text-[13px] font-medium text-muted-foreground backdrop-blur">
-            <span className="size-1.5 rounded-full bg-foreground" />
-            Tailwind v4 + v3 · Light + dark · {skillCount} skills
-          </span>
-        </BlurFade>
-        <h1 className="mt-7 font-display text-[clamp(2.75rem,7vw,5.25rem)] font-extrabold leading-[1.02] tracking-[-0.045em]">
-          <MaskReveal as="span" inView={false} delay={0.1} text="Interfaces that" className="block" />
-          <span className="block">
-            <WordRotator words={["move", "breathe", "ship", "feel right"]} interval={2.4} className="font-serif text-[1.1em] font-normal italic tracking-[-0.02em]" />
-          </span>
-          <MaskReveal as="span" inView={false} delay={0.35} text="like a keynote." className="block" />
-        </h1>
-        <BlurFade delay={0.55}>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-            A quiet, editorial design system for React + Tailwind — greyscale tokens, shadcn-style components, keynote-grade motion graphics, and desktop-style windows. Copy the files; it is your code.
-          </p>
-        </BlurFade>
-        <BlurFade delay={0.65} className="mt-8 flex flex-wrap items-center gap-3">
-          <Button asChild size="lg">
+    <section id="top" ref={root} className="relative isolate flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-6 pb-24 pt-32 text-center">
+      <Aurora intensity={0.55} className="-z-10" />
+      <div aria-hidden className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-linear-to-b from-transparent to-background" />
+
+      <a href="#motion" className="hero-chip relative inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-3.5 py-1.5 text-[13px] font-medium text-muted-foreground backdrop-blur transition-colors hover:text-foreground">
+        <span className="rounded-full bg-primary px-1.5 py-px text-[11px] font-semibold text-primary-foreground">New</span>
+        12 motion + 7 desktop components
+        <span aria-hidden>→</span>
+        <BorderBeam size={60} duration={6} />
+      </a>
+
+      {/* Each line is its own block and never wraps — the rotating word can't push anything around. */}
+      <h1 className="mt-8 font-display text-[clamp(2.6rem,7.2vw,7.4rem)] font-extrabold leading-[0.98] tracking-[-0.05em]">
+        <span className="hero-line block whitespace-nowrap">Interfaces that</span>
+        <span className="hero-rot block whitespace-nowrap py-[0.04em]">
+          <WordRotator reserve align="center" words={["move", "breathe", "ship", "feel right"]} interval={2.6} className="text-sheen font-serif text-[1.08em] font-normal italic tracking-[-0.02em]" />
+        </span>
+        <span className="hero-line block whitespace-nowrap">like a keynote.</span>
+      </h1>
+
+      <p className="hero-fade mx-auto mt-8 max-w-2xl text-pretty text-[clamp(1.05rem,1.4vw,1.25rem)] leading-relaxed text-muted-foreground">
+        A quiet, editorial design system for React + Tailwind — greyscale tokens, shadcn-style components, keynote-grade motion graphics, and desktop-style windows. Copy the files. It is your code.
+      </p>
+
+      <div className="hero-fade mt-10 flex flex-wrap items-center justify-center gap-3">
+        <Magnetic>
+          <Button asChild size="lg" className="h-12 rounded-full px-7 text-[15px] shadow-[0_14px_30px_-12px_hsl(var(--primary)/0.7)]">
             <a href="#keynote">Watch it move</a>
           </Button>
-          <Button asChild size="lg" variant="outline">
-            <a href={REPO} target="_blank" rel="noreferrer">
-              View on GitHub
-            </a>
-          </Button>
-        </BlurFade>
-        <BlurFade delay={0.75} className="mt-12 flex gap-10 text-sm">
-          {[
-            [<CountUp key="c" to={30} />, "components"],
-            [<CountUp key="s" to={skillCount} />, "working skills"],
-            [<CountUp key="l" to={skillLines} />, "lines of guidance"],
-          ].map(([n, label], i) => (
-            <div key={i}>
-              <div className="font-display text-3xl font-extrabold tracking-tight">{n}</div>
-              <div className="mt-1 text-muted-foreground">{label}</div>
-            </div>
-          ))}
-        </BlurFade>
+        </Magnetic>
+        <Button asChild size="lg" variant="outline" className="h-12 rounded-full bg-background/60 px-7 text-[15px] backdrop-blur">
+          <a href={REPO} target="_blank" rel="noreferrer">
+            View on GitHub
+          </a>
+        </Button>
       </div>
-      <BlurFade delay={0.4} yOffset={14}>
-        <Terminal
-          title="zsh — my-app"
-          lines={[
-            { cmd: "npx create-next-app@latest my-app" },
-            { out: "✓ Created my-app with Tailwind v4", dim: true },
-            { cmd: "npm i framer-motion clsx tailwind-merge next-themes" },
-            { out: "added 10 packages in 3s", dim: true },
-            { cmd: "cp -R p441z-style-kit/v4/* src/" },
-            { out: "✓ globals.css · lib · components/{ui,effects,motion,mac}" },
-            { cmd: "npm run dev" },
-            { out: "▲ Ready on http://localhost:3000" },
-          ]}
-        />
-      </BlurFade>
+
+      <button
+        type="button"
+        onClick={copy}
+        className="hero-fade group mt-6 inline-flex max-w-full items-center gap-3 rounded-full border border-border bg-background/70 py-2 pl-4 pr-2 font-mono text-[12.5px] text-muted-foreground backdrop-blur transition-colors hover:text-foreground"
+        aria-label="Copy install command"
+      >
+        <span className="text-primary">$</span>
+        <span className="truncate">npm i framer-motion clsx tailwind-merge next-themes …</span>
+        <span className="grid size-7 shrink-0 place-items-center rounded-full bg-muted text-foreground [&_svg]:size-3.5">{copied ? <IconCheck /> : <IconCopy />}</span>
+      </button>
+
+      <div className="hero-fade mt-16 grid w-full max-w-3xl grid-cols-3 divide-x divide-border rounded-2xl border border-border bg-background/60 backdrop-blur">
+        {[
+          [componentCount, "components"],
+          [skillCount, "working skills"],
+          [skillLines, "lines of guidance"],
+        ].map(([n, label]) => (
+          <div key={label} className="px-4 py-5">
+            <div className="font-display text-[clamp(1.5rem,3vw,2.25rem)] font-extrabold tracking-tight">
+              <CountUp to={Number(n)} />
+            </div>
+            <div className="mt-0.5 text-[13px] text-muted-foreground">{label}</div>
+          </div>
+        ))}
+      </div>
     </section>
   );
 }

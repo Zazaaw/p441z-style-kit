@@ -1,8 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 
-import BlurFade from "@/components/effects/blur-fade";
+import SpotlightCard from "@/components/effects/spotlight-card";
 import MaskReveal from "@/components/motion/mask-reveal";
 import KaraokeText from "@/components/motion/karaoke-text";
 import WordRotator from "@/components/motion/word-rotator";
@@ -18,10 +21,12 @@ import { useNotify } from "@/components/mac/notification";
 import { cn } from "@/lib/utils";
 import { IconBell, IconCheck, IconSend } from "@/site/icons";
 
-function Demo({ name, file, span, children, onReplay, note }: { name: string; file: string; span?: string; children: React.ReactNode; onReplay?: () => void; note: string }) {
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+function Demo({ name, file, wide, children, onReplay, note }: { name: string; file: string; wide?: boolean; children: React.ReactNode; onReplay?: () => void; note: string }) {
   return (
-    <BlurFade inView className={cn("flex min-w-0 flex-col rounded-2xl border border-border bg-background/80 backdrop-blur", span)}>
-      <div className="relative grid min-h-56 flex-1 place-items-center overflow-hidden rounded-t-2xl border-b border-border bg-muted/30 p-6">{children}</div>
+    <SpotlightCard className={cn("demo-card flex min-w-0 flex-col lg:shrink-0", wide ? "sm:col-span-2 lg:w-[640px]" : "lg:w-[380px]")}>
+      <div className="relative grid min-h-56 flex-1 place-items-center overflow-hidden border-b border-border bg-muted/30 p-6 lg:min-h-[300px]">{children}</div>
       <div className="flex items-start gap-3 p-4">
         <div className="min-w-0 flex-1">
           <div className="font-display text-[15px] font-bold">{name}</div>
@@ -34,7 +39,7 @@ function Demo({ name, file, span, children, onReplay, note }: { name: string; fi
           </button>
         )}
       </div>
-    </BlurFade>
+    </SpotlightCard>
   );
 }
 
@@ -169,6 +174,25 @@ function CameraDemo() {
 }
 
 export default function MotionGallery() {
+  const root = useRef<HTMLElement>(null);
+  const track = useRef<HTMLDivElement>(null);
+  // Desktop: pin the section and turn vertical scroll into a horizontal pan across the cards.
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
+        const el = track.current!;
+        const distance = () => el.scrollWidth - el.clientWidth;
+        gsap.to(el, {
+          x: () => -distance(),
+          ease: "none",
+          scrollTrigger: { trigger: root.current, start: "top top", end: () => `+=${distance()}`, scrub: 0.6, pin: true, invalidateOnRefresh: true, anticipatePin: 1 },
+        });
+        gsap.from(".demo-card", { opacity: 0, y: 40, stagger: 0.06, duration: 0.8, ease: "expo.out", scrollTrigger: { trigger: root.current, start: "top 70%" } });
+      });
+    },
+    { scope: root },
+  );
   const [mask, replayMask] = useReplay();
   const [kara, replayKara] = useReplay();
   const [count, replayCount] = useReplay();
@@ -177,13 +201,15 @@ export default function MotionGallery() {
     <div className="grid size-20 place-items-center rounded-2xl border border-border bg-background text-[12px] font-semibold shadow-sm">{t}</div>
   );
   return (
-    <section id="motion" className="relative mx-auto max-w-6xl scroll-mt-16 px-6 py-28">
+    <section id="motion" ref={root} className="relative overflow-hidden py-24 lg:flex lg:h-[100svh] lg:flex-col lg:justify-center lg:py-10">
+      <div className="mx-auto w-full max-w-6xl px-6">
       <div className="max-w-2xl">
         <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">components/motion</div>
         <MaskReveal as="h2" text="Motion graphics, as components." className="mt-3 font-display text-[clamp(2rem,4.5vw,3.25rem)] font-extrabold leading-[1.05] tracking-[-0.04em]" />
         <p className="mt-4 text-lg text-muted-foreground">The moves from product-launch videos — mask reveals, a camera that frames, cursors that click, cards that lift — each one a copy-paste file. Transform-only, and every one respects reduced motion.</p>
       </div>
-      <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      </div>
+      <div ref={track} className="mt-12 grid gap-5 px-6 sm:grid-cols-2 lg:mt-10 lg:flex lg:w-full lg:gap-5 lg:px-[max(1.5rem,calc((100vw-72rem)/2+1.5rem))]">
         <Demo name="MaskReveal" file="motion/mask-reveal.tsx" note="Keynote headline: words rise from behind a mask." onReplay={replayMask}>
           <MaskReveal key={mask} text="Download. Print. Share." className="text-center font-display text-3xl font-extrabold tracking-tight" />
         </Demo>
@@ -195,7 +221,7 @@ export default function MotionGallery() {
             Made to <WordRotator words={["move", "ship", "last", "delight"]} className="font-serif font-normal italic" />
           </div>
         </Demo>
-        <Demo name="SoftCursor" file="motion/soft-cursor.tsx" note="A hand-like pointer. No red rings — and every click changes something." span="lg:col-span-1">
+        <Demo name="SoftCursor" file="motion/soft-cursor.tsx" note="A hand-like pointer. No red rings — and every click changes something.">
           <CursorDemo />
         </Demo>
         <Demo name="FlyingPill" file="motion/flying-pill.tsx" note="A message that leaves one device and lands on another.">
@@ -204,7 +230,7 @@ export default function MotionGallery() {
         <Demo name="ElementLift" file="motion/element-lift.tsx" note="Rises to center, floats, flips in 3D, flies home.">
           <LiftDemo />
         </Demo>
-        <Demo name="VirtualCamera" file="motion/virtual-camera.tsx" note="Frames part of a screen with a symmetric camera ease." span="lg:col-span-2">
+        <Demo name="VirtualCamera" file="motion/virtual-camera.tsx" note="Frames part of a screen with a symmetric camera ease." wide>
           <CameraDemo />
         </Demo>
         <Demo name="CountUp" file="motion/count-up.tsx" note="Counts to its value in view; tabular figures never wobble." onReplay={replayCount}>
@@ -221,7 +247,7 @@ export default function MotionGallery() {
         <Demo name="LogoCollapse" file="motion/logo-collapse.tsx" note="The outro: feature cards pull into the logo." onReplay={replayLogo}>
           <LogoCollapse key={logo} auto hold={1.2} items={[chip("Tokens"), chip("Motion"), chip("Skills")]} logo={<span className="font-display text-4xl font-extrabold tracking-tight">p441z</span>} />
         </Demo>
-        <Demo name="LaptopFrame · PhoneFrame" file="motion/device-frame.tsx" note="Brandless CSS devices that size to their container." span="lg:col-span-2">
+        <Demo name="LaptopFrame · PhoneFrame" file="motion/device-frame.tsx" note="Brandless CSS devices that size to their container." wide>
           <div className="flex w-full items-end justify-center gap-6">
             <LaptopFrame url="app.example.com" className="w-[62%]">
               <div className="grid h-full place-items-center text-[13px] text-muted-foreground">Your UI here</div>

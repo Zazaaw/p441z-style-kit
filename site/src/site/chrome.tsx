@@ -16,6 +16,7 @@ import { IconBell, IconBook, IconCopy, IconGitHub, IconHome, IconMoon, IconPlay,
 export const REPO = "https://github.com/Zazaaw/p441z-style-kit";
 export const INSTALL = "npm i framer-motion clsx tailwind-merge class-variance-authority @radix-ui/react-slot next-themes tw-animate-css";
 
+// Smooth jump that also works with Lenis (it intercepts anchors; programmatic jumps go through scrollIntoView).
 const go = (hash: string) => document.querySelector(hash)?.scrollIntoView({ behavior: "smooth", block: "start" });
 
 /** Menu bar + ⌘K Spotlight + Dock: the desktop "chrome" around every section. */
@@ -36,7 +37,7 @@ export default function Chrome({ skills }: { skills: { name: string; title: stri
       },
       { threshold: Array.from({ length: 41 }, (_, i) => i / 40) },
     );
-    document.querySelectorAll("#keynote, #desk").forEach((el) => io.observe(el));
+    document.querySelectorAll("#keynote, #motion, #desk, #showcase").forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, []);
   // Other sections open search with: window.dispatchEvent(new Event("p441z:spotlight"))
@@ -48,6 +49,8 @@ export default function Chrome({ skills }: { skills: { name: string; title: stri
 
   const items: SpotlightItem[] = [
     { group: "Sections", label: "Keynote", hint: "#keynote", icon: <IconPlay />, onSelect: () => go("#keynote") },
+    { group: "Sections", label: "Inside the kit", hint: "#kit", icon: <IconWindow />, onSelect: () => go("#kit") },
+    { group: "Sections", label: "Made with the skills", hint: "#showcase", icon: <IconPlay />, onSelect: () => go("#showcase") },
     { group: "Sections", label: "Motion components", hint: "#motion", icon: <IconSpark />, onSelect: () => go("#motion") },
     { group: "Sections", label: "Desktop UI", hint: "#desk", icon: <IconWindow />, onSelect: () => go("#desk") },
     { group: "Sections", label: "Skills", hint: "#skills", icon: <IconBook />, onSelect: () => go("#skills") },
@@ -73,6 +76,7 @@ export default function Chrome({ skills }: { skills: { name: string; title: stri
           { label: "Keynote", href: "#keynote" },
           { label: "Motion", href: "#motion" },
           { label: "Desktop", href: "#desk" },
+          { label: "Showcase", href: "#showcase" },
           { label: "Skills", href: "#skills" },
         ]}
         right={

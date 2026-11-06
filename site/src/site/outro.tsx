@@ -23,12 +23,12 @@ export default function Outro() {
       />
       <KaraokeText text="Quiet by default. Moving when it matters." duration={2.4} delay={2.4} className="mx-auto mt-6 max-w-2xl font-display text-[clamp(1.3rem,2.6vw,2rem)] font-semibold tracking-tight" />
       <div className="mt-10 flex flex-wrap justify-center gap-3">
-        <Button asChild size="lg">
+        <Button asChild size="lg" className="h-12 rounded-full px-7 shadow-[0_14px_30px_-12px_hsl(var(--primary)/0.7)]">
           <a href={REPO} target="_blank" rel="noreferrer">
             Get the kit
           </a>
         </Button>
-        <Button asChild size="lg" variant="outline">
+        <Button asChild size="lg" variant="outline" className="h-12 rounded-full px-7">
           <a href={`${REPO}/blob/main/docs/GUIDE.md`} target="_blank" rel="noreferrer">
             Read the guide
           </a>
