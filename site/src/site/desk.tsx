@@ -71,7 +71,7 @@ export default function Desk() {
       <div className="max-w-2xl">
         <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">components/mac</div>
         <MaskReveal as="h2" text={t("Feels like your desktop.", "Serasa di desktop sendiri.")} className="mt-3 font-display text-[clamp(2rem,4.5vw,3.25rem)] font-extrabold leading-[1.05] tracking-[-0.04em]" />
-        <p className="mt-4 text-lg text-muted-foreground">{t("Windows with traffic lights, a terminal that types, a magnifying dock, ⌘K search, and frosted notifications. Drag the windows around — close one and bring it back from the dock.", "Jendela dengan traffic lights, terminal yang mengetik sendiri, dock yang membesar, pencarian ⌘K, dan notifikasi buram. Geser jendelanya ke mana saja — tutup satu, lalu panggil lagi dari dock.")}</p>
+        <p className="mt-4 text-lg text-muted-foreground">{t("Windows with traffic lights, a terminal that types, a magnifying dock, ⌘K search, and frosted notifications. Drag the windows around — close one and bring it back from the dock.", "Jendela lengkap dengan traffic lights, terminal yang mengetik sendiri, dock yang membesar saat disorot, pencarian ⌘K, dan notifikasi bening. Seret jendelanya ke mana saja — tutup satu, panggil lagi dari dock.")}</p>
       </div>
 
       <div ref={desk} className="relative mt-12 h-[640px] overflow-hidden rounded-3xl border border-border bg-[radial-gradient(120%_90%_at_20%_0%,hsl(var(--muted))_0%,hsl(var(--background))_55%)] shadow-inner">
@@ -96,12 +96,12 @@ export default function Desk() {
           "right-[4%] top-[12%] w-[min(340px,80%)]",
           <MacWindow title={t("Preview", "Pratinjau")} glass onClose={() => close("preview")} bodyClassName="p-5">
             <div className="rounded-xl border border-border bg-background p-4">
-              <div className="text-[13px] text-muted-foreground">{t("Leave balance", "Saldo cuti")}</div>
+              <div className="text-[13px] text-muted-foreground">{t("Leave balance", "Sisa cuti")}</div>
               <div className="mt-1 font-display text-3xl font-extrabold tracking-tight">
                 9 <span className="text-base font-semibold text-muted-foreground">{t("/ 12 days", "/ 12 hari")}</span>
               </div>
               <div className="mt-4 flex gap-2">
-                <Button size="sm" onClick={() => notify({ title: t("Request sent", "Pengajuan terkirim"), body: t("Waiting for Maya to approve.", "Menunggu persetujuan Maya."), icon: <IconCheck /> })}>
+                <Button size="sm" onClick={() => notify({ title: t("Request sent", "Pengajuan terkirim"), body: t("Waiting for Maya to approve.", "Tinggal menunggu persetujuan Maya."), icon: <IconCheck /> })}>
                   {t("Request leave", "Ajukan cuti")}
                 </Button>
                 <Button size="sm" variant="outline" onClick={openSpotlight}>
@@ -120,7 +120,7 @@ export default function Desk() {
             { label: "globals.css", icon: <IconWindow />, onClick: () => show("code"), active: open.code },
             { label: "Terminal", icon: <IconTerminal />, onClick: () => show("term"), active: open.term },
             { label: t("Preview", "Pratinjau"), icon: <IconBook />, onClick: () => show("preview"), active: open.preview },
-            { label: t("Notify me", "Kabari aku"), icon: <IconBell />, divider: true, onClick: () => notify({ title: t("Hello from the dock", "Halo dari dock"), body: t("Notifications stack and leave on their own.", "Notifikasi bertumpuk dan pergi sendiri."), icon: <IconBell /> }) },
+            { label: t("Notify me", "Kirim notifikasi"), icon: <IconBell />, divider: true, onClick: () => notify({ title: t("Hello from the dock", "Halo dari dock"), body: t("Notifications stack and leave on their own.", "Notifikasi menumpuk, lalu hilang sendiri."), icon: <IconBell /> }) },
           ]}
         />
       </div>

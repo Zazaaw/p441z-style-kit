@@ -29,11 +29,11 @@ export default function Outro() {
         ))}
         logo={<span className="font-display text-[clamp(3.5rem,9vw,6.5rem)] font-extrabold tracking-[-0.05em]">p441z</span>}
       />
-      <KaraokeText text={t("Quiet by default. Moving when it matters.", "Tenang secara default. Bergerak saat perlu.")} duration={2.4} delay={2.4} className="mx-auto mt-6 max-w-2xl font-display text-[clamp(1.3rem,2.6vw,2rem)] font-semibold tracking-tight" />
+      <KaraokeText text={t("Quiet by default. Moving when it matters.", "Kalem dari awal. Bergerak saat perlu.")} duration={2.4} delay={2.4} className="mx-auto mt-6 max-w-2xl font-display text-[clamp(1.3rem,2.6vw,2rem)] font-semibold tracking-tight" />
       <div className="mt-10 flex flex-wrap justify-center gap-3">
         <Button asChild size="lg" className="h-12 rounded-full px-7 shadow-[0_14px_30px_-12px_hsl(var(--primary)/0.7)]">
           <a href={REPO} target="_blank" rel="noreferrer">
-            {t("Get the kit", "Ambil kit-nya")}
+            {t("Get the kit", "Pakai kit-nya")}
           </a>
         </Button>
         <Button asChild size="lg" variant="outline" className="h-12 rounded-full px-7">
@@ -48,7 +48,7 @@ export default function Outro() {
           <a href="https://p441z.my.id" className="font-semibold text-foreground underline-offset-4 hover:underline">
             Faiz Hazim Hawari
           </a>{" "}
-          {t("· MIT licensed · Effects adapted from MagicUI, conventions from shadcn/ui", "· Lisensi MIT · Efek diadaptasi dari MagicUI, konvensi dari shadcn/ui")}
+          {t("· MIT licensed · Effects adapted from MagicUI, conventions from shadcn/ui", "· Lisensi MIT · Efek diadaptasi dari MagicUI, konvensi mengikuti shadcn/ui")}
         </div>
       </footer>
     </section>

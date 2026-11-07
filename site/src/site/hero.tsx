@@ -92,7 +92,7 @@ export default function Hero({ skillCount, skillLines, componentCount, skills }:
         <div className="hero-stage flex min-h-[100svh] flex-col items-center justify-center px-6 pb-24 pt-24 text-center [@media(max-height:760px)]:pt-14">
           <a href="#motion" className="hero-chip relative inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-3.5 py-1.5 text-[13px] font-medium text-muted-foreground backdrop-blur transition-colors hover:text-foreground">
             <span className="rounded-full bg-primary px-1.5 py-px text-[11px] font-semibold text-primary-foreground">{t("New", "Baru")}</span>
-            {t("12 motion + 7 desktop components", "12 komponen motion + 7 desktop")}
+            {t("12 motion + 7 desktop components", "12 komponen motion, 7 jendela desktop")}
             <span aria-hidden>→</span>
             <BorderBeam size={60} duration={6} />
           </a>
@@ -102,27 +102,27 @@ export default function Hero({ skillCount, skillLines, componentCount, skills }:
           <h1 className="mt-7 font-display text-[clamp(2.6rem,min(7.2vw,10.5svh),7.4rem)] font-extrabold leading-[0.98] tracking-[-0.05em] [word-spacing:0.12em] [@media(max-height:760px)]:mt-5">
             <span className="hero-line block whitespace-nowrap">{t("Interfaces that", "Antarmuka yang")}</span>
             <span className="hero-rot block whitespace-nowrap py-[0.04em]">
-              <WordRotator reserve align="center" words={t(["move", "breathe", "ship", "feel right"], ["bergerak", "bernapas", "siap rilis", "terasa pas"])} interval={2.6} wordClassName="text-sheen" className="font-serif text-[1.08em] font-normal italic tracking-[-0.02em]" />
+              <WordRotator reserve align="center" words={t(["move", "breathe", "ship", "feel right"], ["bergerak", "hidup", "bernapas", "memikat"])} interval={2.6} wordClassName="text-sheen" className="font-serif text-[1.08em] font-normal italic tracking-[-0.02em]" />
             </span>
-            <span className="hero-line block whitespace-nowrap">{t("like a keynote.", "ala keynote.")}</span>
+            <span className="hero-line block whitespace-nowrap">{t("like a keynote.", "seapik keynote.")}</span>
           </h1>
 
           <p className="hero-fade mx-auto mt-6 max-w-[34rem] text-pretty text-[clamp(1.05rem,1.4vw,1.25rem)] leading-relaxed text-muted-foreground">
             {t(
               "A quiet design system for React + Tailwind — components, keynote-grade motion, desktop windows, and skills that keep your AI agent from shipping slop.",
-              "Design system yang tenang untuk React + Tailwind — komponen, motion kelas keynote, jendela desktop, dan skill yang menjaga agen AI-mu dari hasil asal-asalan.",
+              "Design system yang kalem untuk React + Tailwind: komponen, motion sekelas keynote, jendela ala desktop, dan skill yang bikin agen AI-mu berhenti kerja asal jadi.",
             )}
           </p>
 
           <div className="hero-fade mt-8 flex flex-wrap items-center justify-center gap-3">
             <Magnetic>
               <Button asChild size="lg" className="h-12 rounded-full px-7 text-[15px] shadow-[0_14px_30px_-12px_var(--color-primary)]">
-                <a href="#keynote">{t("Watch it move", "Lihat geraknya")}</a>
+                <a href="#keynote">{t("Watch it move", "Tonton demonya")}</a>
               </Button>
             </Magnetic>
             <Button asChild size="lg" variant="outline" className="h-12 rounded-full bg-background/60 px-7 text-[15px] backdrop-blur">
               <a href={REPO} target="_blank" rel="noreferrer">
-                {t("View on GitHub", "Lihat di GitHub")}
+                {t("View on GitHub", "Buka GitHub")}
               </a>
             </Button>
           </div>

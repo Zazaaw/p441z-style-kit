@@ -31,9 +31,9 @@ function Float({ p, depth, className, tilt = 0, children }: { p: Pointer; depth:
 
 const NOTES = [
   { app: "Quick Look", title: ["Typography", "Tipografi"], body: ["Every size has a reason — ×1.618.", "Setiap ukuran punya alasan — ×1,618."] },
-  { app: "Claude Code", title: ["skill-dashboard loaded", "skill-dashboard dimuat"], body: ["Honest tables, real empty states.", "Tabel jujur, state kosong yang nyata."] },
+  { app: "Claude Code", title: ["skill-dashboard loaded", "skill-dashboard dimuat"], body: ["Honest tables, real empty states.", "Tabel jujur, empty state yang jelas."] },
   { app: "Registry", title: ["style-kit installed", "style-kit terpasang"], body: ["35 components · 1 theme.", "35 komponen · 1 tema."] },
-  { app: "Keynote", title: ["Ready to play", "Siap diputar"], body: ["Nothing is a video. It's all components.", "Bukan video. Semuanya komponen."] },
+  { app: "Keynote", title: ["Ready to play", "Siap diputar"], body: ["Nothing is a video. It's all components.", "Ini bukan video — semuanya komponen."] },
 ] as const;
 
 function Notes() {
@@ -99,7 +99,7 @@ function Appearance() {
       <div className="text-[12px] font-semibold text-muted-foreground">{t("Accent color", "Warna aksen")}</div>
       <AccentDots size={16} className="mt-2.5 gap-2" />
       <div className="mt-3 text-[11.5px] leading-snug text-muted-foreground">
-        {t("The whole page follows. Two tokens: ", "Seluruh halaman ikut berubah. Dua token: ")}
+        {t("The whole page follows. Two tokens: ", "Seisi halaman ikut berganti. Cukup dua token: ")}
         <code className="whitespace-nowrap text-foreground">--primary</code> + <code className="whitespace-nowrap text-foreground">--ring</code>.
       </div>
     </MacWindow>
@@ -111,7 +111,7 @@ export default function HeroDesk({ p }: { p: Pointer }) {
   return (
     <div className="hero-desk pointer-events-none absolute inset-0 z-10 hidden xl:block [&_.hero-win]:pointer-events-auto">
       <Float p={p} depth={26} tilt={-2.5} className="left-[2.5vw] top-[20%] w-[clamp(250px,19vw,300px)]">
-        <Terminal title="zsh" prompt="%" speed={48} lines={[{ cmd: INSTALL.replace("https://", "") }, { out: t("✓ 35 components · 1 theme", "✓ 35 komponen · 1 tema") }, { out: t("Done in 4.2s", "Selesai dalam 4,2 dtk"), dim: true }]} />
+        <Terminal title="zsh" prompt="%" speed={48} lines={[{ cmd: INSTALL.replace("https://", "") }, { out: t("✓ 35 components · 1 theme", "✓ 35 komponen · 1 tema") }, { out: t("Done in 4.2s", "Beres dalam 4,2 detik"), dim: true }]} />
       </Float>
       <Float p={p} depth={14} tilt={2} className="right-[2.5vw] top-[17%] w-[clamp(250px,19vw,300px)]">
         <Notes />

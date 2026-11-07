@@ -24,7 +24,7 @@ export const SHOWCASE: ShowcaseItem[] = [
     title: "The p441z Style Kit — keynote",
     titleId: "p441z Style Kit — keynote",
     note: "A tutorial-style keynote of this very site: real screen recording, word-timed narration, virtual camera, synthesized music.",
-    noteId: "Keynote bergaya tutorial tentang situs ini sendiri: rekaman layar asli, narasi yang pas per kata, kamera virtual, musik sintetis.",
+    noteId: "Video tutorial ala keynote tentang situs ini: rekaman layar asli, narasi yang sinkron per kata, kamera virtual, dan musik racikan mesin.",
     video: "/showcase/p441z-keynote.mp4",
     poster: "/showcase/p441z-keynote.jpg",
     madeWith: "skill-motion-video",
@@ -33,7 +33,7 @@ export const SHOWCASE: ShowcaseItem[] = [
   {
     title: "p441z.my.id",
     note: "Portfolio, blog, studio CMS, and AI agent — the site this design system was extracted from.",
-    noteId: "Portofolio, blog, studio CMS, dan AI agent — situs asal design system ini diambil.",
+    noteId: "Portofolio, blog, CMS, dan AI agent — situs tempat design system ini lahir.",
     href: "https://p441z.my.id",
     madeWith: "the style kit",
     madeWithId: "style kit ini",

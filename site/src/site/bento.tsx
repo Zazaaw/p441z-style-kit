@@ -18,15 +18,15 @@ import { useT } from "@/site/i18n";
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const CURVES = [
-  { name: "reveal", v: [0.22, 1, 0.36, 1], note: "entrances · ≤ 500 ms", noteId: "kemunculan · ≤ 500 ms" },
-  { name: "toggle", v: [0.4, 0, 0.2, 1], note: "switches · ≤ 300 ms", noteId: "sakelar · ≤ 300 ms" },
-  { name: "camera", v: [0.65, 0, 0.35, 1], note: "choreography · 0.9 s", noteId: "koreografi · 0,9 s" },
+  { name: "reveal", v: [0.22, 1, 0.36, 1], note: "entrances · ≤ 500 ms", noteId: "untuk muncul · ≤ 500 ms" },
+  { name: "toggle", v: [0.4, 0, 0.2, 1], note: "switches · ≤ 300 ms", noteId: "untuk toggle · ≤ 300 ms" },
+  { name: "camera", v: [0.65, 0, 0.35, 1], note: "choreography · 0.9 s", noteId: "untuk koreografi · 0,9 dtk" },
 ] as const;
 
 const CHIPS = [
-  { en: "globals.css is the whole config", id: "globals.css = seluruh config" },
+  { en: "globals.css is the whole config", id: "semua config di globals.css" },
   { en: "shadcn conventions", id: "konvensi shadcn" },
-  { en: "reduced-motion aware", id: "peka reduced-motion" },
+  { en: "reduced-motion aware", id: "patuh reduced-motion" },
   { en: "no build step", id: "tanpa build step" },
   { en: "MIT", id: "MIT" },
 ] as const;
@@ -87,12 +87,12 @@ function ThemeTile() {
   return (
     <button type="button" onClick={() => setTheme(dark ? "light" : "dark")} className="flex h-full w-full flex-col text-left" aria-label={t("Toggle theme", "Ganti tema")}>
       <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Light + dark", "Terang + gelap")}</div>
-      <div className="mt-2 font-display text-2xl font-extrabold tracking-tight">{t("One token swap.", "Cukup tukar satu token.")}</div>
+      <div className="mt-2 font-display text-2xl font-extrabold tracking-tight">{t("One token swap.", "Satu token, dua suasana.")}</div>
       <div className="mt-auto flex items-center gap-3 pt-6">
         <span className={cn("flex h-8 w-14 items-center rounded-full p-1 transition-colors duration-300", dark ? "bg-primary" : "bg-muted-foreground/30")}>
           <motion.span layout transition={{ duration: 0.3, ease: EASE.toggle }} className={cn("size-6 rounded-full bg-background shadow", dark && "ml-auto")} />
         </span>
-        <span className="text-[13px] text-muted-foreground">{t("Click to switch the whole page", "Klik untuk ganti seluruh halaman")}</span>
+        <span className="text-[13px] text-muted-foreground">{t("Click to switch the whole page", "Klik untuk ganti tema seisi halaman")}</span>
       </div>
     </button>
   );
@@ -114,13 +114,13 @@ export default function Bento({ componentCount, skillCount }: { componentCount: 
   return (
     <section id="kit" ref={root} className="relative mx-auto max-w-6xl scroll-mt-16 px-6 py-28">
       <div className="max-w-2xl">
-        <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Inside the kit", "Isi kit")}</div>
-        <MaskReveal as="h2" text={t("Quiet by default. Precise by design.", "Tenang secara default. Presisi sejak desain.")} className="mt-3 font-display text-[clamp(2rem,4.5vw,3.25rem)] font-extrabold leading-[1.05] tracking-[-0.04em]" />
+        <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Inside the kit", "Di dalam kit")}</div>
+        <MaskReveal as="h2" text={t("Quiet by default. Precise by design.", "Kalem dari awal. Presisi sampai detail.")} className="mt-3 font-display text-[clamp(2rem,4.5vw,3.25rem)] font-extrabold leading-[1.05] tracking-[-0.04em]" />
       </div>
       <div className="mt-12 grid auto-rows-[minmax(200px,auto)] gap-4 md:grid-cols-6">
         <SpotlightCard className="bento-tile p-6 md:col-span-4">
           <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Tokens", "Token")}</div>
-          <div className="mt-2 font-display text-2xl font-extrabold tracking-tight">{t("Pure greyscale. Color only as meaning.", "Murni abu-abu. Warna hanya untuk makna.")}</div>
+          <div className="mt-2 font-display text-2xl font-extrabold tracking-tight">{t("Pure greyscale. Color only as meaning.", "Serba abu-abu. Warna hanya kalau bermakna.")}</div>
           <div className="mt-6 flex gap-2">
             {greys.map((l) => (
               <div key={l} className="flex-1">
@@ -140,7 +140,7 @@ export default function Bento({ componentCount, skillCount }: { componentCount: 
                   Rebrand in two lines: change <code>--primary</code> and <code>--ring</code>. Try it — the whole page follows.
                 </>,
                 <>
-                  Rebrand cukup dua baris: ganti <code>--primary</code> dan <code>--ring</code>. Coba — seluruh halaman ikut berubah.
+                  Ganti identitas cukup dua baris: <code>--primary</code> dan <code>--ring</code>. Coba klik — seisi halaman ikut berganti.
                 </>,
               )}
             </div>
@@ -153,12 +153,12 @@ export default function Bento({ componentCount, skillCount }: { componentCount: 
             <div className="font-display text-6xl font-extrabold tracking-tight">
               <CountUp to={componentCount} />
             </div>
-            <div className="mt-1 text-[13px] text-muted-foreground">{t("UI · effects · motion · desktop — copy-paste, zero lock-in", "UI · efek · motion · desktop — copy-paste, tanpa lock-in")}</div>
+            <div className="mt-1 text-[13px] text-muted-foreground">{t("UI · effects · motion · desktop — copy-paste, zero lock-in", "UI · efek · motion · desktop — tinggal salin, tanpa terikat library")}</div>
           </div>
         </SpotlightCard>
         <SpotlightCard className="bento-tile p-6 md:col-span-3">
           <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Motion</div>
-          <div className="mt-2 font-display text-2xl font-extrabold tracking-tight">{t("Three curves. No linear.", "Tiga kurva. Tanpa linear.")}</div>
+          <div className="mt-2 font-display text-2xl font-extrabold tracking-tight">{t("Three curves. No linear.", "Tiga kurva. Tak ada yang linear.")}</div>
           <div className="mt-5 h-[150px]">
             <CurvePlayground />
           </div>
@@ -172,11 +172,11 @@ export default function Bento({ componentCount, skillCount }: { componentCount: 
             <div className="font-display text-6xl font-extrabold tracking-tight">
               <CountUp to={skillCount} />
             </div>
-            <div className="mt-1 text-[13px] text-muted-foreground">{t("working guides your AI agent follows", "panduan kerja yang diikuti agen AI kamu")}</div>
+            <div className="mt-1 text-[13px] text-muted-foreground">{t("working guides your AI agent follows", "panduan kerja yang dipatuhi agen AI-mu")}</div>
           </div>
         </SpotlightCard>
         <SpotlightCard className="bento-tile p-6 md:col-span-4">
-          <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Ships anywhere", "Jalan di mana saja")}</div>
+          <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Ships anywhere", "Jalan di mana pun")}</div>
           <div className="mt-2 font-display text-2xl font-extrabold tracking-tight">{t("Tailwind v4 and v3. React 18 and 19.", "Tailwind v4 dan v3. React 18 dan 19.")}</div>
           <div className="mt-5 flex flex-wrap gap-2">
             {CHIPS.map((chip) => (

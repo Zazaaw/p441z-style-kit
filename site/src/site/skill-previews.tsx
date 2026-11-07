@@ -73,7 +73,7 @@ export function Compare({ before, after, play = true, onGrab }: { before: React.
       <button
         type="button"
         role="slider"
-        aria-label={t("Compare without and with the skill", "Bandingkan tanpa dan pakai skill")}
+        aria-label={t("Compare without and with the skill", "Bandingkan hasil tanpa dan dengan skill")}
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={Math.round(pos)}
@@ -112,7 +112,7 @@ type Pair = { before: React.ReactNode; after: React.ReactNode; /** English note.
 export const PREVIEWS: Record<string, Pair> = {
   "skill-typography.md": {
     note: "Same content. Sizes from a golden-ratio scale, real leading, a 65ch measure, one accent.",
-    noteId: "Konten sama. Ukuran dari skala golden ratio, leading yang pas, lebar baris 65ch, satu aksen.",
+    noteId: "Isinya sama. Bedanya: ukuran dari skala golden ratio, leading yang lega, lebar baris 65ch, dan satu aksen saja.",
     before: (
       <Slop className="flex flex-col justify-center text-center">
         <div style={{ fontSize: 31, fontWeight: 700, lineHeight: 1 }}>WELCOME TO OUR AMAZING PLATFORM!!!</div>
@@ -144,7 +144,7 @@ export const PREVIEWS: Record<string, Pair> = {
   },
   "skill-ui.ux.md": {
     note: "No purple gradient, no emoji headings, no three identical cards — a design direction read from the brief.",
-    noteId: "Tanpa gradien ungu, judul ber-emoji, atau tiga kartu kembar — arah desain dibaca dari brief.",
+    noteId: "Tak ada gradien ungu, judul penuh emoji, atau tiga kartu kembar — arah desainnya lahir dari brief.",
     before: (
       <div className="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-violet-600 via-fuchsia-500 to-indigo-600 p-6 text-center text-white" style={{ fontFamily: "Arial" }}>
         <div className="text-[30px] font-bold">🚀 Supercharge Your Workflow ✨</div>
@@ -174,7 +174,7 @@ export const PREVIEWS: Record<string, Pair> = {
   },
   "skill-landing.page.md": {
     note: "A strict hero: badge, one headline, one action, proof — instead of everything at once.",
-    noteId: "Hero yang disiplin: badge, satu headline, satu aksi, bukti — bukan semuanya sekaligus.",
+    noteId: "Hero yang tahu diri: satu badge, satu headline, satu ajakan, satu bukti — bukan semua dijejalkan.",
     before: (
       <Slop className="text-center">
         <div className="text-[11px]">HOME | ABOUT | PRICING | BLOG | CONTACT | LOGIN | SIGN UP</div>
@@ -199,7 +199,7 @@ export const PREVIEWS: Record<string, Pair> = {
   },
   "skill-dashboard.md": {
     note: "Honest tables: aligned numbers, real status, filters, and an empty state that says what to do.",
-    noteId: "Tabel yang jujur: angka rata, status nyata, filter, dan empty state yang bilang harus apa.",
+    noteId: "Tabel yang jujur: angka rata kanan, status yang jelas, filter, dan empty state yang memberi tahu langkah berikutnya.",
     before: (
       <Slop>
         <div className="text-[18px] font-bold">Orders Dashboard</div>
@@ -233,7 +233,7 @@ export const PREVIEWS: Record<string, Pair> = {
   },
   "skill-export.report.md": {
     note: "An export you could send to the boss: title, period, filters, totals, aligned figures.",
-    noteId: "Ekspor yang layak dikirim ke atasan: judul, periode, filter, total, angka rata.",
+    noteId: "Ekspor yang pantas dikirim ke atasan: ada judul, periode, filter, total, dan angka yang rapi.",
     before: (
       <Slop className="font-mono">
         <div className="text-[11px]">export_final_v3 (2).csv</div>
@@ -254,7 +254,7 @@ export const PREVIEWS: Record<string, Pair> = {
   },
   "skill-backend.api.md": {
     note: "Failures you can see: the right status, a stable code, a message a person can act on.",
-    noteId: "Error yang kelihatan: status yang tepat, kode yang stabil, pesan yang bisa ditindaklanjuti.",
+    noteId: "Error yang terus terang: status yang tepat, kode yang konsisten, pesan yang jelas harus diapakan.",
     before: (
       <Slop className="bg-neutral-50">
         <div className="text-[12px] font-bold">POST /api/leave → 200 OK</div>
@@ -282,7 +282,7 @@ export const PREVIEWS: Record<string, Pair> = {
   },
   "skill-database.md": {
     note: "Queries that survive growth: an index for the filter, no N+1, a plan you checked.",
-    noteId: "Query yang tahan data membesar: indeks untuk filter, tanpa N+1, query plan yang sudah dicek.",
+    noteId: "Query yang tetap kencang saat data membengkak: indeks untuk filter, tanpa N+1, query plan sudah dicek.",
     before: (
       <Slop className="bg-neutral-50">
         <Code dark={false}>{`users = SELECT * FROM users
@@ -309,7 +309,7 @@ LIMIT 50;   -- Index Scan · 41 ms`}</Code>
   },
   "skill-security.md": {
     note: "Safe on the server: parameters, permission per record, secrets out of the code.",
-    noteId: "Aman di server: query berparameter, izin per record, secret di luar kode.",
+    noteId: "Aman dari sisi server: query berparameter, izin dicek per record, secret tidak ditaruh di kode.",
     before: (
       <Slop className="bg-neutral-50">
         <Code dark={false}>{`const KEY = "sk_live_9f3c...e21"
@@ -337,7 +337,7 @@ app.get("/api/payslip", requireSession, async (req) => {
   },
   "skill-performance.md": {
     note: "Measured first, then fixed: parallel requests and one cached lookup instead of a waterfall.",
-    noteId: "Diukur dulu, baru diperbaiki: request paralel dan satu lookup ber-cache, bukan waterfall.",
+    noteId: "Ukur dulu, baru perbaiki: request jalan paralel dan lookup di-cache, bukan antre satu per satu.",
     before: (
       <Slop>
         <div className="text-[13px] font-bold">Network · page load 4.2 s</div>
@@ -358,7 +358,7 @@ app.get("/api/payslip", requireSession, async (req) => {
   },
   "skill-testing.md": {
     note: "Proof instead of feelings: the cases that break in production, checked before “done”.",
-    noteId: "Bukti, bukan perasaan: kasus yang bikin rusak di production, dicek sebelum “selesai”.",
+    noteId: "Bukti, bukan firasat: kasus yang biasa bikin production jebol sudah dites sebelum bilang “selesai”.",
     before: (
       <Slop>
         <div className="text-[14px]">✅ Done! The feature works.</div>
@@ -374,7 +374,7 @@ app.get("/api/payslip", requireSession, async (req) => {
   },
   "skill-debugging.md": {
     note: "The root, not the symptom: reproduce, narrow down, fix the cause, guard against it.",
-    noteId: "Akar masalah, bukan gejala: reproduksi, persempit, perbaiki penyebab, cegah terulang.",
+    noteId: "Cari akarnya, bukan tambal gejalanya: reproduksi, persempit, perbaiki sumbernya, cegah terulang.",
     before: (
       <Slop className="bg-neutral-50">
         <Code dark={false}>{`try {
@@ -397,7 +397,7 @@ app.get("/api/payslip", requireSession, async (req) => {
   },
   "skill-git.workflow.md": {
     note: "History you can read and revert: small commits, real messages, nothing pushed unasked.",
-    noteId: "Riwayat yang bisa dibaca dan di-revert: commit kecil, pesan yang jelas, tak ada push tanpa diminta.",
+    noteId: "Riwayat yang enak dibaca dan gampang di-revert: commit kecil, pesan jelas, tidak push sebelum diminta.",
     before: (
       <Slop className="font-mono text-[12.5px] leading-[1.9]">
         <div>a91f2c3 fix stuff</div>
@@ -419,7 +419,7 @@ app.get("/api/payslip", requireSession, async (req) => {
   },
   "skill-documentation.md": {
     note: "Written for the person who doesn’t know yet: what it is, how to run it, what to check.",
-    noteId: "Ditulis untuk orang yang belum tahu: apa ini, cara menjalankannya, apa yang perlu dicek.",
+    noteId: "Ditulis untuk orang yang baru datang: ini apa, cara menjalankannya, dan apa yang perlu dicek.",
     before: (
       <Slop>
         <div className="text-[18px] font-bold"># project</div>
@@ -439,7 +439,7 @@ npm install && npm run dev    # → http://localhost:3000`}</Code>
   },
   "skill-analysis.md": {
     note: "No half-baked work: the flow understood, the blast radius mapped, an honest report.",
-    noteId: "Tak ada kerja setengah matang: alur dipahami, dampak dipetakan, laporan yang jujur.",
+    noteId: "Tak ada kerja setengah matang: alurnya dipahami, dampaknya dipetakan, laporannya jujur.",
     before: (
       <Slop>
         <div className="text-[15px]">Done ✅ I updated the leave form.</div>
@@ -458,7 +458,7 @@ npm install && npm run dev    # → http://localhost:3000`}</Code>
   },
   "skill-motion.video.md": {
     note: "A real recording with a virtual camera and timed narration — not screenshots with red boxes.",
-    noteId: "Rekaman asli dengan kamera virtual dan narasi yang pas waktunya — bukan screenshot berkotak merah.",
+    noteId: "Rekaman layar asli dengan kamera virtual dan narasi yang pas momennya — bukan tangkapan layar penuh kotak merah.",
     before: (
       <div className="relative h-full w-full bg-neutral-200 p-4" style={{ fontFamily: "Arial" }}>
         <div className="h-full w-full bg-white p-3 text-[12px] text-neutral-500">[ screenshot 1 of 14 ]<div className="mt-16 ml-24 h-10 w-40 border-[3px] border-red-600" /><div className="mt-2 ml-24 text-[14px] font-bold text-red-600">← CLICK HERE!!</div></div>

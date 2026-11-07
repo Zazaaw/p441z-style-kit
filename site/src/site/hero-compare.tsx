@@ -40,13 +40,13 @@ export default function HeroCompare({ skills }: { skills: SkillView[] }) {
     <div ref={box} className="mx-auto w-full max-w-6xl text-left">
       <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
         <div>
-          <div className="text-[12px] font-semibold uppercase tracking-[0.16em] text-primary">{t("What the skills do", "Apa yang dikerjakan skill")}</div>
+          <div className="text-[12px] font-semibold uppercase tracking-[0.16em] text-primary">{t("What the skills do", "Sebelum & sesudah")}</div>
           <h2 className="mt-2 font-display text-[clamp(1.75rem,3.4vw,2.75rem)] font-extrabold leading-[1.05] tracking-[-0.035em]">
             {t("Drag the line. ", "Geser garisnya. ")}
-            <span className="text-muted-foreground">{t("That’s the difference.", "Itu bedanya.")}</span>
+            <span className="text-muted-foreground">{t("That’s the difference.", "Lihat bedanya.")}</span>
           </h2>
         </div>
-        <div role="tablist" aria-label={t("Skill previews", "Pratinjau skill")} className="-mx-1 flex max-w-full gap-1 overflow-x-auto px-1 [scrollbar-width:none]">
+        <div role="tablist" aria-label={t("Skill previews", "Contoh hasil skill")} className="-mx-1 flex max-w-full gap-1 overflow-x-auto px-1 [scrollbar-width:none]">
           {list.map((x, k) => {
             const on = k === i;
             return (

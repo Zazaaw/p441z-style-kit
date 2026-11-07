@@ -29,14 +29,14 @@ const SCALE = [
   { role: "h1", px: 67.78, lh: 1.05, tr: -0.025 },
 ];
 const FAMILIES = [
-  { key: "sans", label: "Sans", name: "Plus Jakarta Sans", cls: "font-display", note: "Everything. 400–800.", noteId: "Untuk semuanya. 400–800.", weights: [400, 800] },
-  { key: "serif", label: "Serif", name: "Instrument Serif Italic", cls: "font-serif italic", note: "The accent — used once per page.", noteId: "Aksennya — dipakai sekali per halaman.", weights: [400, 400] },
+  { key: "sans", label: "Sans", name: "Plus Jakarta Sans", cls: "font-display", note: "Everything. 400–800.", noteId: "Untuk hampir semua teks. 400–800.", weights: [400, 800] },
+  { key: "serif", label: "Serif", name: "Instrument Serif Italic", cls: "font-serif italic", note: "The accent — used once per page.", noteId: "Aksen — cukup sekali per halaman.", weights: [400, 400] },
   { key: "mono", label: "Mono", name: "JetBrains Mono", cls: "font-mono", note: "Code, IDs, tabular data.", noteId: "Kode, ID, data tabel.", weights: [400, 700] },
 ] as const;
 const SAMPLE =
   "Good typography is invisible. The reader never notices the leading or the measure — they simply keep reading, a little longer than they planned, without ever feeling the effort.";
 const SAMPLE_ID =
-  "Tipografi yang baik itu tak terlihat. Pembaca tak pernah memperhatikan leading atau measure — mereka terus saja membaca, sedikit lebih lama dari rencana, tanpa pernah merasa lelah.";
+  "Tipografi yang baik tidak terasa. Pembaca tak pernah memikirkan leading atau measure — mereka hanya terus membaca, sedikit lebih lama dari niatnya, tanpa merasa lelah.";
 
 /** Golden rectangle cut into squares (each φ× the next), clockwise. */
 function goldenSquares(n: number, W: number) {
@@ -68,7 +68,7 @@ function GoldenSpiral() {
   const labels = ["67.78", "41.89", "25.89", "16", "9.89"];
   const t = useT();
   return (
-    <svg viewBox={`-2 -2 ${W + 4} ${W / PHI + 4}`} className="h-auto w-full overflow-visible" aria-label={t("Golden rectangle divided into squares, each 1.618 times the next, with the type scale sizes", "Persegi panjang emas yang dibagi menjadi persegi, masing-masing 1,618 kali persegi berikutnya, dengan ukuran skala tipe")}>
+    <svg viewBox={`-2 -2 ${W + 4} ${W / PHI + 4}`} className="h-auto w-full overflow-visible" aria-label={t("Golden rectangle divided into squares, each 1.618 times the next, with the type scale sizes", "Persegi panjang emas yang terbagi jadi persegi-persegi, masing-masing 1,618 kali persegi berikutnya, lengkap dengan ukuran skala hurufnya")}>
       {sq.map((q, i) => (
         <g key={i} className="gold-sq">
           <rect x={q.x} y={q.y} width={q.s} height={q.s} className={cn("fill-transparent stroke-border", i === 0 && "fill-primary/[0.04]")} strokeWidth="1.2" />
@@ -96,7 +96,7 @@ function ScaleExplorer() {
     <div className="grid gap-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.4fr)]">
       <div className="flex flex-col">
         <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("The scale", "Skalanya")}</div>
-        <div className="mt-2 font-display text-2xl font-extrabold tracking-tight">{t("The steps you’ll use. One ratio.", "Langkah yang kamu pakai. Satu rasio.")}</div>
+        <div className="mt-2 font-display text-2xl font-extrabold tracking-tight">{t("The steps you’ll use. One ratio.", "Semua ukuran yang kamu butuhkan. Satu rasio.")}</div>
         <div className="mt-5 flex gap-1">
           {FAMILIES.map((x, i) => (
             <button key={x.key} type="button" onClick={() => setFam(i)} className={cn("rounded-full px-3 py-1 text-[12px] font-semibold transition-colors duration-200", i === fam ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted")}>
@@ -143,7 +143,7 @@ function ScaleExplorer() {
                 <span className="block opacity-70">{x.px}</span>
               </span>
               <span className={cn("min-w-0 truncate transition-colors duration-200", f.cls, i === step ? "text-foreground" : "text-foreground/70")} style={{ fontSize: x.px, lineHeight: x.lh, letterSpacing: `${x.tr}em`, fontWeight: i >= 4 ? w : Math.min(w, 600) }}>
-                {t("Quiet by default.", "Tenang secara default.")}
+                {t("Quiet by default.", "Kalem dari awal.")}
               </span>
             </button>
           </li>
@@ -184,9 +184,9 @@ function LeadingCard() {
     <SpotlightCard className="type-card flex flex-col p-6">
       <div className="flex items-center justify-between">
         <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Leading</div>
-        <Verdict ok={good}>{Math.abs(lh - 1.618) < 0.03 ? t("φ — the body default", "φ — default body") : good ? t("comfortable", "nyaman") : lh < 1.5 ? t("too tight", "terlalu rapat") : t("too loose", "terlalu renggang")}</Verdict>
+        <Verdict ok={good}>{Math.abs(lh - 1.618) < 0.03 ? t("φ — the body default", "φ — standar body") : good ? t("comfortable", "nyaman") : lh < 1.5 ? t("too tight", "terlalu rapat") : t("too loose", "terlalu renggang")}</Verdict>
       </div>
-      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("Body breathes at φ.", "Body bernapas di φ.")}</div>
+      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("Body breathes at φ.", "Body paling lega di φ.")}</div>
       <p className="mt-4 text-[15px] text-muted-foreground transition-[line-height] duration-150" style={{ lineHeight: lh }}>
         {t(SAMPLE, SAMPLE_ID)}
       </p>
@@ -196,7 +196,7 @@ function LeadingCard() {
           <span className="font-mono tabular-nums text-foreground">{lh.toFixed(3)}</span>
         </span>
         <Range value={lh} min={1} max={2.2} step={0.001} onChange={(v) => setLh(Math.abs(v - 1.618) < 0.02 ? 1.618 : v)} label={t("Line height", "Tinggi baris")} />
-        <div className="mt-2">{t("Headings tighten as they grow: h3 1.15 · h2 1.1 · h1 1.05 · display 1.0.", "Heading makin rapat saat membesar: h3 1.15 · h2 1.1 · h1 1.05 · display 1.0.")}</div>
+        <div className="mt-2">{t("Headings tighten as they grow: h3 1.15 · h2 1.1 · h1 1.05 · display 1.0.", "Makin besar heading, makin rapat barisnya: h3 1.15 · h2 1.1 · h1 1.05 · display 1.0.")}</div>
       </div>
     </SpotlightCard>
   );
@@ -211,7 +211,7 @@ function MeasureCard() {
     <SpotlightCard className="type-card flex flex-col p-6">
       <div className="flex items-center justify-between">
         <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Measure</div>
-        <Verdict ok={good}>{good ? (Math.abs(ch - 66) <= 3 ? "ideal" : t("readable", "terbaca")) : ch < 45 ? t("too short", "terlalu pendek") : t("too long", "terlalu panjang")}</Verdict>
+        <Verdict ok={good}>{good ? (Math.abs(ch - 66) <= 3 ? "ideal" : t("readable", "enak dibaca")) : ch < 45 ? t("too short", "terlalu pendek") : t("too long", "terlalu panjang")}</Verdict>
       </div>
       <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("45–75 characters a line.", "45–75 karakter per baris.")}</div>
       <div className="mt-4 overflow-hidden">
@@ -225,7 +225,7 @@ function MeasureCard() {
           <span className="font-mono tabular-nums text-foreground">{ch}ch</span>
         </span>
         <Range value={ch} min={30} max={100} step={1} onChange={setCh} label={t("Line length", "Panjang baris")} />
-        <div className="mt-2">{t("Prose caps at 65ch, captions at 50ch. Long lines lose the reader at the turn.", "Prosa maksimal 65ch, caption 50ch. Baris kepanjangan bikin pembaca tersesat saat pindah baris.")}</div>
+        <div className="mt-2">{t("Prose caps at 65ch, captions at 50ch. Long lines lose the reader at the turn.", "Paragraf maksimal 65ch, caption 50ch. Baris yang kepanjangan bikin mata tersesat saat pindah baris.")}</div>
       </div>
     </SpotlightCard>
   );
@@ -255,7 +255,7 @@ function TrackingCard() {
           <span className="font-mono tabular-nums text-foreground">{px}px</span>
         </span>
         <Range value={SCALE.findIndex((s) => s.px === px)} min={2} max={8} step={1} onChange={(i) => setPx(SCALE[i].px)} label={t("Font size", "Ukuran font")} />
-        <div className="mt-2">{t("Small caps and overlines open up (+0.06em); display sizes close in (−0.03em).", "Small caps dan overline melebar (+0.06em); ukuran display merapat (−0.03em).")}</div>
+        <div className="mt-2">{t("Small caps and overlines open up (+0.06em); display sizes close in (−0.03em).", "Huruf kapital kecil dan overline direnggangkan (+0.06em); ukuran display dirapatkan (−0.03em).")}</div>
       </div>
     </SpotlightCard>
   );
@@ -268,7 +268,7 @@ function NumbersCard() {
   return (
     <SpotlightCard className="type-card flex flex-col p-6">
       <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Numbers", "Angka")}</div>
-      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("Tables use tabular figures.", "Tabel pakai angka tabular.")}</div>
+      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("Tables use tabular figures.", "Di tabel, pakai angka tabular.")}</div>
       <div className="mt-4 flex gap-1">
         {[
           [true, "tabular-nums"],
@@ -295,14 +295,14 @@ function PairingCard() {
   const t = useT();
   return (
     <SpotlightCard className="type-card flex flex-col p-6">
-      <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Pairing", "Pasangan")}</div>
-      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("Two families. One mono.", "Dua keluarga. Satu mono.")}</div>
+      <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Pairing", "Padanan")}</div>
+      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("Two families. One mono.", "Dua jenis huruf. Satu mono.")}</div>
       <div className="mt-5 space-y-3">
-        <div className="font-display text-[26px] font-extrabold leading-tight tracking-tight">{t("Sans carries the page.", "Sans menopang halaman.")}</div>
-        <div className="font-serif text-[28px] italic leading-tight text-primary">{t("The serif speaks once.", "Serif bicara sekali.")}</div>
+        <div className="font-display text-[26px] font-extrabold leading-tight tracking-tight">{t("Sans carries the page.", "Sans memikul halaman.")}</div>
+        <div className="font-serif text-[28px] italic leading-tight text-primary">{t("The serif speaks once.", "Serif cukup tampil sekali.")}</div>
         <div className="font-mono text-[14px] text-muted-foreground">{t("mono → code · IDs · data", "mono → kode · ID · data")}</div>
       </div>
-      <div className="mt-auto pt-4 text-[12px] text-muted-foreground">{t("One moment of contrast reads as intent. Ten reads as indecision. SF is never self-hosted — the system stack serves it.", "Satu momen kontras terbaca sebagai niat. Sepuluh terbaca sebagai ragu-ragu. SF tidak pernah di-self-host — system stack yang menyajikannya.")}</div>
+      <div className="mt-auto pt-4 text-[12px] text-muted-foreground">{t("One moment of contrast reads as intent. Ten reads as indecision. SF is never self-hosted — the system stack serves it.", "Satu kontras terasa disengaja; sepuluh terasa bimbang. SF tak pernah di-host sendiri — biar system stack yang menyediakannya.")}</div>
     </SpotlightCard>
   );
 }
@@ -312,7 +312,7 @@ function WeightsCard() {
   return (
     <SpotlightCard className="type-card flex flex-col p-6">
       <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Weights", "Ketebalan")}</div>
-      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("Few weights, clear jobs.", "Sedikit ketebalan, tugas jelas.")}</div>
+      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("Few weights, clear jobs.", "Sedikit ketebalan, peran yang jelas.")}</div>
       <div className="mt-5 grid grid-cols-5 gap-2 text-center">
         {[400, 500, 600, 700, 800].map((w) => (
           <div key={w}>
@@ -323,7 +323,7 @@ function WeightsCard() {
           </div>
         ))}
       </div>
-      <div className="mt-auto pt-4 text-[12px] text-muted-foreground">{t("400 / 500 / 600 for product UI, 400 / 600 / 700 for marketing, 800 only for display. No faux bold: font-synthesis: none.", "400 / 500 / 600 untuk UI produk, 400 / 600 / 700 untuk marketing, 800 hanya untuk display. Tanpa bold palsu: font-synthesis: none.")}</div>
+      <div className="mt-auto pt-4 text-[12px] text-muted-foreground">{t("400 / 500 / 600 for product UI, 400 / 600 / 700 for marketing, 800 only for display. No faux bold: font-synthesis: none.", "400 / 500 / 600 untuk UI produk, 400 / 600 / 700 untuk marketing, 800 khusus display. Tidak ada bold palsu: font-synthesis: none.")}</div>
     </SpotlightCard>
   );
 }
@@ -352,7 +352,7 @@ export default function Typography({ skillLines }: { skillLines: number }) {
       <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
         <div>
           <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Typography", "Tipografi")}</div>
-          <MaskReveal as="h2" text={t("Built on the golden ratio.", "Dibangun di atas golden ratio.")} className="mt-3 font-display text-[clamp(2.2rem,5vw,3.75rem)] font-extrabold leading-[1.02] tracking-[-0.04em]" />
+          <MaskReveal as="h2" text={t("Built on the golden ratio.", "Berpijak pada golden ratio.")} className="mt-3 font-display text-[clamp(2.2rem,5vw,3.75rem)] font-extrabold leading-[1.02] tracking-[-0.04em]" />
           <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
             {t(
               <>
@@ -361,9 +361,9 @@ export default function Typography({ skillLines }: { skillLines: number }) {
                 Nothing is picked by eye.
               </>,
               <>
-                Tipografi di kit ini <span className="font-semibold text-foreground">diriset dan dibangun di atas golden ratio</span>. Setiap ukuran adalah base 16px yang dikali atau dibagi{" "}
-                <span className="font-serif text-[1.15em] italic text-primary">φ = 1,618</span> — dengan setengah langkah √φ kalau satu langkah penuh terlalu jauh. Leading, measure, tracking, dan weight mengikuti logika yang sama.
-                Tidak ada yang dipilih asal kira-kira.
+                Tipografi di kit ini <span className="font-semibold text-foreground">diriset dan disusun dari golden ratio</span>. Semua ukuran berawal dari 16px, lalu dikali atau dibagi{" "}
+                <span className="font-serif text-[1.15em] italic text-primary">φ = 1,618</span> — atau setengah langkah, √φ, kalau satu langkah terasa terlalu jauh. Leading, measure, tracking, dan ketebalan huruf ikut aturan yang sama.
+                Tidak ada angka yang asal tebak.
               </>,
             )}
           </p>
@@ -371,7 +371,7 @@ export default function Typography({ skillLines }: { skillLines: number }) {
             {[
               ["16", t("px base", "px dasar")],
               [t("1.618", "1,618"), t("φ ratio", "rasio φ")],
-              [t("1.272", "1,272"), t("√φ half-step", "½ langkah √φ")],
+              [t("1.272", "1,272"), t("√φ half-step", "setengah langkah √φ")],
               ["11", t("steps", "langkah")],
             ].map(([v, l]) => (
               <div key={l} className="rounded-xl border border-border bg-background/70 px-3 py-3 backdrop-blur">
@@ -387,7 +387,7 @@ export default function Typography({ skillLines }: { skillLines: number }) {
         <div className="gold-wrap rounded-3xl border border-border bg-background/60 p-6 backdrop-blur">
           <GoldenSpiral />
           <div className="mt-4 flex items-center justify-between text-[12px] text-muted-foreground">
-            <span>{t("Each square is φ× the next — the same step as the type scale.", "Tiap persegi φ× persegi berikutnya — langkah yang sama dengan skala tipe.")}</span>
+            <span>{t("Each square is φ× the next — the same step as the type scale.", "Tiap persegi φ kali lebih besar dari persegi berikutnya — rasio yang sama dengan skala hurufnya.")}</span>
             <span className="font-mono">16 × φ = 25.89</span>
           </div>
         </div>
@@ -413,7 +413,7 @@ export default function Typography({ skillLines }: { skillLines: number }) {
               Distilled from <code className="text-foreground">skill-typography</code> — <span className="font-semibold tabular-nums text-foreground">{num(skillLines)}</span> lines on choosing, pairing, scaling, loading, and auditing type.
             </>,
             <>
-              Disarikan dari <code className="text-foreground">skill-typography</code> — <span className="font-semibold tabular-nums text-foreground">{num(skillLines)}</span> baris panduan soal memilih, memasangkan, menskalakan, memuat, dan mengaudit font.
+              Disarikan dari <code className="text-foreground">skill-typography</code> — <span className="font-semibold tabular-nums text-foreground">{num(skillLines)}</span> baris panduan untuk memilih, memadukan, menskalakan, memuat, dan memeriksa huruf.
             </>,
           )}
         </div>

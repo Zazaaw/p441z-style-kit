@@ -59,9 +59,9 @@ export default function Chrome({ skills }: { skills: { name: string; title: stri
   const A = t("Actions", "Aksi");
   const items: SpotlightItem[] = [
     { group: S, label: "Keynote", hint: "#keynote", icon: <IconPlay />, onSelect: () => go("#keynote") },
-    { group: S, label: t("Inside the kit", "Isi kit"), hint: "#kit", icon: <IconWindow />, onSelect: () => go("#kit") },
+    { group: S, label: t("Inside the kit", "Di dalam kit"), hint: "#kit", icon: <IconWindow />, onSelect: () => go("#kit") },
     { group: S, label: t("Typography — the golden ratio", "Tipografi — golden ratio"), hint: "#type", icon: <IconBook />, keywords: "type font scale leading tipografi huruf", onSelect: () => go("#type") },
-    { group: S, label: t("Made with the skills", "Dibuat dengan skill"), hint: "#showcase", icon: <IconPlay />, onSelect: () => go("#showcase") },
+    { group: S, label: t("Made with the skills", "Karya pakai skill"), hint: "#showcase", icon: <IconPlay />, onSelect: () => go("#showcase") },
     { group: S, label: t("Motion components", "Komponen motion"), hint: "#motion", icon: <IconSpark />, onSelect: () => go("#motion") },
     { group: S, label: t("Desktop UI", "UI desktop"), hint: "#desk", icon: <IconWindow />, onSelect: () => go("#desk") },
     { group: S, label: "Skills", hint: "#skills", icon: <IconBook />, onSelect: () => go("#skills") },
@@ -70,7 +70,7 @@ export default function Chrome({ skills }: { skills: { name: string; title: stri
       label: t("Copy install command", "Salin perintah install"),
       icon: <IconCopy />,
       keywords: "npm install shadcn registry salin",
-      onSelect: () => navigator.clipboard?.writeText(INSTALL).then(() => notify({ title: t("Copied", "Tersalin"), body: t("Install command is on your clipboard.", "Perintah install sudah ada di clipboard."), icon: <IconCopy /> })),
+      onSelect: () => navigator.clipboard?.writeText(INSTALL).then(() => notify({ title: t("Copied", "Tersalin"), body: t("Install command is on your clipboard.", "Perintah install siap ditempel."), icon: <IconCopy /> })),
     },
     {
       group: A,
@@ -95,9 +95,9 @@ export default function Chrome({ skills }: { skills: { name: string; title: stri
     })),
     {
       group: A,
-      label: t("Send a test notification", "Kirim notifikasi uji"),
+      label: t("Send a test notification", "Coba kirim notifikasi"),
       icon: <IconBell />,
-      onSelect: () => notify({ title: t("Hello from p441z", "Halo dari p441z"), body: t("This banner is <Notification>, part of the kit.", "Banner ini adalah <Notification>, bagian dari kit."), icon: <IconBell /> }),
+      onSelect: () => notify({ title: t("Hello from p441z", "Halo dari p441z"), body: t("This banner is <Notification>, part of the kit.", "Banner ini komponen <Notification> dari kit."), icon: <IconBell /> }),
     },
     { group: A, label: t("Open on GitHub", "Buka di GitHub"), icon: <IconGitHub />, hint: "github.com", onSelect: () => window.open(REPO, "_blank", "noopener") },
     ...skills.map((s) => ({ group: "Skills", label: s.title, hint: s.name, keywords: s.file, icon: <IconBook />, onSelect: () => window.open(`${REPO}/blob/main/Skill.md/${s.file}`, "_blank", "noopener") })),
@@ -140,7 +140,7 @@ export default function Chrome({ skills }: { skills: { name: string; title: stri
       >
       <Dock
         items={[
-          { label: t("Top", "Atas"), icon: <IconHome />, href: "#top" },
+          { label: t("Top", "Ke atas"), icon: <IconHome />, href: "#top" },
           { label: "Keynote", icon: <IconPlay />, href: "#keynote" },
           { label: "Motion", icon: <IconSpark />, href: "#motion" },
           { label: t("Desktop UI", "UI desktop"), icon: <IconWindow />, href: "#desk" },

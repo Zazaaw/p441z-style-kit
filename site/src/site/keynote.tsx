@@ -21,10 +21,10 @@ import { useT } from "@/site/i18n";
 // One self-playing story. A single progress value p (0 → 1) is the clock: it advances by itself
 // while the section is on screen, and every visual — camera, cursor, captions, phone — reads it.
 const STAGES = [
-  { at: 0, label: "Request", caption: "Fill in the dates and a short reason.", labelId: "Pengajuan", captionId: "Isi tanggal dan alasan singkat." },
-  { at: 0.27, label: "Review", caption: "Submit — it flies straight to your manager.", labelId: "Tinjau", captionId: "Ajukan — langsung meluncur ke atasanmu." },
-  { at: 0.5, label: "Approved", caption: "Approved on the phone, in a single tap.", labelId: "Disetujui", captionId: "Disetujui lewat HP, cukup sekali tap." },
-  { at: 0.72, label: "Letter", caption: "Your letter is ready, signed and verifiable.", labelId: "Surat", captionId: "Suratmu siap, bertanda tangan dan bisa diverifikasi." },
+  { at: 0, label: "Request", caption: "Fill in the dates and a short reason.", labelId: "Pengajuan", captionId: "Pilih tanggal, tulis alasan singkat." },
+  { at: 0.27, label: "Review", caption: "Submit — it flies straight to your manager.", labelId: "Peninjauan", captionId: "Kirim — langsung sampai ke atasanmu." },
+  { at: 0.5, label: "Approved", caption: "Approved on the phone, in a single tap.", labelId: "Persetujuan", captionId: "Atasan menyetujui dari HP, cukup sekali ketuk." },
+  { at: 0.72, label: "Letter", caption: "Your letter is ready, signed and verifiable.", labelId: "Surat", captionId: "Surat langsung jadi — bertanda tangan, bisa dicek keasliannya." },
 ];
 const CLICK_AT = 0.36;
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -119,7 +119,7 @@ function AppScreen({ p, typing, sent, approved }: { p: MotionValue<number>; typi
             </label>
             <label className="block text-[13px] font-medium">
               {t("Reason", "Alasan")}
-              <div className={cn(field, "mt-1.5 h-24 leading-6 py-2.5")}>{typed(t("My sister's wedding in Bandung.", "Pernikahan kakakku di Bandung."), typing * 1.6 - 0.6) || <span className="text-muted-foreground/60">{t("A short note for your manager", "Catatan singkat untuk atasanmu")}</span>}</div>
+              <div className={cn(field, "mt-1.5 h-24 leading-6 py-2.5")}>{typed(t("My sister's wedding in Bandung.", "Pernikahan kakakku di Bandung."), typing * 1.6 - 0.6) || <span className="text-muted-foreground/60">{t("A short note for your manager", "Catatan singkat untuk atasan")}</span>}</div>
             </label>
             <div className="flex justify-end">
               <span className={cn("inline-flex h-11 items-center gap-2 rounded-lg px-6 text-[15px] font-semibold transition-colors duration-300", sent ? "bg-muted text-foreground" : "bg-primary text-primary-foreground shadow-[0_10px_24px_-10px_hsl(var(--primary)/0.8)]")}>
@@ -155,7 +155,7 @@ function AppScreen({ p, typing, sent, approved }: { p: MotionValue<number>; typi
                 <span className="grid size-9 place-items-center rounded-full bg-primary text-[13px] font-bold text-primary-foreground">MK</span>
                 <div>
                   <div className="font-semibold">Maya Kusuma</div>
-                  <div className="text-muted-foreground">{t("Head of People Ops", "Kepala People Ops")}</div>
+                  <div className="text-muted-foreground">{t("Head of People Ops", "Kepala SDM")}</div>
                 </div>
               </div>
             </div>
@@ -226,7 +226,7 @@ function Letter({ p }: { p: MotionValue<number> }) {
               ))}
             </div>
             <div className="absolute bottom-5 right-6 text-right text-[11px] text-muted-foreground">
-              {t("Signed digitally", "Ditandatangani digital")}
+              {t("Signed digitally", "Tanda tangan digital")}
               <div className="font-serif text-[22px] italic text-foreground">Maya K.</div>
             </div>
           </div>
@@ -238,8 +238,8 @@ function Letter({ p }: { p: MotionValue<number> }) {
                 ))}
               </div>
               <div>
-                <div className="font-display text-[20px] font-extrabold">{t("Scan to verify", "Pindai untuk verifikasi")}</div>
-                <div className="mt-1 max-w-[180px] text-[13px] opacity-70">{t("Every signature on the letter carries its own QR code.", "Setiap tanda tangan di surat punya kode QR sendiri.")}</div>
+                <div className="font-display text-[20px] font-extrabold">{t("Scan to verify", "Pindai untuk cek keaslian")}</div>
+                <div className="mt-1 max-w-[180px] text-[13px] opacity-70">{t("Every signature on the letter carries its own QR code.", "Tiap tanda tangan punya kode QR sendiri.")}</div>
               </div>
             </div>
           </div>
@@ -272,7 +272,7 @@ function Controls({ p, playing, onToggle, onReplay, onSeek }: { p: MotionValue<n
       <div
         ref={bar}
         role="slider"
-        aria-label={t("Seek", "Posisi putar")}
+        aria-label={t("Seek", "Geser posisi")}
         aria-valuenow={0}
         aria-valuemin={0}
         aria-valuemax={100}
@@ -404,15 +404,15 @@ export default function Keynote() {
 
   const notes = [
     ...(landed || stage >= 2 ? [{ title: t("Leave request · Alex Pratama", "Pengajuan cuti · Alex Pratama"), body: t("17 – 19 Nov · Family", "17 – 19 Nov · Keluarga") }] : []),
-    ...(stage >= 2 ? [{ title: t("Approved", "Disetujui"), body: t("You approved Alex's leave.", "Kamu menyetujui cuti Alex."), done: true }] : []),
+    ...(stage >= 2 ? [{ title: t("Approved", "Disetujui"), body: t("You approved Alex's leave.", "Cuti Alex sudah kamu setujui."), done: true }] : []),
   ];
 
   return (
     <section id="keynote" ref={ref} className="relative scroll-mt-10">
       <div className="flex min-h-[100svh] flex-col items-center justify-center gap-5 overflow-hidden px-4 py-20">
         <div className="text-center">
-          <MaskReveal as="h2" text={t("Watch it move.", "Lihat geraknya.")} className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold leading-[1.05] tracking-[-0.04em]" />
-          <p className="mt-2 text-sm text-muted-foreground">{t("It plays by itself — every piece is a kit component, nothing is a video.", "Jalan sendiri — setiap bagian adalah komponen kit, bukan video.")}</p>
+          <MaskReveal as="h2" text={t("Watch it move.", "Tonton sendiri.")} className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold leading-[1.05] tracking-[-0.04em]" />
+          <p className="mt-2 text-sm text-muted-foreground">{t("It plays by itself — every piece is a kit component, nothing is a video.", "Berjalan otomatis — tiap bagiannya komponen kit, bukan rekaman video.")}</p>
         </div>
         <Stepper steps={STAGES.map((s) => t(s.label, s.labelId))} active={stage} id="keynote" className="hidden sm:inline-flex" />
         <div className="h-9 w-full max-w-3xl text-center">

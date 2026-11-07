@@ -50,12 +50,12 @@ export default function Showcase() {
   return (
     <section id="showcase" ref={root} className="relative mx-auto max-w-6xl scroll-mt-16 px-6 py-28">
       <div className="mx-auto max-w-2xl text-center">
-        <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Made with the skills", "Dibuat dengan skill-nya")}</div>
+        <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Made with the skills", "Karya nyata")}</div>
         <MaskReveal as="h2" text={t("See what it produces.", "Lihat hasilnya.")} className="mt-3 font-display text-[clamp(2rem,4.5vw,3.25rem)] font-extrabold leading-[1.05] tracking-[-0.04em]" />
         <p className="mt-4 text-lg text-muted-foreground">
           {t(
             <>Not mock-ups — real output. The video below was produced end to end with <code className="text-[0.9em]">skill-motion-video</code>.</>,
-            <>Bukan mock-up — ini hasil nyata. Video di bawah dibuat dari awal sampai akhir dengan <code className="text-[0.9em]">skill-motion-video</code>.</>,
+            <>Bukan mock-up. Video di bawah ini dibuat dari nol sampai jadi dengan <code className="text-[0.9em]">skill-motion-video</code>.</>,
           )}
         </p>
       </div>
