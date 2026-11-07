@@ -106,6 +106,29 @@ It is deliberately slower and symmetric, like a film camera. Never use it for
 UI feedback (hover, toggle, press): there the same curve reads as lag. All three
 live in `lib/motion.ts` as `EASE.reveal`, `EASE.toggle`, `EASE.camera`.
 
+### Springs — micro-interactions
+
+The quiet curves above are for things that *appear*. Things that *move into place* get a spring:
+a curve that overshoots by a few percent and settles, so it reads as weight rather than math.
+
+```
+cubic-bezier(.34, 1.36, .5, 1)    ease-spring · EASE.spring · --ease-spring
+```
+
+The language comes from the glass folders on the landing page, and every spring in the kit follows
+the same five rules:
+
+1. **Overshoot only transform.** Scale, translate, rotate. Opacity and color use `EASE.reveal`.
+2. **Press is fast, release is springy.** Down in ~100 ms to ~94 %; back up on the spring (300 ms+).
+3. **Layers arrive one after another**, 40 ms apart (`layerDelay(n)`), never all at once.
+4. **Borrow a physical object.** A sheet leaves a folder, a pocket opens, an icon hops on launch,
+   a stamp lands. If you can't name the object, the motion is decoration — cut it.
+5. **Off-screen means still**, and reduced motion means none: every spring in the kit checks both.
+
+For framer-motion, `SPRING.press | slide | pop | drop` in `lib/motion.ts` are the physical
+equivalents (they keep velocity when interrupted). In CSS, use the `ease-spring` utility and the
+`animate-drop-in`, `animate-pop-in`, `animate-launch` animations.
+
 ### Duration discipline
 
 | Duration | Use |
