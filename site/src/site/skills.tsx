@@ -209,7 +209,7 @@ export default function SkillFolders({ skills }: { skills: SkillView[] }) {
         </p>
       </div>
 
-      <div ref={box} className="mt-16 grid min-h-[340px] grid-cols-1 items-end justify-items-center gap-x-14 gap-y-20 md:grid-cols-2 xl:grid-cols-3">
+      <div ref={box} className="mt-28 grid min-h-[340px] grid-cols-1 items-end justify-items-center gap-x-14 gap-y-20 md:grid-cols-2 xl:grid-cols-3">
         {near &&
           folders.map((f, i) => (
             <GlassFolder
