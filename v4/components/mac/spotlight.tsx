@@ -1,10 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
-import { EASE } from "@/lib/motion";
+import { EASE, SPRING, layerDelay } from "@/lib/motion";
 
 /**
  * Spotlight — a desktop-search command palette: a frosted bar floating in the upper third of the
@@ -13,6 +13,10 @@ import { EASE } from "@/lib/motion";
  * Open it with ⌘K / Ctrl+K via `useSpotlightHotkey`, or any button. Filtering matches the label
  * and optional keywords, case-insensitive. Selecting an item runs `onSelect` and closes.
  * The panel mounts fresh on every open, so the query and selection always start empty.
+ *
+ * Motion: the bar drops in on a spring, the results arrive one row after another (25 ms apart), and
+ * the highlight is a single pill that springs to the row under the pointer or the arrow keys — it
+ * travels instead of blinking. Reduced motion: no travel, no stagger.
  *
  * USAGE
  *   const [open, setOpen] = useState(false);
@@ -61,6 +65,8 @@ function Panel({ items, placeholder, close }: { items: SpotlightItem[]; placehol
   const [q, setQ] = React.useState("");
   const [sel, setSel] = React.useState(0);
   const list = React.useRef<HTMLDivElement>(null);
+  const uid = React.useId();
+  const reduce = useReducedMotion();
 
   const hits = React.useMemo(() => {
     const t = q.trim().toLowerCase();
@@ -95,10 +101,10 @@ function Panel({ items, placeholder, close }: { items: SpotlightItem[]; placehol
       aria-modal
       aria-label="Search"
       className="relative mx-auto mt-[18vh] w-[min(640px,92vw)] overflow-hidden rounded-2xl border border-black/10 bg-background/70 shadow-[0_40px_90px_-30px_rgba(0,0,0,0.5)] backdrop-blur-2xl backdrop-saturate-150 dark:border-white/10"
-      initial={{ scale: 0.96, y: -8, opacity: 0 }}
+      initial={reduce ? { opacity: 0 } : { scale: 0.92, y: -18, opacity: 0 }}
       animate={{ scale: 1, y: 0, opacity: 1 }}
-      exit={{ scale: 0.97, y: -6, opacity: 0 }}
-      transition={{ duration: 0.22, ease: EASE.reveal }}
+      exit={reduce ? { opacity: 0 } : { scale: 0.97, y: -6, opacity: 0, transition: { duration: 0.16, ease: EASE.toggle } }}
+      transition={reduce ? { duration: 0.15 } : { ...SPRING.drop, opacity: { duration: 0.18 } }}
       onMouseDown={(e) => e.stopPropagation()}
     >
       <div className="flex items-center gap-3 px-4">
@@ -121,29 +127,34 @@ function Panel({ items, placeholder, close }: { items: SpotlightItem[]; placehol
         <kbd className="rounded border border-border px-1.5 py-0.5 text-[11px] text-muted-foreground">esc</kbd>
       </div>
       {hits.length > 0 ? (
-        <div ref={list} className="max-h-[50vh] overflow-y-auto border-t border-border/60 p-2" role="listbox">
+        // layoutScroll: the highlight measures itself inside this scroller, so it stays put while scrolling.
+        <motion.div layoutScroll ref={list} className="max-h-[50vh] overflow-y-auto border-t border-border/60 p-2" role="listbox">
           {hits.map((it, i) => {
             const head = it.group && (i === 0 || hits[i - 1].group !== it.group) ? it.group : null;
             return (
               <React.Fragment key={`${it.group}-${it.label}`}>
                 {head && <div className="px-2.5 pb-1 pt-2.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{head}</div>}
-                <button
+                <motion.button
                   type="button"
                   data-i={i}
                   role="option"
                   aria-selected={i === sel}
                   onMouseMove={() => setSel(i)}
                   onClick={() => choose(it)}
-                  className={cn("flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left text-[14px] transition-colors duration-100", i === sel ? "bg-primary text-primary-foreground" : "hover:bg-muted")}
+                  initial={reduce ? false : { opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ ...SPRING.slide, delay: layerDelay(Math.min(i, 10), 0.025), opacity: { duration: 0.2, delay: layerDelay(Math.min(i, 10), 0.025) } }}
+                  className={cn("relative flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left text-[14px] transition-colors duration-150", i === sel ? "text-primary-foreground" : "")}
                 >
-                  {it.icon && <span className="grid size-6 place-items-center [&_svg]:size-4">{it.icon}</span>}
-                  <span className="flex-1 truncate">{it.label}</span>
-                  {it.hint && <span className={cn("text-[12px]", i === sel ? "text-primary-foreground/75" : "text-muted-foreground")}>{it.hint}</span>}
-                </button>
+                  {i === sel && <motion.span layoutId={`${uid}-hl`} className="absolute inset-0 rounded-lg bg-primary" transition={reduce ? { duration: 0 } : SPRING.slide} />}
+                  {it.icon && <span className="relative grid size-6 place-items-center [&_svg]:size-4">{it.icon}</span>}
+                  <span className="relative flex-1 truncate">{it.label}</span>
+                  {it.hint && <span className={cn("relative text-[12px]", i === sel ? "text-primary-foreground/75" : "text-muted-foreground")}>{it.hint}</span>}
+                </motion.button>
               </React.Fragment>
             );
           })}
-        </div>
+        </motion.div>
       ) : (
         <div className="border-t border-border/60 px-4 py-6 text-center text-[14px] text-muted-foreground">No results for “{q}”</div>
       )}
