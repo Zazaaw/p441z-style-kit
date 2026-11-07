@@ -144,7 +144,9 @@ function hslHex(triplet: string, dl = 0): string {
 }
 
 /** Folder art painted from the visitor's accent, so the folders follow the accent picker. */
-function accentArt(hsl: string, kind: "streak" | "marble"): ArtRecipe {
+function accentArt(hsl: string, kind: "streak" | "marble" | "night"): ArtRecipe {
+  if (kind === "night")
+    return { style: "streak", colors: ["#0a0c10", "#1d2230", hslHex(hsl, -15), hslHex(hsl, 10), "#f2f4f8", hslHex(hsl, 28), "#2a3040"], scale: 0.9, warp: 2.2, angle: 1.15, gloss: 0.3, veins: 0 };
   return kind === "streak"
     ? { style: "streak", colors: ["#f5f6f8", hslHex(hsl, 32), hslHex(hsl, 0), "#15171c", "#3b4250", hslHex(hsl, 22), "#eef1f5"], scale: 0.7, warp: 1.4, angle: -0.62, gloss: 0.2, veins: 0 }
     : { style: "marble", colors: ["#07090c", "#1a1e26", hslHex(hsl, -22), hslHex(hsl, 0), hslHex(hsl, 18), "#f6f3ee"], scale: 0.66, warp: 3.2, angle: -0.5, gloss: 0.5, veins: 0.5 };
@@ -181,7 +183,7 @@ export default function SkillFolders({ skills }: { skills: SkillView[] }) {
       g,
       list,
       meta: `${tr(`${list.length} skills`, `${list.length} skill`)} · ${num(lines)} ${tr("lines", "baris")}`,
-      art: (i === 0 ? accentArt(accent.hsl, "streak") : i === 1 ? accentArt(accent.hsl, "marble") : "none") as ArtRecipe | "none",
+      art: accentArt(accent.hsl, (["streak", "marble", "night"] as const)[i]),
     };
   });
   const installAll = (list: SkillView[]) =>
