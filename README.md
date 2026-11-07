@@ -8,13 +8,15 @@
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/hero-dark.png"><img src="docs/assets/readme/hero-light.png" alt="p441z Style Kit — a quiet, editorial design system for React + Tailwind"></picture>
 
+**[style.p441z.my.id](https://style.p441z.my.id)** — live site · [Component docs](https://style.p441z.my.id/components) · [Skill pages](https://style.p441z.my.id/#skills) · [Bahasa Indonesia](https://style.p441z.my.id/id)
+
 [**Full guide**](docs/GUIDE.md) · [Design](docs/DESIGN.md) · [Components](docs/COMPONENTS.md) · [Recipes](docs/RECIPES.md) · [Setup v4](v4/SETUP.md) · [Skills](Skill.md/README.md)
 
 </div>
 
 ## What it is
 The design system behind [p441z.my.id](https://p441z.my.id), packaged as files you copy into a Next.js project: one
-`globals.css` (tokens, dark mode, keyframes), a `cn()` helper, eight shadcn-style UI primitives, three ambient effects, and
+`globals.css` (tokens, dark mode, keyframes), a `cn()` helper, eight shadcn-style UI primitives, ambient and glass effects, and
 the reasoning behind every decision — plus keynote-style motion graphics (mask reveals, a virtual
 camera, cursors that click, cards that lift) and desktop-style windows, terminal, dock, and ⌘K search.
 Pure greyscale surfaces, color only as meaning, personality from motion.
