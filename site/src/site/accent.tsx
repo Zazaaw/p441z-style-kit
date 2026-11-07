@@ -5,18 +5,19 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { useT } from "@/site/i18n";
 
 // Desktop accent colors (the System Settings row). The kit rebrands through --primary/--ring only, so
 // switching an accent is two CSS variables on <html> — every component, glow, and video frame follows.
 export const ACCENTS = [
-  { key: "blue", label: "Blue", hsl: "211 100% 50%", fg: "0 0% 100%" },
-  { key: "purple", label: "Purple", hsl: "280 64% 58%", fg: "0 0% 100%" },
-  { key: "pink", label: "Pink", hsl: "331 92% 61%", fg: "0 0% 100%" },
-  { key: "red", label: "Red", hsl: "3 100% 59%", fg: "0 0% 100%" },
-  { key: "orange", label: "Orange", hsl: "35 100% 50%", fg: "0 0% 100%" },
-  { key: "yellow", label: "Yellow", hsl: "48 100% 50%", fg: "0 0% 9%" },
-  { key: "green", label: "Green", hsl: "135 59% 49%", fg: "0 0% 100%" },
-  { key: "graphite", label: "Graphite", hsl: "240 2% 57%", fg: "0 0% 100%" },
+  { key: "blue", label: "Blue", labelId: "Biru", hsl: "211 100% 50%", fg: "0 0% 100%" },
+  { key: "purple", label: "Purple", labelId: "Ungu", hsl: "280 64% 58%", fg: "0 0% 100%" },
+  { key: "pink", label: "Pink", labelId: "Merah muda", hsl: "331 92% 61%", fg: "0 0% 100%" },
+  { key: "red", label: "Red", labelId: "Merah", hsl: "3 100% 59%", fg: "0 0% 100%" },
+  { key: "orange", label: "Orange", labelId: "Oranye", hsl: "35 100% 50%", fg: "0 0% 100%" },
+  { key: "yellow", label: "Yellow", labelId: "Kuning", hsl: "48 100% 50%", fg: "0 0% 9%" },
+  { key: "green", label: "Green", labelId: "Hijau", hsl: "135 59% 49%", fg: "0 0% 100%" },
+  { key: "graphite", label: "Graphite", labelId: "Grafit", hsl: "240 2% 57%", fg: "0 0% 100%" },
 ] as const;
 export type AccentKey = (typeof ACCENTS)[number]["key"];
 const STORE = "p441z:accent";
@@ -66,8 +67,9 @@ export function useAccent(): AccentKey {
 /** A row of accent dots, like the desktop's appearance settings. */
 export function AccentDots({ size = 18, className }: { size?: number; className?: string }) {
   const current = useAccent();
+  const t = useT();
   return (
-    <div role="radiogroup" aria-label="Accent color" className={cn("flex items-center gap-2", className)}>
+    <div role="radiogroup" aria-label={t("Accent color", "Warna aksen")} className={cn("flex items-center gap-2", className)}>
       {ACCENTS.map((a) => {
         const on = a.key === current;
         return (
@@ -76,8 +78,8 @@ export function AccentDots({ size = 18, className }: { size?: number; className?
             type="button"
             role="radio"
             aria-checked={on}
-            aria-label={a.label}
-            title={a.label}
+            aria-label={t(a.label, a.labelId)}
+            title={t(a.label, a.labelId)}
             onClick={() => setAccent(a.key)}
             className="relative grid place-items-center rounded-full outline-hidden transition-transform duration-150 hover:scale-110 focus-visible:ring-2 focus-visible:ring-ring"
             style={{ width: size, height: size, background: `hsl(${a.hsl})`, boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.12)" }}
@@ -94,6 +96,7 @@ export function AccentDots({ size = 18, className }: { size?: number; className?
 /** Menu-bar button: current accent dot that opens the picker. */
 export function AccentMenu() {
   const current = useAccent();
+  const t = useT();
   const [open, setOpen] = useState(false);
   const box = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -110,7 +113,7 @@ export function AccentMenu() {
   const a = ACCENTS.find((x) => x.key === current)!;
   return (
     <div ref={box} className="relative">
-      <button type="button" onClick={() => setOpen((o) => !o)} aria-label={`Accent color: ${a.label}`} aria-expanded={open} className="grid size-6 place-items-center rounded transition-colors duration-150 hover:bg-foreground/10">
+      <button type="button" onClick={() => setOpen((o) => !o)} aria-label={`${t("Accent color", "Warna aksen")}: ${t(a.label, a.labelId)}`} aria-expanded={open} className="grid size-6 place-items-center rounded transition-colors duration-150 hover:bg-foreground/10">
         <span className="size-3 rounded-full ring-1 ring-black/15" style={{ background: `hsl(${a.hsl})` }} />
       </button>
       <AnimatePresence>
@@ -122,10 +125,10 @@ export function AccentMenu() {
             transition={{ duration: 0.18, ease: EASE.reveal }}
             className="absolute right-0 top-8 z-[60] w-max rounded-xl border border-black/10 bg-background/80 p-3 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.45)] backdrop-blur-2xl backdrop-saturate-150 dark:border-white/10"
           >
-            <div className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">Accent color</div>
+            <div className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">{t("Accent color", "Warna aksen")}</div>
             <AccentDots />
             <div className="mt-2.5 text-[12px] text-muted-foreground">
-              {a.label} · <code className="text-[11px]">--primary: {a.hsl}</code>
+              {t(a.label, a.labelId)} · <code className="text-[11px]">--primary: {a.hsl}</code>
             </div>
           </motion.div>
         )}

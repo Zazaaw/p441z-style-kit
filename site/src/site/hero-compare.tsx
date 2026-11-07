@@ -7,6 +7,7 @@ import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { Compare, PREVIEWS } from "@/site/skill-previews";
 import { QuickLook, type SkillView } from "@/site/skills";
+import { useNum, useT } from "@/site/i18n";
 
 // The kit's strongest argument, right under the headline: what an agent ships without a skill vs
 // with it. Cycles through a few skills on its own until the visitor grabs the slider or a tab.
@@ -16,6 +17,8 @@ const EVERY = 7; // seconds per skill while auto-playing
 export default function HeroCompare({ skills }: { skills: SkillView[] }) {
   const list = PICKS.map((f) => skills.find((s) => s.file === f)).filter((s): s is SkillView => !!s && !!PREVIEWS[s.file]);
   const box = useRef<HTMLDivElement>(null);
+  const t = useT();
+  const num = useNum();
   const seen = useInView(box, { amount: 0.4 });
   const reduce = useReducedMotion();
   const [i, setI] = useState(0);
@@ -37,12 +40,13 @@ export default function HeroCompare({ skills }: { skills: SkillView[] }) {
     <div ref={box} className="mx-auto w-full max-w-6xl text-left">
       <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
         <div>
-          <div className="text-[12px] font-semibold uppercase tracking-[0.16em] text-primary">What the skills do</div>
+          <div className="text-[12px] font-semibold uppercase tracking-[0.16em] text-primary">{t("What the skills do", "Apa yang dikerjakan skill")}</div>
           <h2 className="mt-2 font-display text-[clamp(1.75rem,3.4vw,2.75rem)] font-extrabold leading-[1.05] tracking-[-0.035em]">
-            Drag the line. <span className="text-muted-foreground">That’s the difference.</span>
+            {t("Drag the line. ", "Geser garisnya. ")}
+            <span className="text-muted-foreground">{t("That’s the difference.", "Itu bedanya.")}</span>
           </h2>
         </div>
-        <div role="tablist" aria-label="Skill previews" className="-mx-1 flex max-w-full gap-1 overflow-x-auto px-1 [scrollbar-width:none]">
+        <div role="tablist" aria-label={t("Skill previews", "Pratinjau skill")} className="-mx-1 flex max-w-full gap-1 overflow-x-auto px-1 [scrollbar-width:none]">
           {list.map((x, k) => {
             const on = k === i;
             return (
@@ -72,12 +76,12 @@ export default function HeroCompare({ skills }: { skills: SkillView[] }) {
           <motion.div key={s.file} initial={{ opacity: 0, y: 10, filter: "blur(4px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} exit={{ opacity: 0, y: -8, filter: "blur(4px)" }} transition={{ duration: 0.35, ease: EASE.reveal }} className="order-2 lg:order-1">
             <div className="font-display text-2xl font-extrabold tracking-tight">{s.title}</div>
             <div className="mt-0.5 text-[15px] font-semibold text-muted-foreground">{s.tagline}</div>
-            <p className="mt-4 text-[15px] leading-relaxed">{p.note}</p>
+            <p className="mt-4 text-[15px] leading-relaxed">{t(p.note, p.noteId)}</p>
             <div className="mt-5 flex flex-wrap items-center gap-3 text-[13px]">
               <button type="button" onClick={() => setOpen(s)} className="rounded-full bg-primary px-4 py-2 font-semibold text-primary-foreground shadow-[0_10px_24px_-12px_var(--color-primary)] transition-transform duration-200 active:scale-[0.97]">
-                Quick look
+                Quick Look
               </button>
-              <span className="font-mono text-[12px] text-muted-foreground">{s.lines.toLocaleString("en-US")} lines of guidance</span>
+              <span className="font-mono text-[12px] text-muted-foreground">{num(s.lines)} {t("lines of guidance", "baris panduan")}</span>
             </div>
           </motion.div>
         </AnimatePresence>

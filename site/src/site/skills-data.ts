@@ -36,7 +36,27 @@ const TITLE: Record<string, [string, string]> = {
   "skill-motion.video.md": ["Motion Video", "Product tutorials that feel like a keynote"],
 };
 
-export function loadSkills(): Skill[] {
+// Indonesian copy for the /id page: [title, tagline, what it covers, when to open it].
+// The summary/outline lines stay as written in the skill files (they are technical, monospaced).
+const ID: Record<string, [string, string, string, string]> = {
+  "skill-analysis.md": ["Analisis", "Jangan kirim kerja setengah matang", "Pahami alurnya, petakan dampaknya, cek ulang dari sisi pengguna, laporkan apa adanya.", "Selalu. Ini skill dasar; skill lain dibangun di atasnya"],
+  "skill-backend.api.md": ["Backend & API", "Kontrak jelas, error kelihatan", "Merancang dan membangun backend/API: kontrak, validasi, bentuk error, otorisasi, paginasi, background job, webhook", "Saat membuat atau mengubah endpoint, service, integrasi"],
+  "skill-database.md": ["Database", "Skema yang tahan saat data tumbuh", "Skema, query, indeks, transaksi, migrasi yang aman, multi-tenant, zona waktu", "Saat menyentuh tabel, query, atau migrasi"],
+  "skill-testing.md": ["Testing", "Bukti, bukan perasaan", "Strategi dan penulisan tes: unit, integrasi, e2e, data ekstrem, regresi, cara agen AI memverifikasi kerjanya sendiri", "Setiap fitur atau perbaikan bug sebelum bilang \"selesai\""],
+  "skill-security.md": ["Keamanan", "Aman di sisi server", "Keamanan web defensif: autentikasi, otorisasi, injection, XSS/CSRF, unggahan, secret, logging", "Fitur yang menyentuh data pengguna, hak akses, file, atau login"],
+  "skill-performance.md": ["Performa", "Cepat di data sungguhan", "Ukur dulu, baru perbaiki: query, cache, bundle, gambar, rendering, pertumbuhan data", "Halaman/endpoint lambat, atau data yang bakal membesar"],
+  "skill-debugging.md": ["Debugging", "Cari akarnya, bukan gejalanya", "Akar masalah di atas gejala: reproduksi, persempit, bikin hipotesis, verifikasi, cegah terulang", "Setiap bug, error, atau perilaku \"kadang rusak\""],
+  "skill-git.workflow.md": ["Git & Code Review", "Kecil, jelas, bisa dilacak", "Commit granular, pesan lengkap, branching, PR, code review, revert, push hanya saat diminta", "Setiap kali kerja disimpan ke git atau di-review"],
+  "skill-dashboard.md": ["Dashboard & Admin", "Data yang benar-benar dipakai orang", "Dashboard, panel admin, CRUD: tabel jujur, filter, form, state kosong/memuat/error, hak akses di UI", "Membangun halaman internal, layar admin, laporan di layar"],
+  "skill-export.report.md": ["Ekspor & Laporan", "Bangga dikirim ke atasan", "Ekspor dan laporan Excel/PDF/CSV: tata letak rapi, angka benar, ikut filter, tanpa timeout", "Membuat atau mengubah ekspor, impor, tampilan cetak"],
+  "skill-documentation.md": ["Dokumentasi", "Ditulis untuk orang yang belum tahu", "README, panduan setup, dokumentasi API, ADR, changelog, deskripsi PR, dokumen serah terima, runbook, instruksi agen AI", "Saat menulis atau memperbarui dokumen apa pun"],
+  "skill-typography.md": ["Tipografi", "Setiap ukuran punya alasan", "Tipografi sebagai sistem: memilih dan memadukan huruf (Plus Jakarta Sans, Inter, SF Pro), skala golden ratio di mana setiap ukuran ×/÷ 1,618, line-height, ketebalan, pemuatan, keterbacaan", "Layar mana pun yang menentukan hierarki teks, pilihan font, atau ukuran"],
+  "skill-ui.ux.md": ["Selera UI / UX", "Frontend anti-slop", "Frontend anti-slop untuk landing page, portofolio, dan redesign", "Halaman publik yang butuh selera desain sungguhan"],
+  "skill-landing.page.md": ["Landing Page", "Prompt build desain yang ketat", "Prompt build ketat untuk hero satu layar (carousel + marquee)", "Meniru desain hero sedekat mungkin sampai ke piksel"],
+  "skill-motion.video.md": ["Video Motion", "Tutorial produk serasa keynote", "Video tutorial dan penjelasan bergaya keynote untuk aplikasi web: naskah, animatic, TTS per kalimat dengan timestamp kata, rekaman layar CDP asli dengan data disamarkan, komposisi Remotion, suara, render 60fps, ekspor web", "Membuat atau merevisi video tutorial, walkthrough, atau penjelasan software"],
+};
+
+export function loadSkills(lang: "en" | "id" = "en"): Skill[] {
   const index = readFileSync(join(DIR, "README.md"), "utf8");
   // Order and membership follow the folder index table — unlisted drafts stay off the site.
   const rows = index.split("\n").filter((l) => /^\| \[skill-[^\]]+\.md\]/.test(l));
@@ -50,14 +70,15 @@ export function loadSkills(): Skill[] {
       const m = src.match(/^##[^\n]*(One-screen summary|Ringkasan satu layar)[^\n]*\n[\s\S]*?^```[^\n]*\n([\s\S]*?)^```/m);
       const summary = m ? m[2].split("\n").filter((l) => l.trim() && !/^─+$/.test(l.trim()) && !/^[A-Z][A-Z-]+ — /.test(l.trim())) : [];
       const outline = (src.match(/^## (?!Attribution)[^\n]+/gm) ?? []).map((h) => h.replace(/^## /, "").replace(/^\d+\.\s*/, "").replace(/\s*\([^)]*\)/g, "").replace(/[🎯]/gu, "").trim());
-      const [title, tagline] = TITLE[file] ?? [file.replace(/^skill-|\.md$/g, ""), ""];
+      const [title, tagline] = (lang === "id" && ID[file]) || TITLE[file] || [file.replace(/^skill-|\.md$/g, ""), ""];
+      const id = lang === "id" ? ID[file] : undefined;
       return {
         file,
         name: src.match(/^name:\s*(.+)$/m)?.[1].trim() ?? file.replace(/\.md$/, ""),
         title,
         tagline,
-        description: plain(cols[3] ?? ""),
-        when: plain(cols[4] ?? ""),
+        description: id?.[2] ?? plain(cols[3] ?? ""),
+        when: id?.[3] ?? plain(cols[4] ?? ""),
         lines: src.split("\n").length,
         summary,
         outline,

@@ -12,6 +12,7 @@ import Dock from "@/components/mac/dock";
 import { useNotify } from "@/components/mac/notification";
 import { ThemeToggle } from "@/site/theme";
 import { ACCENTS, AccentMenu, setAccent } from "@/site/accent";
+import { LangSwitch, homeFor, useLang, useT } from "@/site/i18n";
 import { IconBell, IconBook, IconCopy, IconGitHub, IconHome, IconMoon, IconPlay, IconSearch, IconSpark, IconWindow } from "@/site/icons";
 
 export const REPO = "https://github.com/Zazaaw/p441z-style-kit";
@@ -29,6 +30,8 @@ export default function Chrome({ skills }: { skills: { name: string; title: stri
   const [open, setOpen] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();
   const notify = useNotify();
+  const t = useT();
+  const lang = useLang();
   useSpotlightHotkey(() => setOpen((o) => !o));
   // Auto-hide the dock while a section that has its own stage (keynote, desktop) fills the screen.
   const [hideDock, setHideDock] = useState(false);
@@ -52,31 +55,51 @@ export default function Chrome({ skills }: { skills: { name: string; title: stri
     return () => window.removeEventListener("p441z:spotlight", o);
   }, []);
 
+  const S = t("Sections", "Bagian");
+  const A = t("Actions", "Aksi");
   const items: SpotlightItem[] = [
-    { group: "Sections", label: "Keynote", hint: "#keynote", icon: <IconPlay />, onSelect: () => go("#keynote") },
-    { group: "Sections", label: "Inside the kit", hint: "#kit", icon: <IconWindow />, onSelect: () => go("#kit") },
-    { group: "Sections", label: "Typography — the golden ratio", hint: "#type", icon: <IconBook />, keywords: "type font scale leading", onSelect: () => go("#type") },
-    { group: "Sections", label: "Made with the skills", hint: "#showcase", icon: <IconPlay />, onSelect: () => go("#showcase") },
-    { group: "Sections", label: "Motion components", hint: "#motion", icon: <IconSpark />, onSelect: () => go("#motion") },
-    { group: "Sections", label: "Desktop UI", hint: "#desk", icon: <IconWindow />, onSelect: () => go("#desk") },
-    { group: "Sections", label: "Skills", hint: "#skills", icon: <IconBook />, onSelect: () => go("#skills") },
+    { group: S, label: "Keynote", hint: "#keynote", icon: <IconPlay />, onSelect: () => go("#keynote") },
+    { group: S, label: t("Inside the kit", "Isi kit"), hint: "#kit", icon: <IconWindow />, onSelect: () => go("#kit") },
+    { group: S, label: t("Typography — the golden ratio", "Tipografi — golden ratio"), hint: "#type", icon: <IconBook />, keywords: "type font scale leading tipografi huruf", onSelect: () => go("#type") },
+    { group: S, label: t("Made with the skills", "Dibuat dengan skill"), hint: "#showcase", icon: <IconPlay />, onSelect: () => go("#showcase") },
+    { group: S, label: t("Motion components", "Komponen motion"), hint: "#motion", icon: <IconSpark />, onSelect: () => go("#motion") },
+    { group: S, label: t("Desktop UI", "UI desktop"), hint: "#desk", icon: <IconWindow />, onSelect: () => go("#desk") },
+    { group: S, label: "Skills", hint: "#skills", icon: <IconBook />, onSelect: () => go("#skills") },
     {
-      group: "Actions",
-      label: "Copy install command",
+      group: A,
+      label: t("Copy install command", "Salin perintah install"),
       icon: <IconCopy />,
-      keywords: "npm install shadcn registry",
-      onSelect: () => navigator.clipboard?.writeText(INSTALL).then(() => notify({ title: "Copied", body: "Install command is on your clipboard.", icon: <IconCopy /> })),
+      keywords: "npm install shadcn registry salin",
+      onSelect: () => navigator.clipboard?.writeText(INSTALL).then(() => notify({ title: t("Copied", "Tersalin"), body: t("Install command is on your clipboard.", "Perintah install sudah ada di clipboard."), icon: <IconCopy /> })),
     },
-    { group: "Actions", label: `Switch to ${resolvedTheme === "dark" ? "light" : "dark"} mode`, icon: <IconMoon />, keywords: "theme dark light", onSelect: () => setTheme(resolvedTheme === "dark" ? "light" : "dark") },
+    {
+      group: A,
+      label: resolvedTheme === "dark" ? t("Switch to light mode", "Ganti ke mode terang") : t("Switch to dark mode", "Ganti ke mode gelap"),
+      icon: <IconMoon />,
+      keywords: "theme dark light tema gelap terang",
+      onSelect: () => setTheme(resolvedTheme === "dark" ? "light" : "dark"),
+    },
+    {
+      group: A,
+      label: lang === "id" ? "Switch to English" : "Ganti ke Bahasa Indonesia",
+      icon: <IconHome />,
+      keywords: "language bahasa english indonesia",
+      onSelect: () => (window.location.href = homeFor(lang === "id" ? "en" : "id") + window.location.hash),
+    },
     ...ACCENTS.map((a) => ({
-      group: "Accent",
-      label: `Accent: ${a.label}`,
-      keywords: "color colour theme primary",
+      group: t("Accent", "Aksen"),
+      label: `${t("Accent", "Aksen")}: ${t(a.label, a.labelId)}`,
+      keywords: "color colour theme primary warna",
       icon: <span className="size-3.5 rounded-full ring-1 ring-black/15" style={{ background: `hsl(${a.hsl})` }} />,
       onSelect: () => setAccent(a.key),
     })),
-    { group: "Actions", label: "Send a test notification", icon: <IconBell />, onSelect: () => notify({ title: "Hello from p441z", body: "This banner is <Notification>, part of the kit.", icon: <IconBell /> }) },
-    { group: "Actions", label: "Open on GitHub", icon: <IconGitHub />, hint: "github.com", onSelect: () => window.open(REPO, "_blank", "noopener") },
+    {
+      group: A,
+      label: t("Send a test notification", "Kirim notifikasi uji"),
+      icon: <IconBell />,
+      onSelect: () => notify({ title: t("Hello from p441z", "Halo dari p441z"), body: t("This banner is <Notification>, part of the kit.", "Banner ini adalah <Notification>, bagian dari kit."), icon: <IconBell /> }),
+    },
+    { group: A, label: t("Open on GitHub", "Buka di GitHub"), icon: <IconGitHub />, hint: "github.com", onSelect: () => window.open(REPO, "_blank", "noopener") },
     ...skills.map((s) => ({ group: "Skills", label: s.title, hint: s.name, keywords: s.file, icon: <IconBook />, onSelect: () => window.open(`${REPO}/blob/main/Skill.md/${s.file}`, "_blank", "noopener") })),
   ];
 
@@ -87,26 +110,27 @@ export default function Chrome({ skills }: { skills: { name: string; title: stri
         brand={<span className="font-display tracking-tight">p441z</span>}
         items={[
           { label: "Keynote", href: "#keynote" },
-          { label: "Type", href: "#type" },
+          { label: t("Type", "Tipografi"), href: "#type" },
           { label: "Motion", href: "#motion" },
           { label: "Desktop", href: "#desk" },
-          { label: "Showcase", href: "#showcase" },
+          { label: t("Showcase", "Karya"), href: "#showcase" },
           { label: "Skills", href: "#skills" },
         ]}
         right={
           <>
-            <button type="button" onClick={() => setOpen(true)} className="hidden items-center gap-1.5 rounded px-1.5 py-0.5 transition-colors duration-150 hover:bg-foreground/10 sm:flex" aria-label="Open search">
+            <button type="button" onClick={() => setOpen(true)} className="hidden items-center gap-1.5 rounded px-1.5 py-0.5 transition-colors duration-150 hover:bg-foreground/10 sm:flex" aria-label={t("Open search", "Buka pencarian")}>
               <span className="size-3.5 [&_svg]:size-3.5">
                 <IconSearch />
               </span>
               <kbd className="font-sans text-[12px]">⌘K</kbd>
             </button>
+            <LangSwitch />
             <AccentMenu />
             <ThemeToggle />
           </>
         }
       />
-      <Spotlight open={open} onOpenChange={setOpen} items={items} placeholder="Search sections, skills, actions…" />
+      <Spotlight open={open} onOpenChange={setOpen} items={items} placeholder={t("Search sections, skills, actions…", "Cari bagian, skill, aksi…")} />
       <motion.div
         className="fixed bottom-4 left-1/2 z-50 hidden md:block"
         style={{ x: "-50%" }}
@@ -116,12 +140,12 @@ export default function Chrome({ skills }: { skills: { name: string; title: stri
       >
       <Dock
         items={[
-          { label: "Top", icon: <IconHome />, href: "#top" },
+          { label: t("Top", "Atas"), icon: <IconHome />, href: "#top" },
           { label: "Keynote", icon: <IconPlay />, href: "#keynote" },
           { label: "Motion", icon: <IconSpark />, href: "#motion" },
-          { label: "Desktop UI", icon: <IconWindow />, href: "#desk" },
+          { label: t("Desktop UI", "UI desktop"), icon: <IconWindow />, href: "#desk" },
           { label: "Skills", icon: <IconBook />, href: "#skills" },
-          { label: "Search  ⌘K", icon: <IconSearch />, onClick: () => setOpen(true), divider: true },
+          { label: t("Search  ⌘K", "Cari  ⌘K"), icon: <IconSearch />, onClick: () => setOpen(true), divider: true },
           { label: "GitHub", icon: <IconGitHub />, href: REPO },
         ]}
       />

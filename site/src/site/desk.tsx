@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { IconBell, IconCheck, IconTerminal, IconWindow, IconBook } from "@/site/icons";
+import { useT } from "@/site/i18n";
 
 type Win = "code" | "term" | "preview";
 
@@ -29,6 +30,7 @@ const CODE = `:root {
 }`;
 
 export default function Desk() {
+  const t = useT();
   const openSpotlight = () => window.dispatchEvent(new Event("p441z:spotlight"));
   const desk = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
@@ -68,8 +70,8 @@ export default function Desk() {
     <section id="desk" className="relative mx-auto max-w-6xl scroll-mt-16 px-6 py-28">
       <div className="max-w-2xl">
         <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">components/mac</div>
-        <MaskReveal as="h2" text="Feels like your desktop." className="mt-3 font-display text-[clamp(2rem,4.5vw,3.25rem)] font-extrabold leading-[1.05] tracking-[-0.04em]" />
-        <p className="mt-4 text-lg text-muted-foreground">Windows with traffic lights, a terminal that types, a magnifying dock, ⌘K search, and frosted notifications. Drag the windows around — close one and bring it back from the dock.</p>
+        <MaskReveal as="h2" text={t("Feels like your desktop.", "Serasa di desktop sendiri.")} className="mt-3 font-display text-[clamp(2rem,4.5vw,3.25rem)] font-extrabold leading-[1.05] tracking-[-0.04em]" />
+        <p className="mt-4 text-lg text-muted-foreground">{t("Windows with traffic lights, a terminal that types, a magnifying dock, ⌘K search, and frosted notifications. Drag the windows around — close one and bring it back from the dock.", "Jendela dengan traffic lights, terminal yang mengetik sendiri, dock yang membesar, pencarian ⌘K, dan notifikasi buram. Geser jendelanya ke mana saja — tutup satu, lalu panggil lagi dari dock.")}</p>
       </div>
 
       <div ref={desk} className="relative mt-12 h-[640px] overflow-hidden rounded-3xl border border-border bg-[radial-gradient(120%_90%_at_20%_0%,hsl(var(--muted))_0%,hsl(var(--background))_55%)] shadow-inner">
@@ -92,15 +94,15 @@ export default function Desk() {
         {frame(
           "preview",
           "right-[4%] top-[12%] w-[min(340px,80%)]",
-          <MacWindow title="Preview" glass onClose={() => close("preview")} bodyClassName="p-5">
+          <MacWindow title={t("Preview", "Pratinjau")} glass onClose={() => close("preview")} bodyClassName="p-5">
             <div className="rounded-xl border border-border bg-background p-4">
-              <div className="text-[13px] text-muted-foreground">Leave balance</div>
+              <div className="text-[13px] text-muted-foreground">{t("Leave balance", "Saldo cuti")}</div>
               <div className="mt-1 font-display text-3xl font-extrabold tracking-tight">
-                9 <span className="text-base font-semibold text-muted-foreground">/ 12 days</span>
+                9 <span className="text-base font-semibold text-muted-foreground">{t("/ 12 days", "/ 12 hari")}</span>
               </div>
               <div className="mt-4 flex gap-2">
-                <Button size="sm" onClick={() => notify({ title: "Request sent", body: "Waiting for Maya to approve.", icon: <IconCheck /> })}>
-                  Request leave
+                <Button size="sm" onClick={() => notify({ title: t("Request sent", "Pengajuan terkirim"), body: t("Waiting for Maya to approve.", "Menunggu persetujuan Maya."), icon: <IconCheck /> })}>
+                  {t("Request leave", "Ajukan cuti")}
                 </Button>
                 <Button size="sm" variant="outline" onClick={openSpotlight}>
                   ⌘K
@@ -117,8 +119,8 @@ export default function Desk() {
           items={[
             { label: "globals.css", icon: <IconWindow />, onClick: () => show("code"), active: open.code },
             { label: "Terminal", icon: <IconTerminal />, onClick: () => show("term"), active: open.term },
-            { label: "Preview", icon: <IconBook />, onClick: () => show("preview"), active: open.preview },
-            { label: "Notify me", icon: <IconBell />, divider: true, onClick: () => notify({ title: "Hello from the dock", body: "Notifications stack and leave on their own.", icon: <IconBell /> }) },
+            { label: t("Preview", "Pratinjau"), icon: <IconBook />, onClick: () => show("preview"), active: open.preview },
+            { label: t("Notify me", "Kabari aku"), icon: <IconBell />, divider: true, onClick: () => notify({ title: t("Hello from the dock", "Halo dari dock"), body: t("Notifications stack and leave on their own.", "Notifikasi bertumpuk dan pergi sendiri."), icon: <IconBell /> }) },
           ]}
         />
       </div>

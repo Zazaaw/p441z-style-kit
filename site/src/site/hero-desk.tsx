@@ -9,6 +9,7 @@ import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { AccentDots } from "@/site/accent";
 import { INSTALL } from "@/site/chrome";
+import { useT } from "@/site/i18n";
 
 // The hero's desktop: real kit windows floating around the headline, drifting against the pointer
 // at different depths (nearer windows move more). Wide screens only — on a phone the headline is
@@ -29,11 +30,11 @@ function Float({ p, depth, className, tilt = 0, children }: { p: Pointer; depth:
 }
 
 const NOTES = [
-  { app: "Quick Look", title: "Typography", body: "Every size has a reason — ×1.618." },
-  { app: "Claude Code", title: "skill-dashboard loaded", body: "Honest tables, real empty states." },
-  { app: "Registry", title: "style-kit installed", body: "35 components · 1 theme." },
-  { app: "Keynote", title: "Ready to play", body: "Nothing is a video. It's all components." },
-];
+  { app: "Quick Look", title: ["Typography", "Tipografi"], body: ["Every size has a reason — ×1.618.", "Setiap ukuran punya alasan — ×1,618."] },
+  { app: "Claude Code", title: ["skill-dashboard loaded", "skill-dashboard dimuat"], body: ["Honest tables, real empty states.", "Tabel jujur, state kosong yang nyata."] },
+  { app: "Registry", title: ["style-kit installed", "style-kit terpasang"], body: ["35 components · 1 theme.", "35 komponen · 1 tema."] },
+  { app: "Keynote", title: ["Ready to play", "Siap diputar"], body: ["Nothing is a video. It's all components.", "Bukan video. Semuanya komponen."] },
+] as const;
 
 function Notes() {
   const reduce = useReducedMotion();
@@ -44,6 +45,7 @@ function Notes() {
     return () => clearInterval(t);
   }, [reduce]);
   const n = NOTES[i];
+  const t = useT();
   return (
     <div className="relative h-[74px] w-full">
       <AnimatePresence initial={false}>
@@ -59,10 +61,10 @@ function Notes() {
           <span className="min-w-0 flex-1">
             <span className="flex items-baseline justify-between gap-2 text-[11px] text-muted-foreground">
               <span className="truncate font-semibold uppercase tracking-[0.08em]">{n.app}</span>
-              <span>now</span>
+              <span>{t("now", "baru saja")}</span>
             </span>
-            <span className="mt-0.5 block truncate text-[13.5px] font-semibold">{n.title}</span>
-            <span className="block truncate text-[12.5px] text-muted-foreground">{n.body}</span>
+            <span className="mt-0.5 block truncate text-[13.5px] font-semibold">{t(n.title[0], n.title[1])}</span>
+            <span className="block truncate text-[12.5px] text-muted-foreground">{t(n.body[0], n.body[1])}</span>
           </span>
         </motion.div>
       </AnimatePresence>
@@ -91,20 +93,25 @@ function Curve() {
 }
 
 function Appearance() {
+  const t = useT();
   return (
-    <MacWindow glass title="Appearance" bodyClassName="p-4">
-      <div className="text-[12px] font-semibold text-muted-foreground">Accent color</div>
+    <MacWindow glass title={t("Appearance", "Tampilan")} bodyClassName="p-4">
+      <div className="text-[12px] font-semibold text-muted-foreground">{t("Accent color", "Warna aksen")}</div>
       <AccentDots size={16} className="mt-2.5 gap-2" />
-      <div className="mt-3 text-[11.5px] leading-snug text-muted-foreground">The whole page follows. Two tokens: <code className="whitespace-nowrap text-foreground">--primary</code> + <code className="whitespace-nowrap text-foreground">--ring</code>.</div>
+      <div className="mt-3 text-[11.5px] leading-snug text-muted-foreground">
+        {t("The whole page follows. Two tokens: ", "Seluruh halaman ikut berubah. Dua token: ")}
+        <code className="whitespace-nowrap text-foreground">--primary</code> + <code className="whitespace-nowrap text-foreground">--ring</code>.
+      </div>
     </MacWindow>
   );
 }
 
 export default function HeroDesk({ p }: { p: Pointer }) {
+  const t = useT();
   return (
     <div className="hero-desk pointer-events-none absolute inset-0 z-10 hidden xl:block [&_.hero-win]:pointer-events-auto">
       <Float p={p} depth={26} tilt={-2.5} className="left-[2.5vw] top-[20%] w-[clamp(250px,19vw,300px)]">
-        <Terminal title="zsh" prompt="%" speed={48} lines={[{ cmd: INSTALL.replace("https://", "") }, { out: "✓ 35 components · 1 theme" }, { out: "Done in 4.2s", dim: true }]} />
+        <Terminal title="zsh" prompt="%" speed={48} lines={[{ cmd: INSTALL.replace("https://", "") }, { out: t("✓ 35 components · 1 theme", "✓ 35 komponen · 1 tema") }, { out: t("Done in 4.2s", "Selesai dalam 4,2 dtk"), dim: true }]} />
       </Float>
       <Float p={p} depth={14} tilt={2} className="right-[2.5vw] top-[17%] w-[clamp(250px,19vw,300px)]">
         <Notes />

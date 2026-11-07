@@ -10,6 +10,7 @@ import { MacWindow } from "@/components/mac/window";
 import { useNotify } from "@/components/mac/notification";
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { useNum, useT } from "@/site/i18n";
 import { IconCopy, IconGitHub } from "@/site/icons";
 import { REPO } from "@/site/chrome";
 import { Compare, PREVIEWS } from "@/site/skill-previews";
@@ -27,6 +28,8 @@ const split = (l: string): [string, string] => {
  *  otherwise become the containing block of this fixed overlay and clip it. */
 export function QuickLook({ s, onClose, layoutId = `skill-${s.name}` }: { s: SkillView; onClose: () => void; layoutId?: string }) {
   const notify = useNotify();
+  const t = useT();
+  const num = useNum();
   const preview = PREVIEWS[s.file];
   // Condensed summary: only keyed rows (continuations dropped), first four (a 2×2 on desktop).
   const keyed = s.summary.map(split).filter(([k]) => k);
@@ -48,7 +51,7 @@ export function QuickLook({ s, onClose, layoutId = `skill-${s.name}` }: { s: Ski
           className="shadow-[0_60px_120px_-40px_rgba(0,0,0,0.6)]"
           toolbar={
             <a href={`${REPO}/blob/main/Skill.md/${s.file}`} target="_blank" rel="noreferrer" className="flex items-center gap-1 rounded-md px-2 py-0.5 text-[12px] font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
-              <span className="size-3.5 [&_svg]:size-3.5"><IconGitHub /></span> Open
+              <span className="size-3.5 [&_svg]:size-3.5"><IconGitHub /></span> {t("Open", "Buka")}
             </a>
           }
           bodyClassName="max-h-[82vh] overflow-y-auto"
@@ -58,19 +61,19 @@ export function QuickLook({ s, onClose, layoutId = `skill-${s.name}` }: { s: Ski
               <div className="font-display text-3xl font-extrabold tracking-tight">{s.title}</div>
               <div className="mt-1 text-[15px] font-semibold text-muted-foreground">{s.tagline}</div>
               <p className="mt-3 line-clamp-4 text-[14px] leading-relaxed text-muted-foreground">{s.description}</p>
-              <div className="mt-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Open it when</div>
+              <div className="mt-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Open it when", "Buka saat")}</div>
               <p className="mt-1 line-clamp-3 text-[14px]">{s.when}</p>
               <div className="mt-4 flex flex-wrap gap-2 text-[12px]">
                 <code className="rounded-full border border-border px-2.5 py-1">{s.name}</code>
-                <span className="rounded-full border border-border px-2.5 py-1 text-muted-foreground">{s.lines.toLocaleString("en-US")} lines</span>
+                <span className="rounded-full border border-border px-2.5 py-1 text-muted-foreground">{num(s.lines)} {t("lines", "baris")}</span>
               </div>
               <div className="mt-5 md:mt-auto md:pt-4">
                 <button
                   type="button"
-                  onClick={() => navigator.clipboard?.writeText(install).then(() => notify({ title: "Install command copied", body: `Paste it in your project to add ${s.name} to Claude Code.`, icon: <IconCopy /> }))}
+                  onClick={() => navigator.clipboard?.writeText(install).then(() => notify({ title: t("Install command copied", "Perintah install tersalin"), body: t(`Paste it in your project to add ${s.name} to Claude Code.`, `Tempel di project kamu untuk menambahkan ${s.name} ke Claude Code.`), icon: <IconCopy /> }))}
                   className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-[14px] font-semibold text-primary-foreground shadow-[0_12px_28px_-12px_var(--color-primary)] transition-transform duration-200 active:scale-[0.98]"
                 >
-                  <span className="size-4 [&_svg]:size-4"><IconCopy /></span> Copy install for Claude Code
+                  <span className="size-4 [&_svg]:size-4"><IconCopy /></span> {t("Copy install for Claude Code", "Salin install untuk Claude Code")}
                 </button>
               </div>
             </div>
@@ -78,16 +81,16 @@ export function QuickLook({ s, onClose, layoutId = `skill-${s.name}` }: { s: Ski
               {preview ? (
                 <>
                   <Compare before={preview.before} after={preview.after} />
-                  <p className="mt-2 text-[12.5px] leading-snug text-muted-foreground">{preview.note}</p>
+                  <p className="mt-2 text-[12.5px] leading-snug text-muted-foreground">{t(preview.note, preview.noteId)}</p>
                 </>
               ) : null}
             </div>
             <div className="rounded-xl border border-border bg-muted/40 px-3.5 py-3 md:col-span-2">
               <div className="flex items-baseline justify-between gap-3">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{rows.length ? "At a glance" : "What's inside"}</span>
+                <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{rows.length ? t("At a glance", "Sekilas") : t("What's inside", "Isinya")}</span>
                 {more > 0 && (
                   <a href={`${REPO}/blob/main/Skill.md/${s.file}`} target="_blank" rel="noreferrer" className="text-[11.5px] font-medium text-primary hover:underline">
-                    +{more} more in the skill
+                    {t(`+${more} more in the skill`, `+${more} lagi di skill`)}
                   </a>
                 )}
               </div>
@@ -117,6 +120,8 @@ export function QuickLook({ s, onClose, layoutId = `skill-${s.name}` }: { s: Ski
 }
 
 export default function Skills({ skills }: { skills: SkillView[] }) {
+  const tr = useT();
+  const num = useNum();
   const [q, setQ] = useState("");
   const [open, setOpen] = useState<SkillView | null>(null);
   const hits = useMemo(() => {
@@ -130,12 +135,15 @@ export default function Skills({ skills }: { skills: SkillView[] }) {
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div className="max-w-2xl">
           <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Skill.md</div>
-          <MaskReveal as="h2" text={`${skills.length} skills for your AI agent.`} className="mt-3 font-display text-[clamp(2rem,4.5vw,3.25rem)] font-extrabold leading-[1.05] tracking-[-0.04em]" />
+          <MaskReveal as="h2" text={tr(`${skills.length} skills for your AI agent.`, `${skills.length} skill untuk AI agent kamu.`)} className="mt-3 font-display text-[clamp(2rem,4.5vw,3.25rem)] font-extrabold leading-[1.05] tracking-[-0.04em]" />
           <p className="mt-4 text-lg text-muted-foreground">
-            {total.toLocaleString("en-US")} lines of rules, checklists, templates, and anti-patterns. Drop one into <code className="text-[0.9em]">.claude/skills/</code> and your agent works the way you do.
+            {tr(
+              <>{num(total)} lines of rules, checklists, templates, and anti-patterns. Drop one into <code className="text-[0.9em]">.claude/skills/</code> and your agent works the way you do.</>,
+              <>{num(total)} baris aturan, checklist, template, dan anti-pattern. Taruh satu di <code className="text-[0.9em]">.claude/skills/</code> dan agent kamu bekerja seperti caramu.</>,
+            )}
           </p>
         </div>
-        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Filter skills…" aria-label="Filter skills" className="h-10 w-full rounded-lg border border-border bg-background px-3.5 text-[14px] outline-hidden transition-colors focus-visible:ring-1 focus-visible:ring-ring sm:w-64" />
+        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={tr("Filter skills…", "Saring skill…")} aria-label={tr("Filter skills", "Saring skill")} className="h-10 w-full rounded-lg border border-border bg-background px-3.5 text-[14px] outline-hidden transition-colors focus-visible:ring-1 focus-visible:ring-ring sm:w-64" />
       </div>
 
       <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -150,19 +158,19 @@ export default function Skills({ skills }: { skills: SkillView[] }) {
             >
               <div className="flex items-center justify-between font-mono text-[12px] text-muted-foreground">
                 <span>{String(skills.indexOf(s) + 1).padStart(2, "0")}</span>
-                <span>{s.lines.toLocaleString("en-US")} lines</span>
+                <span>{num(s.lines)} {tr("lines", "baris")}</span>
               </div>
               <div className="mt-3 font-display text-[22px] font-extrabold tracking-tight">{s.title}</div>
               <div className="mt-0.5 text-[14px] font-semibold text-muted-foreground">{s.tagline}</div>
               <p className="mt-3 line-clamp-2 text-[13.5px] leading-relaxed text-muted-foreground">{s.description}</p>
               <div className="mt-auto flex items-center justify-between pt-4">
                 <code className="text-[12px]">{s.name}</code>
-                <span className="text-[12px] font-medium text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5">Quick look →</span>
+                <span className="text-[12px] font-medium text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5">{tr("Quick look →", "Quick Look →")}</span>
               </div>
             </motion.button>
           </BlurFade>
         ))}
-        {hits.length === 0 && <div className="col-span-full py-16 text-center text-muted-foreground">No skill matches “{q}”.</div>}
+        {hits.length === 0 && <div className="col-span-full py-16 text-center text-muted-foreground">{tr(<>No skill matches “{q}”.</>, <>Tidak ada skill yang cocok dengan “{q}”.</>)}</div>}
       </div>
 
       <AnimatePresence>{open && <QuickLook key={open.file} s={open} onClose={() => setOpen(null)} />}</AnimatePresence>

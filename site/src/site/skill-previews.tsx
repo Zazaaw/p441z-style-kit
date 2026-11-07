@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { animate, useReducedMotion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
+import { useT } from "@/site/i18n";
 
 // Before/after previews for each skill: what an AI agent typically produces WITHOUT the skill (left)
 // and what the same request looks like WITH it (right). Drawn on a 560×350 canvas, scaled to fit.
@@ -30,6 +31,7 @@ function Scaled({ children }: { children: React.ReactNode }) {
 
 /** Drag (or arrow-key) the divider to compare. Opens with a short nudge so people see it moves. */
 export function Compare({ before, after, play = true, onGrab }: { before: React.ReactNode; after: React.ReactNode; /** Run the intro sweep (pass false until it is on screen). */ play?: boolean; onGrab?: () => void }) {
+  const t = useT();
   const box = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState(50);
   const reduce = useReducedMotion();
@@ -62,16 +64,16 @@ export function Compare({ before, after, play = true, onGrab }: { before: React.
         <Scaled>{before}</Scaled>
       </div>
       <span className="pointer-events-none absolute bottom-2.5 left-2.5 rounded-full bg-black/70 px-2 py-0.5 text-[11px] font-semibold text-white" style={{ opacity: pos > 18 ? 1 : 0 }}>
-        Without the skill
+        {t("Without the skill", "Tanpa skill")}
       </span>
       <span className="pointer-events-none absolute bottom-2.5 right-2.5 rounded-full bg-primary px-2 py-0.5 text-[11px] font-semibold text-primary-foreground" style={{ opacity: pos < 82 ? 1 : 0 }}>
-        With the skill
+        {t("With the skill", "Pakai skill")}
       </span>
       <div className="pointer-events-none absolute inset-y-0 w-0.5 -translate-x-1/2 bg-white shadow-[0_0_0_1px_rgba(0,0,0,0.15)]" style={{ left: `${pos}%` }} />
       <button
         type="button"
         role="slider"
-        aria-label="Compare without and with the skill"
+        aria-label={t("Compare without and with the skill", "Bandingkan tanpa dan pakai skill")}
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={Math.round(pos)}
@@ -105,11 +107,12 @@ const Code = ({ children, dark = true }: { children: React.ReactNode; dark?: boo
 );
 const Tick = ({ ok = true }: { ok?: boolean }) => <span className={cn("mr-2 inline-grid size-4 place-items-center rounded-full text-[10px] font-bold", ok ? "bg-primary text-primary-foreground" : "bg-red-500 text-white")}>{ok ? "✓" : "✗"}</span>;
 
-type Pair = { before: React.ReactNode; after: React.ReactNode; note: string };
+type Pair = { before: React.ReactNode; after: React.ReactNode; /** English note. */ note: string; /** Indonesian note. */ noteId: string };
 
 export const PREVIEWS: Record<string, Pair> = {
   "skill-typography.md": {
     note: "Same content. Sizes from a golden-ratio scale, real leading, a 65ch measure, one accent.",
+    noteId: "Konten sama. Ukuran dari skala golden ratio, leading yang pas, lebar baris 65ch, satu aksen.",
     before: (
       <Slop className="flex flex-col justify-center text-center">
         <div style={{ fontSize: 31, fontWeight: 700, lineHeight: 1 }}>WELCOME TO OUR AMAZING PLATFORM!!!</div>
@@ -141,6 +144,7 @@ export const PREVIEWS: Record<string, Pair> = {
   },
   "skill-ui.ux.md": {
     note: "No purple gradient, no emoji headings, no three identical cards — a design direction read from the brief.",
+    noteId: "Tanpa gradien ungu, judul ber-emoji, atau tiga kartu kembar — arah desain dibaca dari brief.",
     before: (
       <div className="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-violet-600 via-fuchsia-500 to-indigo-600 p-6 text-center text-white" style={{ fontFamily: "Arial" }}>
         <div className="text-[30px] font-bold">🚀 Supercharge Your Workflow ✨</div>
@@ -170,6 +174,7 @@ export const PREVIEWS: Record<string, Pair> = {
   },
   "skill-landing.page.md": {
     note: "A strict hero: badge, one headline, one action, proof — instead of everything at once.",
+    noteId: "Hero yang disiplin: badge, satu headline, satu aksi, bukti — bukan semuanya sekaligus.",
     before: (
       <Slop className="text-center">
         <div className="text-[11px]">HOME | ABOUT | PRICING | BLOG | CONTACT | LOGIN | SIGN UP</div>
@@ -194,6 +199,7 @@ export const PREVIEWS: Record<string, Pair> = {
   },
   "skill-dashboard.md": {
     note: "Honest tables: aligned numbers, real status, filters, and an empty state that says what to do.",
+    noteId: "Tabel yang jujur: angka rata, status nyata, filter, dan empty state yang bilang harus apa.",
     before: (
       <Slop>
         <div className="text-[18px] font-bold">Orders Dashboard</div>
@@ -227,6 +233,7 @@ export const PREVIEWS: Record<string, Pair> = {
   },
   "skill-export.report.md": {
     note: "An export you could send to the boss: title, period, filters, totals, aligned figures.",
+    noteId: "Ekspor yang layak dikirim ke atasan: judul, periode, filter, total, angka rata.",
     before: (
       <Slop className="font-mono">
         <div className="text-[11px]">export_final_v3 (2).csv</div>
@@ -247,6 +254,7 @@ export const PREVIEWS: Record<string, Pair> = {
   },
   "skill-backend.api.md": {
     note: "Failures you can see: the right status, a stable code, a message a person can act on.",
+    noteId: "Error yang kelihatan: status yang tepat, kode yang stabil, pesan yang bisa ditindaklanjuti.",
     before: (
       <Slop className="bg-neutral-50">
         <div className="text-[12px] font-bold">POST /api/leave → 200 OK</div>
@@ -274,6 +282,7 @@ export const PREVIEWS: Record<string, Pair> = {
   },
   "skill-database.md": {
     note: "Queries that survive growth: an index for the filter, no N+1, a plan you checked.",
+    noteId: "Query yang tahan data membesar: indeks untuk filter, tanpa N+1, query plan yang sudah dicek.",
     before: (
       <Slop className="bg-neutral-50">
         <Code dark={false}>{`users = SELECT * FROM users
@@ -300,6 +309,7 @@ LIMIT 50;   -- Index Scan · 41 ms`}</Code>
   },
   "skill-security.md": {
     note: "Safe on the server: parameters, permission per record, secrets out of the code.",
+    noteId: "Aman di server: query berparameter, izin per record, secret di luar kode.",
     before: (
       <Slop className="bg-neutral-50">
         <Code dark={false}>{`const KEY = "sk_live_9f3c...e21"
@@ -327,6 +337,7 @@ app.get("/api/payslip", requireSession, async (req) => {
   },
   "skill-performance.md": {
     note: "Measured first, then fixed: parallel requests and one cached lookup instead of a waterfall.",
+    noteId: "Diukur dulu, baru diperbaiki: request paralel dan satu lookup ber-cache, bukan waterfall.",
     before: (
       <Slop>
         <div className="text-[13px] font-bold">Network · page load 4.2 s</div>
@@ -347,6 +358,7 @@ app.get("/api/payslip", requireSession, async (req) => {
   },
   "skill-testing.md": {
     note: "Proof instead of feelings: the cases that break in production, checked before “done”.",
+    noteId: "Bukti, bukan perasaan: kasus yang bikin rusak di production, dicek sebelum “selesai”.",
     before: (
       <Slop>
         <div className="text-[14px]">✅ Done! The feature works.</div>
@@ -362,6 +374,7 @@ app.get("/api/payslip", requireSession, async (req) => {
   },
   "skill-debugging.md": {
     note: "The root, not the symptom: reproduce, narrow down, fix the cause, guard against it.",
+    noteId: "Akar masalah, bukan gejala: reproduksi, persempit, perbaiki penyebab, cegah terulang.",
     before: (
       <Slop className="bg-neutral-50">
         <Code dark={false}>{`try {
@@ -384,6 +397,7 @@ app.get("/api/payslip", requireSession, async (req) => {
   },
   "skill-git.workflow.md": {
     note: "History you can read and revert: small commits, real messages, nothing pushed unasked.",
+    noteId: "Riwayat yang bisa dibaca dan di-revert: commit kecil, pesan yang jelas, tak ada push tanpa diminta.",
     before: (
       <Slop className="font-mono text-[12.5px] leading-[1.9]">
         <div>a91f2c3 fix stuff</div>
@@ -405,6 +419,7 @@ app.get("/api/payslip", requireSession, async (req) => {
   },
   "skill-documentation.md": {
     note: "Written for the person who doesn’t know yet: what it is, how to run it, what to check.",
+    noteId: "Ditulis untuk orang yang belum tahu: apa ini, cara menjalankannya, apa yang perlu dicek.",
     before: (
       <Slop>
         <div className="text-[18px] font-bold"># project</div>
@@ -424,6 +439,7 @@ npm install && npm run dev    # → http://localhost:3000`}</Code>
   },
   "skill-analysis.md": {
     note: "No half-baked work: the flow understood, the blast radius mapped, an honest report.",
+    noteId: "Tak ada kerja setengah matang: alur dipahami, dampak dipetakan, laporan yang jujur.",
     before: (
       <Slop>
         <div className="text-[15px]">Done ✅ I updated the leave form.</div>
@@ -442,6 +458,7 @@ npm install && npm run dev    # → http://localhost:3000`}</Code>
   },
   "skill-motion.video.md": {
     note: "A real recording with a virtual camera and timed narration — not screenshots with red boxes.",
+    noteId: "Rekaman asli dengan kamera virtual dan narasi yang pas waktunya — bukan screenshot berkotak merah.",
     before: (
       <div className="relative h-full w-full bg-neutral-200 p-4" style={{ fontFamily: "Arial" }}>
         <div className="h-full w-full bg-white p-3 text-[12px] text-neutral-500">[ screenshot 1 of 14 ]<div className="mt-16 ml-24 h-10 w-40 border-[3px] border-red-600" /><div className="mt-2 ml-24 text-[14px] font-bold text-red-600">← CLICK HERE!!</div></div>

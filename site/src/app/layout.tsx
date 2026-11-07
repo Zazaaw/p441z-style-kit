@@ -5,6 +5,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/site/theme";
 import { NotificationProvider } from "@/components/mac/notification";
 import { ACCENT_BOOT } from "@/site/accent";
+import { LANG_BOOT } from "@/site/i18n";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta" });
 const instrument = Instrument_Serif({ subsets: ["latin"], weight: "400", style: "italic", variable: "--font-instrument" });
@@ -25,6 +26,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         {/* Apply the visitor's saved accent before first paint. */}
         <script dangerouslySetInnerHTML={{ __html: ACCENT_BOOT }} />
+        {/* One shared root layout serves both "/" and "/id": set <html lang> from the path. */}
+        <script dangerouslySetInnerHTML={{ __html: LANG_BOOT }} />
       </head>
       <body className="min-h-dvh bg-background text-foreground antialiased">
         <ThemeProvider>

@@ -16,14 +16,15 @@ import { Badge } from "@/components/ui/badge";
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { IconCalendar, IconCheck, IconSend } from "@/site/icons";
+import { useT } from "@/site/i18n";
 
 // One self-playing story. A single progress value p (0 → 1) is the clock: it advances by itself
 // while the section is on screen, and every visual — camera, cursor, captions, phone — reads it.
 const STAGES = [
-  { at: 0, label: "Request", caption: "Fill in the dates and a short reason." },
-  { at: 0.27, label: "Review", caption: "Submit — it flies straight to your manager." },
-  { at: 0.5, label: "Approved", caption: "Approved on the phone, in a single tap." },
-  { at: 0.72, label: "Letter", caption: "Your letter is ready, signed and verifiable." },
+  { at: 0, label: "Request", caption: "Fill in the dates and a short reason.", labelId: "Pengajuan", captionId: "Isi tanggal dan alasan singkat." },
+  { at: 0.27, label: "Review", caption: "Submit — it flies straight to your manager.", labelId: "Tinjau", captionId: "Ajukan — langsung meluncur ke atasanmu." },
+  { at: 0.5, label: "Approved", caption: "Approved on the phone, in a single tap.", labelId: "Disetujui", captionId: "Disetujui lewat HP, cukup sekali tap." },
+  { at: 0.72, label: "Letter", caption: "Your letter is ready, signed and verifiable.", labelId: "Surat", captionId: "Suratmu siap, bertanda tangan dan bisa diverifikasi." },
 ];
 const CLICK_AT = 0.36;
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -61,32 +62,39 @@ function AppScreen({ p, typing, sent, approved }: { p: MotionValue<number>; typi
   const cOpacity = useTransform(p, [0.26, 0.28, 0.42, 0.45], [0, 1, 1, 0]);
   const cScale = useTransform(p, [CLICK_AT - 0.01, CLICK_AT, CLICK_AT + 0.012], [1, 0.84, 1]);
   const field = "h-11 rounded-lg border border-border bg-background px-3.5 text-[15px] leading-[2.75rem]";
+  const t = useT();
   return (
     <div className="relative flex h-full bg-muted/40 font-sans text-foreground">
       <aside className="flex w-[220px] flex-col gap-1 border-r border-border bg-background p-4 text-[14px]">
         <div className="mb-4 px-2 font-display text-[17px] font-extrabold tracking-tight">acme hr</div>
-        {["Home", "Attendance", "Leave", "Travel", "Payslip"].map((x) => (
+        {[
+          ["Home", "Beranda"],
+          ["Attendance", "Presensi"],
+          ["Leave", "Cuti"],
+          ["Travel", "Perjalanan Dinas"],
+          ["Payslip", "Slip Gaji"],
+        ].map(([x, xId]) => (
           <div key={x} className={cn("rounded-md px-2.5 py-2", x === "Leave" ? "bg-primary text-primary-foreground" : "text-muted-foreground")}>
-            {x}
+            {t(x, xId)}
           </div>
         ))}
       </aside>
       <main className="flex-1 p-8">
         <div className="flex items-end justify-between">
           <div>
-            <div className="text-[13px] text-muted-foreground">Leave</div>
-            <div className="font-display text-[30px] font-extrabold tracking-tight">New request</div>
+            <div className="text-[13px] text-muted-foreground">{t("Leave", "Cuti")}</div>
+            <div className="font-display text-[30px] font-extrabold tracking-tight">{t("New request", "Pengajuan baru")}</div>
           </div>
           <Badge variant={approved ? "default" : "secondary"} className="h-7 px-3 text-[13px]">
-            {approved ? "✓ Approved" : sent ? "Waiting for approval" : "Draft"}
+            {approved ? t("✓ Approved", "✓ Disetujui") : sent ? t("Waiting for approval", "Menunggu persetujuan") : t("Draft", "Draf")}
           </Badge>
         </div>
         <div className="mt-6 grid grid-cols-[1fr_300px] gap-6">
           <div className="space-y-5 rounded-xl border border-border bg-background p-6">
             <div className="grid grid-cols-2 gap-4">
               {[
-                ["From", typed("Mon, 17 Nov", typing * 3)],
-                ["To", typed("Wed, 19 Nov", typing * 3 - 1)],
+                [t("From", "Dari"), typed(t("Mon, 17 Nov", "Sen, 17 Nov"), typing * 3)],
+                [t("To", "Sampai"), typed(t("Wed, 19 Nov", "Rab, 19 Nov"), typing * 3 - 1)],
               ].map(([l, v]) => (
                 <label key={l} className="block text-[13px] font-medium">
                   {l}
@@ -94,24 +102,24 @@ function AppScreen({ p, typing, sent, approved }: { p: MotionValue<number>; typi
                     <span className="size-4 text-muted-foreground [&_svg]:size-4">
                       <IconCalendar />
                     </span>
-                    {v || <span className="text-muted-foreground/60">Pick a date</span>}
+                    {v || <span className="text-muted-foreground/60">{t("Pick a date", "Pilih tanggal")}</span>}
                   </div>
                 </label>
               ))}
             </div>
             <label className="block text-[13px] font-medium">
-              Type
+              {t("Type", "Jenis")}
               <div className="mt-1.5 flex gap-2">
-                {["Annual", "Sick", "Family"].map((t, i) => (
-                  <span key={t} className={cn("rounded-full border px-3.5 py-1.5 text-[14px]", i === 2 && typing > 0.55 ? "border-primary bg-primary text-primary-foreground" : "border-border text-muted-foreground")}>
-                    {t}
+                {[t("Annual", "Tahunan"), t("Sick", "Sakit"), t("Family", "Keluarga")].map((x, i) => (
+                  <span key={x} className={cn("rounded-full border px-3.5 py-1.5 text-[14px]", i === 2 && typing > 0.55 ? "border-primary bg-primary text-primary-foreground" : "border-border text-muted-foreground")}>
+                    {x}
                   </span>
                 ))}
               </div>
             </label>
             <label className="block text-[13px] font-medium">
-              Reason
-              <div className={cn(field, "mt-1.5 h-24 leading-6 py-2.5")}>{typed("My sister's wedding in Bandung.", typing * 1.6 - 0.6) || <span className="text-muted-foreground/60">A short note for your manager</span>}</div>
+              {t("Reason", "Alasan")}
+              <div className={cn(field, "mt-1.5 h-24 leading-6 py-2.5")}>{typed(t("My sister's wedding in Bandung.", "Pernikahan kakakku di Bandung."), typing * 1.6 - 0.6) || <span className="text-muted-foreground/60">{t("A short note for your manager", "Catatan singkat untuk atasanmu")}</span>}</div>
             </label>
             <div className="flex justify-end">
               <span className={cn("inline-flex h-11 items-center gap-2 rounded-lg px-6 text-[15px] font-semibold transition-colors duration-300", sent ? "bg-muted text-foreground" : "bg-primary text-primary-foreground shadow-[0_10px_24px_-10px_hsl(var(--primary)/0.8)]")}>
@@ -120,14 +128,14 @@ function AppScreen({ p, typing, sent, approved }: { p: MotionValue<number>; typi
                     <span className="size-4 [&_svg]:size-4">
                       <IconCheck />
                     </span>
-                    Sent
+                    {t("Sent", "Terkirim")}
                   </>
                 ) : (
                   <>
                     <span className="size-4 [&_svg]:size-4">
                       <IconSend />
                     </span>
-                    Submit request
+                    {t("Submit request", "Ajukan cuti")}
                   </>
                 )}
               </span>
@@ -135,19 +143,19 @@ function AppScreen({ p, typing, sent, approved }: { p: MotionValue<number>; typi
           </div>
           <div className="space-y-4">
             <div className="rounded-xl border border-border bg-background p-5">
-              <div className="text-[13px] text-muted-foreground">Remaining</div>
-              <div className="mt-1 font-display text-[40px] font-extrabold tracking-tight">{typing > 0.2 ? 9 : 12}<span className="ml-1 text-[16px] font-semibold text-muted-foreground">/ 12 days</span></div>
+              <div className="text-[13px] text-muted-foreground">{t("Remaining", "Sisa cuti")}</div>
+              <div className="mt-1 font-display text-[40px] font-extrabold tracking-tight">{typing > 0.2 ? 9 : 12}<span className="ml-1 text-[16px] font-semibold text-muted-foreground">{t("/ 12 days", "/ 12 hari")}</span></div>
               <div className="mt-3 h-2 overflow-hidden rounded-full bg-muted">
                 <motion.div className="h-full rounded-full bg-primary" animate={{ width: typing > 0.2 ? "75%" : "100%" }} transition={{ duration: 0.6, ease: EASE.reveal }} />
               </div>
             </div>
             <div className="rounded-xl border border-border bg-background p-5 text-[14px]">
-              <div className="text-[13px] text-muted-foreground">Approver</div>
+              <div className="text-[13px] text-muted-foreground">{t("Approver", "Penyetuju")}</div>
               <div className="mt-2 flex items-center gap-3">
                 <span className="grid size-9 place-items-center rounded-full bg-primary text-[13px] font-bold text-primary-foreground">MK</span>
                 <div>
                   <div className="font-semibold">Maya Kusuma</div>
-                  <div className="text-muted-foreground">Head of People Ops</div>
+                  <div className="text-muted-foreground">{t("Head of People Ops", "Kepala People Ops")}</div>
                 </div>
               </div>
             </div>
@@ -163,9 +171,10 @@ function AppScreen({ p, typing, sent, approved }: { p: MotionValue<number>; typi
 
 function PhoneScreen({ notes }: { notes: { title: string; body: string; done?: boolean }[] }) {
   // Sizes in cqw (PhoneFrame is a size container) so the lock screen scales with the phone.
+  const t = useT();
   return (
     <div className="flex h-full flex-col items-center bg-linear-to-b from-sky-100 via-neutral-100 to-neutral-200 px-[4cqw] pt-[6cqw] text-neutral-900 dark:from-sky-950/60 dark:via-neutral-900 dark:to-neutral-950 dark:text-neutral-100">
-      <div className="text-[4.4cqw] font-medium opacity-70">Monday, 17 November</div>
+      <div className="text-[4.4cqw] font-medium opacity-70">{t("Monday, 17 November", "Senin, 17 November")}</div>
       <div className="font-display text-[22cqw] font-bold leading-none tracking-tight">9:41</div>
       <div className="mt-[7cqw] w-full space-y-[2.5cqw]">
         <AnimatePresence initial={false}>
@@ -197,6 +206,7 @@ function Letter({ p }: { p: MotionValue<number> }) {
   const y = useTransform(p, [0.74, 0.82], [60, 0]);
   const scale = useTransform(p, [0.74, 0.82], [0.82, 1]);
   const rotateY = useTransform(p, [0.86, 0.94], [0, 180]);
+  const t = useT();
   return (
     <motion.div className="pointer-events-none absolute inset-0 z-20 grid place-items-center" style={{ opacity }}>
       <motion.div style={{ y, scale, perspective: 1600 }} className="w-[min(520px,82%)]">
@@ -206,9 +216,9 @@ function Letter({ p }: { p: MotionValue<number> }) {
               <span className="font-display text-[15px] font-extrabold text-foreground">acme hr</span>
               No. LV/2026/11/0417
             </div>
-            <div className="mt-4 font-display text-[22px] font-extrabold tracking-tight">Leave approval letter</div>
+            <div className="mt-4 font-display text-[22px] font-extrabold tracking-tight">{t("Leave approval letter", "Surat persetujuan cuti")}</div>
             <div className="mt-3 grid grid-cols-2 gap-y-1.5 text-[13px]">
-              {[["Employee", "Alex Pratama"], ["Dates", "17 – 19 Nov 2026"], ["Type", "Family"], ["Status", "Approved"]].map(([k, v]) => (
+              {[[t("Employee", "Karyawan"), "Alex Pratama"], [t("Dates", "Tanggal"), "17 – 19 Nov 2026"], [t("Type", "Jenis"), t("Family", "Keluarga")], ["Status", t("Approved", "Disetujui")]].map(([k, v]) => (
                 <span key={k} className="contents">
                   <span className="text-muted-foreground">{k}</span>
                   <span className="font-medium">{v}</span>
@@ -216,7 +226,7 @@ function Letter({ p }: { p: MotionValue<number> }) {
               ))}
             </div>
             <div className="absolute bottom-5 right-6 text-right text-[11px] text-muted-foreground">
-              Signed digitally
+              {t("Signed digitally", "Ditandatangani digital")}
               <div className="font-serif text-[22px] italic text-foreground">Maya K.</div>
             </div>
           </div>
@@ -228,8 +238,8 @@ function Letter({ p }: { p: MotionValue<number> }) {
                 ))}
               </div>
               <div>
-                <div className="font-display text-[20px] font-extrabold">Scan to verify</div>
-                <div className="mt-1 max-w-[180px] text-[13px] opacity-70">Every signature on the letter carries its own QR code.</div>
+                <div className="font-display text-[20px] font-extrabold">{t("Scan to verify", "Pindai untuk verifikasi")}</div>
+                <div className="mt-1 max-w-[180px] text-[13px] opacity-70">{t("Every signature on the letter carries its own QR code.", "Setiap tanda tangan di surat punya kode QR sendiri.")}</div>
               </div>
             </div>
           </div>
@@ -247,13 +257,14 @@ function Controls({ p, playing, onToggle, onReplay, onSeek }: { p: MotionValue<n
   const time = useRef<HTMLSpanElement>(null);
   const bar = useRef<HTMLDivElement>(null);
   const fill = useTransform(p, (v) => `${v * 100}%`);
+  const t = useT();
   useMotionValueEvent(p, "change", (v) => {
     if (time.current) time.current.textContent = mmss(v * DURATION);
     bar.current?.setAttribute("aria-valuenow", String(Math.round(v * 100)));
   });
   return (
     <div className="mx-auto flex w-full max-w-3xl items-center gap-3 rounded-full border border-border bg-background/75 px-2 py-1.5 backdrop-blur-xl">
-      <button type="button" onClick={onToggle} aria-label={playing ? "Pause" : "Play"} className="grid size-8 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground transition-transform duration-200 active:scale-90">
+      <button type="button" onClick={onToggle} aria-label={playing ? t("Pause", "Jeda") : t("Play", "Putar")} className="grid size-8 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground transition-transform duration-200 active:scale-90">
         <svg viewBox="0 0 24 24" className="size-3.5" fill="currentColor" aria-hidden>
           {playing ? <path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" /> : <path d="M8 5.5v13l10.5-6.5z" />}
         </svg>
@@ -261,7 +272,7 @@ function Controls({ p, playing, onToggle, onReplay, onSeek }: { p: MotionValue<n
       <div
         ref={bar}
         role="slider"
-        aria-label="Seek"
+        aria-label={t("Seek", "Posisi putar")}
         aria-valuenow={0}
         aria-valuemin={0}
         aria-valuemax={100}
@@ -289,7 +300,7 @@ function Controls({ p, playing, onToggle, onReplay, onSeek }: { p: MotionValue<n
             }}
             className="absolute top-1/2 hidden -translate-x-1/2 -translate-y-1/2 sm:block"
             style={{ left: `${s.at * 100}%` }}
-            aria-label={`Jump to ${s.label}`}
+            aria-label={t(`Jump to ${s.label}`, `Lompat ke ${s.labelId}`)}
           >
             <span className="block size-2.5 rounded-full border-2 border-background bg-foreground/60 transition-transform duration-200 group-hover:scale-125" />
           </button>
@@ -297,7 +308,7 @@ function Controls({ p, playing, onToggle, onReplay, onSeek }: { p: MotionValue<n
       </div>
       <span ref={time} className="w-9 text-right font-mono text-[12px] tabular-nums text-muted-foreground">0:00</span>
       <span className="font-mono text-[12px] text-muted-foreground/60">/ {mmss(DURATION)}</span>
-      <button type="button" onClick={onReplay} aria-label="Replay" className="grid size-8 shrink-0 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
+      <button type="button" onClick={onReplay} aria-label={t("Replay", "Putar ulang")} className="grid size-8 shrink-0 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
         <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
           <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
           <path d="M3 3v5h5" />
@@ -308,6 +319,7 @@ function Controls({ p, playing, onToggle, onReplay, onSeek }: { p: MotionValue<n
 }
 
 export default function Keynote() {
+  const t = useT();
   const ref = useRef<HTMLElement>(null);
   const frame = useRef<HTMLDivElement>(null);
   // Arrival: the devices rise and tilt up into place as the section scrolls in (scrubbed, so it
@@ -391,22 +403,22 @@ export default function Keynote() {
   const devicesOpacity = useTransform(dim, [0, 1], [1, 0.35]);
 
   const notes = [
-    ...(landed || stage >= 2 ? [{ title: "Leave request · Alex Pratama", body: "17 – 19 Nov · Family" }] : []),
-    ...(stage >= 2 ? [{ title: "Approved", body: "You approved Alex's leave.", done: true }] : []),
+    ...(landed || stage >= 2 ? [{ title: t("Leave request · Alex Pratama", "Pengajuan cuti · Alex Pratama"), body: t("17 – 19 Nov · Family", "17 – 19 Nov · Keluarga") }] : []),
+    ...(stage >= 2 ? [{ title: t("Approved", "Disetujui"), body: t("You approved Alex's leave.", "Kamu menyetujui cuti Alex."), done: true }] : []),
   ];
 
   return (
     <section id="keynote" ref={ref} className="relative scroll-mt-10">
       <div className="flex min-h-[100svh] flex-col items-center justify-center gap-5 overflow-hidden px-4 py-20">
         <div className="text-center">
-          <MaskReveal as="h2" text="Watch it move." className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold leading-[1.05] tracking-[-0.04em]" />
-          <p className="mt-2 text-sm text-muted-foreground">It plays by itself — every piece is a kit component, nothing is a video.</p>
+          <MaskReveal as="h2" text={t("Watch it move.", "Lihat geraknya.")} className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold leading-[1.05] tracking-[-0.04em]" />
+          <p className="mt-2 text-sm text-muted-foreground">{t("It plays by itself — every piece is a kit component, nothing is a video.", "Jalan sendiri — setiap bagian adalah komponen kit, bukan video.")}</p>
         </div>
-        <Stepper steps={STAGES.map((s) => s.label)} active={stage} id="keynote" className="hidden sm:inline-flex" />
+        <Stepper steps={STAGES.map((s) => t(s.label, s.labelId))} active={stage} id="keynote" className="hidden sm:inline-flex" />
         <div className="h-9 w-full max-w-3xl text-center">
           <AnimatePresence mode="wait">
             <motion.div key={stage} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.3, ease: EASE.reveal }}>
-              <KaraokeText text={STAGES[stage].caption} progress={segment} className="font-display text-[clamp(1.05rem,2vw,1.45rem)] font-semibold tracking-tight" />
+              <KaraokeText text={t(STAGES[stage].caption, STAGES[stage].captionId)} progress={segment} className="font-display text-[clamp(1.05rem,2vw,1.45rem)] font-semibold tracking-tight" />
             </motion.div>
           </AnimatePresence>
         </div>
@@ -436,7 +448,7 @@ export default function Keynote() {
             </PhoneFrame>
           </motion.div>
           <div className="absolute inset-0 hidden md:block">
-          <FlyingPill run={run} from={{ x: 0.39, y: 0.5 }} to={{ x: 0.885, y: 0.4 }} title="Sent to your manager" subtitle="Leave · 3 days" icon={<span className="size-3.5 [&_svg]:size-3.5"><IconSend /></span>} onLand={() => setLanded(true)} />
+          <FlyingPill run={run} from={{ x: 0.39, y: 0.5 }} to={{ x: 0.885, y: 0.4 }} title={t("Sent to your manager", "Terkirim ke atasanmu")} subtitle={t("Leave · 3 days", "Cuti · 3 hari")} icon={<span className="size-3.5 [&_svg]:size-3.5"><IconSend /></span>} onLand={() => setLanded(true)} />
           </div>
           <Letter p={p} />
         </div>

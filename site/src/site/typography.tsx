@@ -11,6 +11,7 @@ import MaskReveal from "@/components/motion/mask-reveal";
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { REPO } from "@/site/chrome";
+import { useNum, useT } from "@/site/i18n";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -28,12 +29,14 @@ const SCALE = [
   { role: "h1", px: 67.78, lh: 1.05, tr: -0.025 },
 ];
 const FAMILIES = [
-  { key: "sans", label: "Sans", name: "Plus Jakarta Sans", cls: "font-display", note: "Everything. 400–800.", weights: [400, 800] },
-  { key: "serif", label: "Serif", name: "Instrument Serif Italic", cls: "font-serif italic", note: "The accent — used once per page.", weights: [400, 400] },
-  { key: "mono", label: "Mono", name: "JetBrains Mono", cls: "font-mono", note: "Code, IDs, tabular data.", weights: [400, 700] },
+  { key: "sans", label: "Sans", name: "Plus Jakarta Sans", cls: "font-display", note: "Everything. 400–800.", noteId: "Untuk semuanya. 400–800.", weights: [400, 800] },
+  { key: "serif", label: "Serif", name: "Instrument Serif Italic", cls: "font-serif italic", note: "The accent — used once per page.", noteId: "Aksennya — dipakai sekali per halaman.", weights: [400, 400] },
+  { key: "mono", label: "Mono", name: "JetBrains Mono", cls: "font-mono", note: "Code, IDs, tabular data.", noteId: "Kode, ID, data tabel.", weights: [400, 700] },
 ] as const;
 const SAMPLE =
   "Good typography is invisible. The reader never notices the leading or the measure — they simply keep reading, a little longer than they planned, without ever feeling the effort.";
+const SAMPLE_ID =
+  "Tipografi yang baik itu tak terlihat. Pembaca tak pernah memperhatikan leading atau measure — mereka terus saja membaca, sedikit lebih lama dari rencana, tanpa pernah merasa lelah.";
 
 /** Golden rectangle cut into squares (each φ× the next), clockwise. */
 function goldenSquares(n: number, W: number) {
@@ -63,8 +66,9 @@ function GoldenSpiral() {
   const W = 560;
   const sq = goldenSquares(9, W);
   const labels = ["67.78", "41.89", "25.89", "16", "9.89"];
+  const t = useT();
   return (
-    <svg viewBox={`-2 -2 ${W + 4} ${W / PHI + 4}`} className="h-auto w-full overflow-visible" aria-label="Golden rectangle divided into squares, each 1.618 times the next, with the type scale sizes">
+    <svg viewBox={`-2 -2 ${W + 4} ${W / PHI + 4}`} className="h-auto w-full overflow-visible" aria-label={t("Golden rectangle divided into squares, each 1.618 times the next, with the type scale sizes", "Persegi panjang emas yang dibagi menjadi persegi, masing-masing 1,618 kali persegi berikutnya, dengan ukuran skala tipe")}>
       {sq.map((q, i) => (
         <g key={i} className="gold-sq">
           <rect x={q.x} y={q.y} width={q.s} height={q.s} className={cn("fill-transparent stroke-border", i === 0 && "fill-primary/[0.04]")} strokeWidth="1.2" />
@@ -87,11 +91,12 @@ function ScaleExplorer() {
   const f = FAMILIES[fam];
   const w = Math.min(f.weights[1], Math.max(f.weights[0], weight));
   const cur = SCALE[step];
+  const t = useT();
   return (
     <div className="grid gap-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.4fr)]">
       <div className="flex flex-col">
-        <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">The scale</div>
-        <div className="mt-2 font-display text-2xl font-extrabold tracking-tight">The steps you’ll use. One ratio.</div>
+        <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("The scale", "Skalanya")}</div>
+        <div className="mt-2 font-display text-2xl font-extrabold tracking-tight">{t("The steps you’ll use. One ratio.", "Langkah yang kamu pakai. Satu rasio.")}</div>
         <div className="mt-5 flex gap-1">
           {FAMILIES.map((x, i) => (
             <button key={x.key} type="button" onClick={() => setFam(i)} className={cn("rounded-full px-3 py-1 text-[12px] font-semibold transition-colors duration-200", i === fam ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted")}>
@@ -105,19 +110,19 @@ function ScaleExplorer() {
           </motion.div>
           <div className="pb-3 text-[13px] leading-relaxed text-muted-foreground">
             <div className="font-semibold text-foreground">{f.name}</div>
-            <div>{f.note}</div>
+            <div>{t(f.note, f.noteId)}</div>
           </div>
         </div>
         <label className={cn("mt-6 block text-[12px] font-medium text-muted-foreground", f.weights[0] === f.weights[1] && "opacity-40")}>
           <span className="flex justify-between">
-            <span>Weight</span>
+            <span>{t("Weight", "Ketebalan")}</span>
             <span className="font-mono tabular-nums text-foreground">{w}</span>
           </span>
-          <Range value={w} min={400} max={800} step={100} disabled={f.weights[0] === f.weights[1]} onChange={setWeight} label="Font weight" />
+          <Range value={w} min={400} max={800} step={100} disabled={f.weights[0] === f.weights[1]} onChange={setWeight} label={t("Font weight", "Ketebalan font")} />
         </label>
         <div className="mt-auto grid grid-cols-3 gap-2 pt-6 text-center">
           {[
-            ["Ratio", "1.618"],
+            [t("Ratio", "Rasio"), t("1.618", "1,618")],
             [cur.role, `${cur.px}px`],
             ["Leading", String(cur.lh)],
           ].map(([k, v]) => (
@@ -138,7 +143,7 @@ function ScaleExplorer() {
                 <span className="block opacity-70">{x.px}</span>
               </span>
               <span className={cn("min-w-0 truncate transition-colors duration-200", f.cls, i === step ? "text-foreground" : "text-foreground/70")} style={{ fontSize: x.px, lineHeight: x.lh, letterSpacing: `${x.tr}em`, fontWeight: i >= 4 ? w : Math.min(w, 600) }}>
-                Quiet by default.
+                {t("Quiet by default.", "Tenang secara default.")}
               </span>
             </button>
           </li>
@@ -174,23 +179,24 @@ function Verdict({ ok, children }: { ok: boolean; children: React.ReactNode }) {
 function LeadingCard() {
   const [lh, setLh] = useState(1.618);
   const good = lh >= 1.5 && lh <= 1.7;
+  const t = useT();
   return (
     <SpotlightCard className="type-card flex flex-col p-6">
       <div className="flex items-center justify-between">
         <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Leading</div>
-        <Verdict ok={good}>{Math.abs(lh - 1.618) < 0.03 ? "φ — the body default" : good ? "comfortable" : lh < 1.5 ? "too tight" : "too loose"}</Verdict>
+        <Verdict ok={good}>{Math.abs(lh - 1.618) < 0.03 ? t("φ — the body default", "φ — default body") : good ? t("comfortable", "nyaman") : lh < 1.5 ? t("too tight", "terlalu rapat") : t("too loose", "terlalu renggang")}</Verdict>
       </div>
-      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">Body breathes at φ.</div>
+      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("Body breathes at φ.", "Body bernapas di φ.")}</div>
       <p className="mt-4 text-[15px] text-muted-foreground transition-[line-height] duration-150" style={{ lineHeight: lh }}>
-        {SAMPLE}
+        {t(SAMPLE, SAMPLE_ID)}
       </p>
       <div className="mt-auto pt-5 text-[12px] text-muted-foreground">
         <span className="flex justify-between">
           <span>line-height</span>
           <span className="font-mono tabular-nums text-foreground">{lh.toFixed(3)}</span>
         </span>
-        <Range value={lh} min={1} max={2.2} step={0.001} onChange={(v) => setLh(Math.abs(v - 1.618) < 0.02 ? 1.618 : v)} label="Line height" />
-        <div className="mt-2">Headings tighten as they grow: h3 1.15 · h2 1.1 · h1 1.05 · display 1.0.</div>
+        <Range value={lh} min={1} max={2.2} step={0.001} onChange={(v) => setLh(Math.abs(v - 1.618) < 0.02 ? 1.618 : v)} label={t("Line height", "Tinggi baris")} />
+        <div className="mt-2">{t("Headings tighten as they grow: h3 1.15 · h2 1.1 · h1 1.05 · display 1.0.", "Heading makin rapat saat membesar: h3 1.15 · h2 1.1 · h1 1.05 · display 1.0.")}</div>
       </div>
     </SpotlightCard>
   );
@@ -199,16 +205,18 @@ function LeadingCard() {
 function MeasureCard() {
   const [ch, setCh] = useState(66);
   const good = ch >= 45 && ch <= 75;
+  const t = useT();
+  const sample = t(SAMPLE, SAMPLE_ID);
   return (
     <SpotlightCard className="type-card flex flex-col p-6">
       <div className="flex items-center justify-between">
         <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Measure</div>
-        <Verdict ok={good}>{good ? (Math.abs(ch - 66) <= 3 ? "ideal" : "readable") : ch < 45 ? "too short" : "too long"}</Verdict>
+        <Verdict ok={good}>{good ? (Math.abs(ch - 66) <= 3 ? "ideal" : t("readable", "terbaca")) : ch < 45 ? t("too short", "terlalu pendek") : t("too long", "terlalu panjang")}</Verdict>
       </div>
-      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">45–75 characters a line.</div>
+      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("45–75 characters a line.", "45–75 karakter per baris.")}</div>
       <div className="mt-4 overflow-hidden">
         <p className="text-[13px] leading-[1.6] text-muted-foreground transition-[max-width] duration-150" style={{ maxWidth: `${ch}ch` }}>
-          {SAMPLE} {SAMPLE}
+          {sample} {sample}
         </p>
       </div>
       <div className="mt-auto pt-5 text-[12px] text-muted-foreground">
@@ -216,8 +224,8 @@ function MeasureCard() {
           <span>max-width</span>
           <span className="font-mono tabular-nums text-foreground">{ch}ch</span>
         </span>
-        <Range value={ch} min={30} max={100} step={1} onChange={setCh} label="Line length" />
-        <div className="mt-2">Prose caps at 65ch, captions at 50ch. Long lines lose the reader at the turn.</div>
+        <Range value={ch} min={30} max={100} step={1} onChange={setCh} label={t("Line length", "Panjang baris")} />
+        <div className="mt-2">{t("Prose caps at 65ch, captions at 50ch. Long lines lose the reader at the turn.", "Prosa maksimal 65ch, caption 50ch. Baris kepanjangan bikin pembaca tersesat saat pindah baris.")}</div>
       </div>
     </SpotlightCard>
   );
@@ -228,25 +236,26 @@ const trackingFor = (px: number) => (px <= 16 ? 0 : px <= 26 ? -0.01 : px <= 42 
 function TrackingCard() {
   const [px, setPx] = useState(53.28);
   const tr = trackingFor(px);
+  const t = useT();
   return (
     <SpotlightCard className="type-card flex flex-col p-6">
       <div className="flex items-center justify-between">
         <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Tracking</div>
-        <Verdict ok>{tr === 0 ? "0 at body" : `${tr}em`}</Verdict>
+        <Verdict ok>{tr === 0 ? t("0 at body", "0 di body") : `${tr}em`}</Verdict>
       </div>
-      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">Bigger text, tighter letters.</div>
+      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("Bigger text, tighter letters.", "Teks makin besar, huruf makin rapat.")}</div>
       <div className="mt-4 grid h-[120px] place-items-center overflow-hidden rounded-xl bg-muted/40">
         <span className="whitespace-nowrap font-display font-extrabold leading-none transition-all duration-150" style={{ fontSize: Math.min(px, 70), letterSpacing: `${tr}em` }}>
-          Typography
+          {t("Typography", "Tipografi")}
         </span>
       </div>
       <div className="mt-auto pt-5 text-[12px] text-muted-foreground">
         <span className="flex justify-between">
-          <span>font-size (step on the scale)</span>
+          <span>{t("font-size (step on the scale)", "font-size (langkah di skala)")}</span>
           <span className="font-mono tabular-nums text-foreground">{px}px</span>
         </span>
-        <Range value={SCALE.findIndex((s) => s.px === px)} min={2} max={8} step={1} onChange={(i) => setPx(SCALE[i].px)} label="Font size" />
-        <div className="mt-2">Small caps and overlines open up (+0.06em); display sizes close in (−0.03em).</div>
+        <Range value={SCALE.findIndex((s) => s.px === px)} min={2} max={8} step={1} onChange={(i) => setPx(SCALE[i].px)} label={t("Font size", "Ukuran font")} />
+        <div className="mt-2">{t("Small caps and overlines open up (+0.06em); display sizes close in (−0.03em).", "Small caps dan overline melebar (+0.06em); ukuran display merapat (−0.03em).")}</div>
       </div>
     </SpotlightCard>
   );
@@ -254,11 +263,12 @@ function TrackingCard() {
 
 function NumbersCard() {
   const [tab, setTab] = useState(true);
-  const rows = ["1,111.11", "8,048.00", "12,350.70", "906.45"];
+  const t = useT();
+  const rows = t(["1,111.11", "8,048.00", "12,350.70", "906.45"], ["1.111,11", "8.048,00", "12.350,70", "906,45"]);
   return (
     <SpotlightCard className="type-card flex flex-col p-6">
-      <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Numbers</div>
-      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">Tables use tabular figures.</div>
+      <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Numbers", "Angka")}</div>
+      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("Tables use tabular figures.", "Tabel pakai angka tabular.")}</div>
       <div className="mt-4 flex gap-1">
         {[
           [true, "tabular-nums"],
@@ -276,31 +286,33 @@ function NumbersCard() {
           </div>
         ))}
       </div>
-      <div className="mt-auto pt-4 text-[12px] text-muted-foreground">Right-aligned, fixed decimals — the digits line up so the eye can compare columns.</div>
+      <div className="mt-auto pt-4 text-[12px] text-muted-foreground">{t("Right-aligned, fixed decimals — the digits line up so the eye can compare columns.", "Rata kanan, desimal tetap — digitnya sejajar, jadi mata gampang membandingkan kolom.")}</div>
     </SpotlightCard>
   );
 }
 
 function PairingCard() {
+  const t = useT();
   return (
     <SpotlightCard className="type-card flex flex-col p-6">
-      <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Pairing</div>
-      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">Two families. One mono.</div>
+      <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Pairing", "Pasangan")}</div>
+      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("Two families. One mono.", "Dua keluarga. Satu mono.")}</div>
       <div className="mt-5 space-y-3">
-        <div className="font-display text-[26px] font-extrabold leading-tight tracking-tight">Sans carries the page.</div>
-        <div className="font-serif text-[28px] italic leading-tight text-primary">The serif speaks once.</div>
-        <div className="font-mono text-[14px] text-muted-foreground">mono → code · IDs · data</div>
+        <div className="font-display text-[26px] font-extrabold leading-tight tracking-tight">{t("Sans carries the page.", "Sans menopang halaman.")}</div>
+        <div className="font-serif text-[28px] italic leading-tight text-primary">{t("The serif speaks once.", "Serif bicara sekali.")}</div>
+        <div className="font-mono text-[14px] text-muted-foreground">{t("mono → code · IDs · data", "mono → kode · ID · data")}</div>
       </div>
-      <div className="mt-auto pt-4 text-[12px] text-muted-foreground">One moment of contrast reads as intent. Ten reads as indecision. SF is never self-hosted — the system stack serves it.</div>
+      <div className="mt-auto pt-4 text-[12px] text-muted-foreground">{t("One moment of contrast reads as intent. Ten reads as indecision. SF is never self-hosted — the system stack serves it.", "Satu momen kontras terbaca sebagai niat. Sepuluh terbaca sebagai ragu-ragu. SF tidak pernah di-self-host — system stack yang menyajikannya.")}</div>
     </SpotlightCard>
   );
 }
 
 function WeightsCard() {
+  const t = useT();
   return (
     <SpotlightCard className="type-card flex flex-col p-6">
-      <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Weights</div>
-      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">Few weights, clear jobs.</div>
+      <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Weights", "Ketebalan")}</div>
+      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("Few weights, clear jobs.", "Sedikit ketebalan, tugas jelas.")}</div>
       <div className="mt-5 grid grid-cols-5 gap-2 text-center">
         {[400, 500, 600, 700, 800].map((w) => (
           <div key={w}>
@@ -311,13 +323,15 @@ function WeightsCard() {
           </div>
         ))}
       </div>
-      <div className="mt-auto pt-4 text-[12px] text-muted-foreground">400 / 500 / 600 for product UI, 400 / 600 / 700 for marketing, 800 only for display. No faux bold: font-synthesis: none.</div>
+      <div className="mt-auto pt-4 text-[12px] text-muted-foreground">{t("400 / 500 / 600 for product UI, 400 / 600 / 700 for marketing, 800 only for display. No faux bold: font-synthesis: none.", "400 / 500 / 600 untuk UI produk, 400 / 600 / 700 untuk marketing, 800 hanya untuk display. Tanpa bold palsu: font-synthesis: none.")}</div>
     </SpotlightCard>
   );
 }
 
 export default function Typography({ skillLines }: { skillLines: number }) {
   const root = useRef<HTMLElement>(null);
+  const t = useT();
+  const num = useNum();
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
@@ -337,19 +351,28 @@ export default function Typography({ skillLines }: { skillLines: number }) {
     <section id="type" ref={root} className="relative mx-auto max-w-6xl scroll-mt-16 px-6 py-28">
       <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
         <div>
-          <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Typography</div>
-          <MaskReveal as="h2" text="Built on the golden ratio." className="mt-3 font-display text-[clamp(2.2rem,5vw,3.75rem)] font-extrabold leading-[1.02] tracking-[-0.04em]" />
+          <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Typography", "Tipografi")}</div>
+          <MaskReveal as="h2" text={t("Built on the golden ratio.", "Dibangun di atas golden ratio.")} className="mt-3 font-display text-[clamp(2.2rem,5vw,3.75rem)] font-extrabold leading-[1.02] tracking-[-0.04em]" />
           <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-            The type in this kit is <span className="font-semibold text-foreground">researched and built on the golden ratio</span>. Every size is the 16px base multiplied or divided by{" "}
-            <span className="font-serif text-[1.15em] italic text-primary">φ = 1.618</span> — with a half-step of √φ when a full step is too far. Leading, measure, tracking, and weights follow the same logic.
-            Nothing is picked by eye.
+            {t(
+              <>
+                The type in this kit is <span className="font-semibold text-foreground">researched and built on the golden ratio</span>. Every size is the 16px base multiplied or divided by{" "}
+                <span className="font-serif text-[1.15em] italic text-primary">φ = 1.618</span> — with a half-step of √φ when a full step is too far. Leading, measure, tracking, and weights follow the same logic.
+                Nothing is picked by eye.
+              </>,
+              <>
+                Tipografi di kit ini <span className="font-semibold text-foreground">diriset dan dibangun di atas golden ratio</span>. Setiap ukuran adalah base 16px yang dikali atau dibagi{" "}
+                <span className="font-serif text-[1.15em] italic text-primary">φ = 1,618</span> — dengan setengah langkah √φ kalau satu langkah penuh terlalu jauh. Leading, measure, tracking, dan weight mengikuti logika yang sama.
+                Tidak ada yang dipilih asal kira-kira.
+              </>,
+            )}
           </p>
           <div className="mt-8 grid grid-cols-4 gap-2">
             {[
-              ["16", "px base"],
-              ["1.618", "φ ratio"],
-              ["1.272", "√φ half-step"],
-              ["11", "steps"],
+              ["16", t("px base", "px dasar")],
+              [t("1.618", "1,618"), t("φ ratio", "rasio φ")],
+              [t("1.272", "1,272"), t("√φ half-step", "½ langkah √φ")],
+              ["11", t("steps", "langkah")],
             ].map(([v, l]) => (
               <div key={l} className="rounded-xl border border-border bg-background/70 px-3 py-3 backdrop-blur">
                 <div className="font-mono text-[17px] font-semibold tabular-nums">{v}</div>
@@ -364,7 +387,7 @@ export default function Typography({ skillLines }: { skillLines: number }) {
         <div className="gold-wrap rounded-3xl border border-border bg-background/60 p-6 backdrop-blur">
           <GoldenSpiral />
           <div className="mt-4 flex items-center justify-between text-[12px] text-muted-foreground">
-            <span>Each square is φ× the next — the same step as the type scale.</span>
+            <span>{t("Each square is φ× the next — the same step as the type scale.", "Tiap persegi φ× persegi berikutnya — langkah yang sama dengan skala tipe.")}</span>
             <span className="font-mono">16 × φ = 25.89</span>
           </div>
         </div>
@@ -385,10 +408,17 @@ export default function Typography({ skillLines }: { skillLines: number }) {
 
       <div className="mt-10 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-border bg-background/60 px-6 py-5 backdrop-blur">
         <div className="text-[14px] text-muted-foreground">
-          Distilled from <code className="text-foreground">skill-typography</code> — <span className="font-semibold tabular-nums text-foreground">{skillLines.toLocaleString("en-US")}</span> lines on choosing, pairing, scaling, loading, and auditing type.
+          {t(
+            <>
+              Distilled from <code className="text-foreground">skill-typography</code> — <span className="font-semibold tabular-nums text-foreground">{num(skillLines)}</span> lines on choosing, pairing, scaling, loading, and auditing type.
+            </>,
+            <>
+              Disarikan dari <code className="text-foreground">skill-typography</code> — <span className="font-semibold tabular-nums text-foreground">{num(skillLines)}</span> baris panduan soal memilih, memasangkan, menskalakan, memuat, dan mengaudit font.
+            </>,
+          )}
         </div>
         <a href={`${REPO}/blob/main/Skill.md/skill-typography.md`} target="_blank" rel="noreferrer" className="text-[14px] font-semibold text-primary hover:underline">
-          Read the skill →
+          {t("Read the skill →", "Baca skill-nya →")}
         </a>
       </div>
     </section>
