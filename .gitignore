@@ -33,3 +33,6 @@ pnpm-debug.log*
 # local scratch
 tmp/
 scratch/
+
+# Videos are served from object storage (see site/src/site/showcase-data.ts), never committed.
+site/public/showcase/*.mp4

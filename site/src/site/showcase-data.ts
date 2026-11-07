@@ -1,5 +1,6 @@
-// Work made with the kit and its skills. Add an entry to show it on the landing page —
-// put the file in public/showcase/ (keep MP4s ≤ ~15 MB, H.264, faststart) and a poster next to it.
+// Work made with the kit and its skills. Add an entry to show it on the landing page.
+// Videos live in object storage, not in this repo (keep them H.264 + faststart, ≤ ~15 MB); the
+// poster stays in public/showcase/ so the first frame paints without a network round trip.
 export type ShowcaseItem = {
   title: string;
   /** Indonesian title for /id (falls back to `title`). */
@@ -8,7 +9,7 @@ export type ShowcaseItem = {
   note: string;
   /** Indonesian note for /id (falls back to `note`). */
   noteId?: string;
-  /** "/showcase/…mp4", or omit for a link-only card. */
+  /** Absolute URL of the MP4 (object storage), or omit for a link-only card. */
   video?: string;
   poster?: string;
   href?: string;
@@ -30,7 +31,7 @@ export const SHOWCASE: ShowcaseItem[] = [
     titleId: "p441z Style Kit — keynote",
     note: "A tutorial-style keynote of this very site: real screen recording, word-timed narration, virtual camera, synthesized music.",
     noteId: "Video tutorial ala keynote tentang situs ini: rekaman layar asli, narasi yang sinkron per kata, kamera virtual, dan musik sintetis.",
-    video: "/showcase/p441z-keynote.mp4",
+    video: "https://agchjgesrgkaghajzlmt.supabase.co/storage/v1/object/public/portfolio-assets/style-kit/p441z-keynote.mp4",
     poster: "/showcase/p441z-keynote.jpg",
     madeWith: "skill-motion-video",
     featured: true,
