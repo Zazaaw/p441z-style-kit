@@ -4,10 +4,14 @@ import * as React from "react";
 import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring, useTransform, type MotionValue } from "framer-motion";
 
 import { cn } from "@/lib/utils";
+import { SPRING } from "@/lib/motion";
 
 /**
  * Dock — a desktop dock: icons grow as the pointer passes over them (magnification), the label
  * floats above the hovered icon, and a small dot marks the active item.
+ *
+ * Clicking an icon makes it hop twice, the second hop smaller — the way an app bounces while it
+ * opens (`animate-launch` in globals.css). Labels pop in on a spring. Reduced motion: no hop.
  *
  * Works as real navigation: give items `href` (rendered as links) or `onClick`. Keyboard focus
  * shows the label too. On touch screens there is no hover, so icons simply stay at base size.
@@ -44,6 +48,7 @@ interface DockProps {
 function Icon({ item, mouseX, size, magnified, reach }: { item: DockItem; mouseX: MotionValue<number>; size: number; magnified: number; reach: number }) {
   const ref = React.useRef<HTMLAnchorElement & HTMLButtonElement>(null);
   const [hover, setHover] = React.useState(false);
+  const [hops, setHops] = React.useState(0);
   const dist = useTransform(mouseX, (x) => {
     const r = ref.current?.getBoundingClientRect();
     return r ? x - (r.left + r.width / 2) : Infinity;
@@ -56,20 +61,21 @@ function Icon({ item, mouseX, size, magnified, reach }: { item: DockItem; mouseX
       <AnimatePresence>
         {hover && (
           <motion.span
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 4 }}
-            transition={{ duration: 0.15 }}
+            initial={{ opacity: 0, y: 8, scale: 0.85 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 4, scale: 0.95, transition: { duration: 0.12 } }}
+            transition={{ ...SPRING.pop, opacity: { duration: 0.12 } }}
             className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md border border-border bg-background/90 px-2 py-0.5 text-[12px] font-medium shadow-sm backdrop-blur"
           >
             {item.label}
           </motion.span>
         )}
       </AnimatePresence>
-      <motion.span style={{ width: w, height: w }} className="grid place-items-center rounded-[22%] border border-border/70 bg-background shadow-[0_6px_14px_-6px_rgba(0,0,0,0.35)] [&_svg]:size-[46%]">
+      {/* Re-keyed on every click so the launch hop restarts, like an app opening from the dock. */}
+      <motion.span key={hops} style={{ width: w, height: w }} className={cn("grid place-items-center rounded-[22%] border border-border/70 bg-background shadow-[0_6px_14px_-6px_rgba(0,0,0,0.35)] motion-reduce:animate-none [&_svg]:size-[46%]", hops > 0 && "animate-launch")}>
         {item.icon}
       </motion.span>
-      {item.active && <span className="absolute -bottom-1.5 left-1/2 size-1 -translate-x-1/2 rounded-full bg-primary" aria-hidden />}
+      {item.active && <span className="absolute -bottom-1.5 left-1/2 size-1 -translate-x-1/2 animate-pop-in rounded-full bg-primary" aria-hidden />}
     </>
   );
   const common = {
@@ -80,6 +86,10 @@ function Icon({ item, mouseX, size, magnified, reach }: { item: DockItem; mouseX
     onMouseLeave: () => setHover(false),
     onFocus: () => setHover(true),
     onBlur: () => setHover(false),
+    onClick: () => {
+      setHops((n) => n + 1);
+      item.onClick?.();
+    },
     className: "relative flex flex-col items-center outline-hidden focus-visible:[&>span:last-of-type]:ring-1 focus-visible:[&>span:last-of-type]:ring-ring",
   };
   return item.href ? (
@@ -87,7 +97,7 @@ function Icon({ item, mouseX, size, magnified, reach }: { item: DockItem; mouseX
       {inner}
     </a>
   ) : (
-    <button type="button" onClick={item.onClick} {...common}>
+    <button type="button" {...common}>
       {inner}
     </button>
   );
