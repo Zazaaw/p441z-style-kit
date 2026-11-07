@@ -54,6 +54,7 @@ export default function Chrome({ skills }: { skills: { name: string; title: stri
   const items: SpotlightItem[] = [
     { group: "Sections", label: "Keynote", hint: "#keynote", icon: <IconPlay />, onSelect: () => go("#keynote") },
     { group: "Sections", label: "Inside the kit", hint: "#kit", icon: <IconWindow />, onSelect: () => go("#kit") },
+    { group: "Sections", label: "Typography — the golden ratio", hint: "#type", icon: <IconBook />, keywords: "type font scale leading", onSelect: () => go("#type") },
     { group: "Sections", label: "Made with the skills", hint: "#showcase", icon: <IconPlay />, onSelect: () => go("#showcase") },
     { group: "Sections", label: "Motion components", hint: "#motion", icon: <IconSpark />, onSelect: () => go("#motion") },
     { group: "Sections", label: "Desktop UI", hint: "#desk", icon: <IconWindow />, onSelect: () => go("#desk") },
@@ -78,6 +79,7 @@ export default function Chrome({ skills }: { skills: { name: string; title: stri
         brand={<span className="font-display tracking-tight">p441z</span>}
         items={[
           { label: "Keynote", href: "#keynote" },
+          { label: "Type", href: "#type" },
           { label: "Motion", href: "#motion" },
           { label: "Desktop", href: "#desk" },
           { label: "Showcase", href: "#showcase" },

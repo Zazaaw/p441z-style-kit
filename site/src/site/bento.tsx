@@ -69,106 +69,6 @@ function CurvePlayground() {
   );
 }
 
-// Golden-ratio type scale from skill-typography: base 16, every step ×/÷ 1.618, half-steps √φ.
-const SCALE = [
-  { role: "caption", px: 12.58, lh: 1.4, tr: 0.01 },
-  { role: "body-sm", px: 14.19, lh: 1.5, tr: 0 },
-  { role: "body", px: 16, lh: 1.618, tr: 0 },
-  { role: "lead", px: 20.35, lh: 1.5, tr: -0.005 },
-  { role: "h5", px: 25.89, lh: 1.25, tr: -0.01 },
-  { role: "h4", px: 32.93, lh: 1.2, tr: -0.015 },
-  { role: "h3", px: 41.89, lh: 1.15, tr: -0.02 },
-  { role: "h2", px: 53.28, lh: 1.1, tr: -0.022 },
-  { role: "h1", px: 67.78, lh: 1.05, tr: -0.025 },
-];
-const FAMILIES = [
-  { key: "sans", label: "Sans", name: "Plus Jakarta Sans", cls: "font-display", note: "Everything. 400–800.", weights: [400, 800] },
-  { key: "serif", label: "Serif", name: "Instrument Serif Italic", cls: "font-serif italic", note: "The accent — used once per page.", weights: [400, 400] },
-  { key: "mono", label: "Mono", name: "JetBrains Mono", cls: "font-mono", note: "Code, IDs, tabular data.", weights: [400, 700] },
-] as const;
-
-function TypographyTile() {
-  const [fam, setFam] = useState(0);
-  const [weight, setWeight] = useState(800);
-  const [step, setStep] = useState(6);
-  const f = FAMILIES[fam];
-  const w = Math.min(f.weights[1], Math.max(f.weights[0], weight));
-  const cur = SCALE[step];
-  return (
-    <div className="grid gap-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.4fr)]">
-      <div className="flex flex-col">
-        <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Typography</div>
-        <div className="mt-2 font-display text-2xl font-extrabold tracking-tight">Every size has a reason.</div>
-        <div className="mt-5 flex gap-1">
-          {FAMILIES.map((x, i) => (
-            <button key={x.key} type="button" onClick={() => setFam(i)} className={cn("rounded-full px-3 py-1 text-[12px] font-semibold transition-colors duration-200", i === fam ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted")}>
-              {x.label}
-            </button>
-          ))}
-        </div>
-        <div className="mt-4 flex items-end gap-5">
-          <motion.div key={f.key} initial={{ opacity: 0, y: 10, filter: "blur(6px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} transition={{ duration: 0.45, ease: EASE.reveal }} className={cn("text-[120px] leading-[0.9] tracking-[-0.04em]", f.cls)} style={{ fontWeight: w }}>
-            Aa
-          </motion.div>
-          <div className="pb-3 text-[13px] leading-relaxed text-muted-foreground">
-            <div className="font-semibold text-foreground">{f.name}</div>
-            <div>{f.note}</div>
-          </div>
-        </div>
-        <label className={cn("mt-6 block text-[12px] font-medium text-muted-foreground", f.weights[0] === f.weights[1] && "opacity-40")}>
-          <span className="flex justify-between">
-            <span>Weight</span>
-            <span className="font-mono tabular-nums text-foreground">{w}</span>
-          </span>
-          <input
-            type="range"
-            min={400}
-            max={800}
-            step={100}
-            value={w}
-            disabled={f.weights[0] === f.weights[1]}
-            onChange={(e) => setWeight(Number(e.target.value))}
-            aria-label="Font weight"
-            className="mt-3 h-1.5 w-full cursor-pointer appearance-none rounded-full disabled:cursor-not-allowed [&::-moz-range-thumb]:size-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-primary [&::-webkit-slider-thumb]:size-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary [&::-webkit-slider-thumb]:shadow-[0_2px_8px_-2px_var(--color-primary)]"
-            style={{ background: `linear-gradient(to right, var(--color-primary) ${((w - 400) / 400) * 100}%, var(--color-muted) ${((w - 400) / 400) * 100}%)` }}
-          />
-        </label>
-        <p className="mt-5 text-[13px] leading-relaxed text-muted-foreground">
-          A golden-ratio scale from <code className="text-[0.92em] text-foreground">skill-typography</code>: base 16px, every step × or ÷ 1.618, half-steps √φ. Product UI stops at h3; marketing pages go up to display.
-        </p>
-        <div className="mt-auto grid grid-cols-3 gap-2 pt-6 text-center">
-          {[
-            ["Ratio", "1.618"],
-            [cur.role, `${cur.px}px`],
-            ["Leading", String(cur.lh)],
-          ].map(([k, v]) => (
-            <div key={k} className="rounded-xl border border-border px-2 py-2.5">
-              <div className="font-mono text-[15px] font-semibold tabular-nums">{v}</div>
-              <div className="mt-0.5 text-[11px] uppercase tracking-[0.12em] text-muted-foreground">{k}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-      <ul className="min-w-0 divide-y divide-border border-y border-border" onMouseLeave={() => setStep(6)}>
-        {SCALE.map((x, i) => (
-          <li key={x.role}>
-            <button type="button" onMouseEnter={() => setStep(i)} onFocus={() => setStep(i)} onClick={() => setStep(i)} className="group relative flex w-full min-w-0 items-baseline gap-4 py-2 text-left">
-              {i === step && <motion.span layoutId="type-step" className="absolute inset-y-1 -left-3 w-[3px] rounded-full bg-primary" transition={{ duration: 0.35, ease: EASE.reveal }} />}
-              <span className={cn("w-16 shrink-0 font-mono text-[11px] tabular-nums transition-colors", i === step ? "text-primary" : "text-muted-foreground")}>
-                {x.role}
-                <span className="block opacity-70">{x.px}</span>
-              </span>
-              <span className={cn("min-w-0 truncate transition-colors duration-200", f.cls, i === step ? "text-foreground" : "text-foreground/70")} style={{ fontSize: x.px, lineHeight: x.lh, letterSpacing: `${x.tr}em`, fontWeight: i >= 4 ? w : Math.min(w, 600) }}>
-                Quiet by default.
-              </span>
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
 function ThemeTile() {
   const { resolvedTheme, setTheme } = useTheme();
   const dark = resolvedTheme === "dark";
@@ -230,9 +130,6 @@ export default function Bento({ componentCount, skillCount }: { componentCount: 
             </div>
             <div className="mt-1 text-[13px] text-muted-foreground">UI · effects · motion · desktop — copy-paste, zero lock-in</div>
           </div>
-        </SpotlightCard>
-        <SpotlightCard className="bento-tile p-6 md:col-span-6 md:p-8">
-          <TypographyTile />
         </SpotlightCard>
         <SpotlightCard className="bento-tile p-6 md:col-span-3">
           <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Motion</div>

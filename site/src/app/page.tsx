@@ -6,6 +6,7 @@ import SmoothScroll from "@/site/smooth";
 import Hero from "@/site/hero";
 import Keynote from "@/site/keynote";
 import Bento from "@/site/bento";
+import Typography from "@/site/typography";
 import MotionGallery from "@/site/motion-gallery";
 import Desk from "@/site/desk";
 import Showcase from "@/site/showcase";
@@ -44,6 +45,7 @@ export default function Home() {
         </div>
         <Keynote />
         <Bento componentCount={comps.length} skillCount={skills.length} />
+        <Typography skillLines={skills.find((s) => s.file === "skill-typography.md")?.lines ?? 0} />
         <MotionGallery />
         <Desk />
         <Showcase />
