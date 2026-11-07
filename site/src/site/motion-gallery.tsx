@@ -22,7 +22,7 @@ import { useNotify } from "@/components/mac/notification";
 import { cn } from "@/lib/utils";
 import { IconBell, IconCheck, IconCopy, IconSend } from "@/site/icons";
 import { installFor } from "@/site/chrome";
-import { useNum, useT } from "@/site/i18n";
+import { useLang, useNum, useT } from "@/site/i18n";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -43,6 +43,8 @@ function useVisibleInterval(ref: React.RefObject<Element | null>, fn: () => void
 
 function Demo({ name, file, wide, children, onReplay, note }: { name: string; file: string; wide?: boolean; children: React.ReactNode; onReplay?: () => void; note: string }) {
   const t = useT();
+  const lang = useLang();
+  const doc = `${lang === "id" ? "/id" : ""}/components/${file === "mac/window.tsx" ? "mac-window" : file.replace(/^.*\//, "").replace(/\.tsx?$/, "")}`;
   return (
     <GlassPanel tilt={2} className={cn("demo-card flex min-w-0 flex-col lg:shrink-0", wide ? "sm:col-span-2 lg:w-[640px]" : "lg:w-[380px]")}>
       <div className="relative grid min-h-56 flex-1 place-items-center overflow-hidden border-b border-border bg-muted/30 p-6 lg:min-h-[300px]">{children}</div>
@@ -50,7 +52,11 @@ function Demo({ name, file, wide, children, onReplay, note }: { name: string; fi
         <div className="min-w-0 flex-1">
           <div className="font-display text-[15px] font-bold">{name}</div>
           <div className="mt-0.5 text-[13px] leading-snug text-muted-foreground">{note}</div>
-          <code className="mt-2 inline-block text-[11.5px] text-muted-foreground">{file}</code>
+          <a href={doc} className="mt-2 inline-flex items-center gap-1 text-[11.5px] text-muted-foreground transition-colors hover:text-primary">
+            <code>{file}</code>
+            <span aria-hidden>→</span>
+            <span className="sr-only">{t("Docs", "Dokumentasi")}</span>
+          </a>
         </div>
         <div className="flex shrink-0 flex-col items-end gap-1.5">
           {onReplay && (
