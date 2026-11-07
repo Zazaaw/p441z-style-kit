@@ -61,7 +61,7 @@ export default function Chrome({ skills }: { skills: { name: string; title: stri
     { group: S, label: "Keynote", hint: "#keynote", icon: <IconPlay />, onSelect: () => go("#keynote") },
     { group: S, label: t("Inside the kit", "Di dalam kit"), hint: "#kit", icon: <IconWindow />, onSelect: () => go("#kit") },
     { group: S, label: t("Typography — the golden ratio", "Tipografi — golden ratio"), hint: "#type", icon: <IconBook />, keywords: "type font scale leading tipografi huruf", onSelect: () => go("#type") },
-    { group: S, label: t("Made with the skills", "Karya pakai skill"), hint: "#showcase", icon: <IconPlay />, onSelect: () => go("#showcase") },
+    { group: S, label: t("Made with the skills", "Karya nyata"), hint: "#showcase", icon: <IconPlay />, onSelect: () => go("#showcase") },
     { group: S, label: t("Motion components", "Komponen motion"), hint: "#motion", icon: <IconSpark />, onSelect: () => go("#motion") },
     { group: S, label: t("Desktop UI", "UI desktop"), hint: "#desk", icon: <IconWindow />, onSelect: () => go("#desk") },
     { group: S, label: "Skills", hint: "#skills", icon: <IconBook />, onSelect: () => go("#skills") },

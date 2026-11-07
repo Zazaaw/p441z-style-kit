@@ -256,7 +256,7 @@ export default function MotionGallery() {
         </Demo>
         <Demo name="WordRotator" file="motion/word-rotator.tsx" note={t("The one editorial accent: a word that keeps changing.", "Satu sentuhan editorial: kata yang terus berganti.")}>
           <div className="text-center font-display text-3xl font-extrabold tracking-tight">
-            {t("Made to", "Dibuat untuk")} <WordRotator words={t(["move", "ship", "last", "delight"], ["bergerak", "dirilis", "bertahan", "memikat"])} className="font-serif font-normal italic" />
+            {t("Made to", "Dibuat untuk")} <WordRotator words={t(["move", "ship", "last", "delight"], ["bergerak", "dipakai", "bertahan", "memikat"])} className="font-serif font-normal italic" />
           </div>
         </Demo>
         <Demo name="SoftCursor" file="motion/soft-cursor.tsx" note={t("A hand-like pointer. No red rings — and every click changes something.", "Kursor yang bergerak luwes seperti tangan sungguhan. Tanpa lingkaran merah — dan tiap klik ada hasilnya.")}>
@@ -271,7 +271,7 @@ export default function MotionGallery() {
         <Demo name="VirtualCamera" file="motion/virtual-camera.tsx" note={t("Frames part of a screen with a symmetric camera ease.", "Menyorot bagian layar dengan gerak kamera yang mulus.")} wide>
           <CameraDemo />
         </Demo>
-        <Demo name="CountUp" file="motion/count-up.tsx" note={t("Counts to its value in view; tabular figures never wobble.", "Angkanya berhitung naik saat terlihat — lebarnya tetap, jadi tidak goyang.")} onReplay={replayCount}>
+        <Demo name="CountUp" file="motion/count-up.tsx" note={t("Counts to its value in view; tabular figures never wobble.", "Angka naik perlahan ke nilainya saat terlihat — lebar digitnya tetap, jadi tidak goyang.")} onReplay={replayCount}>
           <div key={count} className="text-center">
             <div className="font-display text-5xl font-extrabold tracking-tight">
               <CountUp to={24195} format={num} />

@@ -186,7 +186,7 @@ function LeadingCard() {
         <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Leading</div>
         <Verdict ok={good}>{Math.abs(lh - 1.618) < 0.03 ? t("φ — the body default", "φ — standar body") : good ? t("comfortable", "nyaman") : lh < 1.5 ? t("too tight", "terlalu rapat") : t("too loose", "terlalu renggang")}</Verdict>
       </div>
-      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("Body breathes at φ.", "Body paling lega di φ.")}</div>
+      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("Body breathes at φ.", "Teks body paling nyaman di φ.")}</div>
       <p className="mt-4 text-[15px] text-muted-foreground transition-[line-height] duration-150" style={{ lineHeight: lh }}>
         {t(SAMPLE, SAMPLE_ID)}
       </p>
@@ -298,7 +298,7 @@ function PairingCard() {
       <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Pairing", "Padanan")}</div>
       <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("Two families. One mono.", "Dua jenis huruf. Satu mono.")}</div>
       <div className="mt-5 space-y-3">
-        <div className="font-display text-[26px] font-extrabold leading-tight tracking-tight">{t("Sans carries the page.", "Sans memikul halaman.")}</div>
+        <div className="font-display text-[26px] font-extrabold leading-tight tracking-tight">{t("Sans carries the page.", "Sans jadi tulang punggung.")}</div>
         <div className="font-serif text-[28px] italic leading-tight text-primary">{t("The serif speaks once.", "Serif cukup tampil sekali.")}</div>
         <div className="font-mono text-[14px] text-muted-foreground">{t("mono → code · IDs · data", "mono → kode · ID · data")}</div>
       </div>
@@ -312,7 +312,7 @@ function WeightsCard() {
   return (
     <SpotlightCard className="type-card flex flex-col p-6">
       <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Weights", "Ketebalan")}</div>
-      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("Few weights, clear jobs.", "Sedikit ketebalan, peran yang jelas.")}</div>
+      <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("Few weights, clear jobs.", "Sedikit ketebalan, jelas tugasnya.")}</div>
       <div className="mt-5 grid grid-cols-5 gap-2 text-center">
         {[400, 500, 600, 700, 800].map((w) => (
           <div key={w}>
@@ -352,7 +352,7 @@ export default function Typography({ skillLines }: { skillLines: number }) {
       <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
         <div>
           <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Typography", "Tipografi")}</div>
-          <MaskReveal as="h2" text={t("Built on the golden ratio.", "Berpijak pada golden ratio.")} className="mt-3 font-display text-[clamp(2.2rem,5vw,3.75rem)] font-extrabold leading-[1.02] tracking-[-0.04em]" />
+          <MaskReveal as="h2" text={t("Built on the golden ratio.", "Semua berawal dari golden ratio.")} className="mt-3 font-display text-[clamp(2.2rem,5vw,3.75rem)] font-extrabold leading-[1.02] tracking-[-0.04em]" />
           <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
             {t(
               <>
@@ -361,7 +361,7 @@ export default function Typography({ skillLines }: { skillLines: number }) {
                 Nothing is picked by eye.
               </>,
               <>
-                Tipografi di kit ini <span className="font-semibold text-foreground">diriset dan disusun dari golden ratio</span>. Semua ukuran berawal dari 16px, lalu dikali atau dibagi{" "}
+                Tipografi di kit ini <span className="font-semibold text-foreground">diriset dan disusun dengan golden ratio</span>. Ukuran dasarnya 16px, lalu dikali atau dibagi{" "}
                 <span className="font-serif text-[1.15em] italic text-primary">φ = 1,618</span> — atau setengah langkah, √φ, kalau satu langkah terasa terlalu jauh. Leading, measure, tracking, dan ketebalan huruf ikut aturan yang sama.
                 Tidak ada angka yang asal tebak.
               </>,

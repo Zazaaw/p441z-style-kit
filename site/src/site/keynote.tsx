@@ -411,8 +411,8 @@ export default function Keynote() {
     <section id="keynote" ref={ref} className="relative scroll-mt-10">
       <div className="flex min-h-[100svh] flex-col items-center justify-center gap-5 overflow-hidden px-4 py-20">
         <div className="text-center">
-          <MaskReveal as="h2" text={t("Watch it move.", "Tonton sendiri.")} className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold leading-[1.05] tracking-[-0.04em]" />
-          <p className="mt-2 text-sm text-muted-foreground">{t("It plays by itself — every piece is a kit component, nothing is a video.", "Berjalan otomatis — tiap bagiannya komponen kit, bukan rekaman video.")}</p>
+          <MaskReveal as="h2" text={t("Watch it move.", "Lihat cara kerjanya.")} className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold leading-[1.05] tracking-[-0.04em]" />
+          <p className="mt-2 text-sm text-muted-foreground">{t("It plays by itself — every piece is a kit component, nothing is a video.", "Jalan sendiri — semua yang kamu lihat itu komponen kit, bukan rekaman video.")}</p>
         </div>
         <Stepper steps={STAGES.map((s) => t(s.label, s.labelId))} active={stage} id="keynote" className="hidden sm:inline-flex" />
         <div className="h-9 w-full max-w-3xl text-center">

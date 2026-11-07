@@ -102,15 +102,15 @@ export default function Hero({ skillCount, skillLines, componentCount, skills }:
           <h1 className="mt-7 font-display text-[clamp(2.6rem,min(7.2vw,10.5svh),7.4rem)] font-extrabold leading-[0.98] tracking-[-0.05em] [word-spacing:0.12em] [@media(max-height:760px)]:mt-5">
             <span className="hero-line block whitespace-nowrap">{t("Interfaces that", "Antarmuka yang")}</span>
             <span className="hero-rot block whitespace-nowrap py-[0.04em]">
-              <WordRotator reserve align="center" words={t(["move", "breathe", "ship", "feel right"], ["bergerak", "hidup", "bernapas", "memikat"])} interval={2.6} wordClassName="text-sheen" className="font-serif text-[1.08em] font-normal italic tracking-[-0.02em]" />
+              <WordRotator reserve align="center" words={t(["move", "breathe", "ship", "feel right"], ["bergerak", "hidup", "mengalir", "memikat"])} interval={2.6} wordClassName="text-sheen" className="font-serif text-[1.08em] font-normal italic tracking-[-0.02em]" />
             </span>
-            <span className="hero-line block whitespace-nowrap">{t("like a keynote.", "seapik keynote.")}</span>
+            <span className="hero-line block whitespace-nowrap">{t("like a keynote.", "seperti keynote.")}</span>
           </h1>
 
           <p className="hero-fade mx-auto mt-6 max-w-[34rem] text-pretty text-[clamp(1.05rem,1.4vw,1.25rem)] leading-relaxed text-muted-foreground">
             {t(
               "A quiet design system for React + Tailwind — components, keynote-grade motion, desktop windows, and skills that keep your AI agent from shipping slop.",
-              "Design system yang kalem untuk React + Tailwind: komponen, motion sekelas keynote, jendela ala desktop, dan skill yang bikin agen AI-mu berhenti kerja asal jadi.",
+              "Design system yang kalem untuk React + Tailwind: komponen, motion sekelas keynote, jendela ala desktop, plus skill supaya agen AI-mu tidak lagi kerja asal jadi.",
             )}
           </p>
 

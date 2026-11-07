@@ -254,7 +254,7 @@ export const PREVIEWS: Record<string, Pair> = {
   },
   "skill-backend.api.md": {
     note: "Failures you can see: the right status, a stable code, a message a person can act on.",
-    noteId: "Error yang terus terang: status yang tepat, kode yang konsisten, pesan yang jelas harus diapakan.",
+    noteId: "Error yang terus terang: status yang tepat, kode yang konsisten, pesan yang jelas maksudnya.",
     before: (
       <Slop className="bg-neutral-50">
         <div className="text-[12px] font-bold">POST /api/leave → 200 OK</div>

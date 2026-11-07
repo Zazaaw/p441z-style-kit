@@ -120,7 +120,7 @@ export default function Bento({ componentCount, skillCount }: { componentCount: 
       <div className="mt-12 grid auto-rows-[minmax(200px,auto)] gap-4 md:grid-cols-6">
         <SpotlightCard className="bento-tile p-6 md:col-span-4">
           <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Tokens", "Token")}</div>
-          <div className="mt-2 font-display text-2xl font-extrabold tracking-tight">{t("Pure greyscale. Color only as meaning.", "Serba abu-abu. Warna hanya kalau bermakna.")}</div>
+          <div className="mt-2 font-display text-2xl font-extrabold tracking-tight">{t("Pure greyscale. Color only as meaning.", "Serba abu-abu. Warna cuma dipakai kalau ada artinya.")}</div>
           <div className="mt-6 flex gap-2">
             {greys.map((l) => (
               <div key={l} className="flex-1">
@@ -140,7 +140,7 @@ export default function Bento({ componentCount, skillCount }: { componentCount: 
                   Rebrand in two lines: change <code>--primary</code> and <code>--ring</code>. Try it — the whole page follows.
                 </>,
                 <>
-                  Ganti identitas cukup dua baris: <code>--primary</code> dan <code>--ring</code>. Coba klik — seisi halaman ikut berganti.
+                  Ganti warna brand cukup dua baris: <code>--primary</code> dan <code>--ring</code>. Coba klik — seisi halaman ikut berganti.
                 </>,
               )}
             </div>

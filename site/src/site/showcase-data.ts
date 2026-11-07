@@ -24,7 +24,7 @@ export const SHOWCASE: ShowcaseItem[] = [
     title: "The p441z Style Kit — keynote",
     titleId: "p441z Style Kit — keynote",
     note: "A tutorial-style keynote of this very site: real screen recording, word-timed narration, virtual camera, synthesized music.",
-    noteId: "Video tutorial ala keynote tentang situs ini: rekaman layar asli, narasi yang sinkron per kata, kamera virtual, dan musik racikan mesin.",
+    noteId: "Video tutorial ala keynote tentang situs ini: rekaman layar asli, narasi yang sinkron per kata, kamera virtual, dan musik sintetis.",
     video: "/showcase/p441z-keynote.mp4",
     poster: "/showcase/p441z-keynote.jpg",
     madeWith: "skill-motion-video",
