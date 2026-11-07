@@ -28,17 +28,17 @@ function Scaled({ children }: { children: React.ReactNode }) {
   );
 }
 
-/** Drag (or arrow-key) the divider to compare. Opens with a short sweep so people see it moves. */
-export function Compare({ before, after }: { before: React.ReactNode; after: React.ReactNode }) {
+/** Drag (or arrow-key) the divider to compare. Opens with a short nudge so people see it moves. */
+export function Compare({ before, after, play = true, onGrab }: { before: React.ReactNode; after: React.ReactNode; /** Run the intro sweep (pass false until it is on screen). */ play?: boolean; onGrab?: () => void }) {
   const box = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState(50);
   const reduce = useReducedMotion();
   const dragging = useRef(false);
   useEffect(() => {
-    if (reduce) return;
-    const c = animate(88, 50, { duration: 1.4, delay: 0.55, ease: [0.65, 0, 0.35, 1], onUpdate: setPos });
+    if (reduce || !play) return;
+    const c = animate(50, [82, 50], { duration: 1.9, delay: 0.45, ease: "easeInOut", onUpdate: setPos });
     return () => c.stop();
-  }, [reduce]);
+  }, [reduce, play]);
   const at = (clientX: number) => {
     const r = box.current!.getBoundingClientRect();
     setPos(Math.min(100, Math.max(0, ((clientX - r.left) / r.width) * 100)));
@@ -49,11 +49,13 @@ export function Compare({ before, after }: { before: React.ReactNode; after: Rea
       className="relative cursor-ew-resize select-none overflow-hidden rounded-xl border border-border"
       onPointerDown={(e) => {
         dragging.current = true;
+        onGrab?.();
         (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
         at(e.clientX);
       }}
       onPointerMove={(e) => dragging.current && at(e.clientX)}
       onPointerUp={() => (dragging.current = false)}
+      onPointerCancel={() => (dragging.current = false)}
     >
       <Scaled>{after}</Scaled>
       <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
@@ -74,6 +76,7 @@ export function Compare({ before, after }: { before: React.ReactNode; after: Rea
         aria-valuemax={100}
         aria-valuenow={Math.round(pos)}
         onKeyDown={(e) => {
+          if (e.key === "ArrowLeft" || e.key === "ArrowRight") onGrab?.();
           if (e.key === "ArrowLeft") setPos((p) => Math.max(0, p - 5));
           if (e.key === "ArrowRight") setPos((p) => Math.min(100, p + 5));
         }}
