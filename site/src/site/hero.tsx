@@ -13,10 +13,12 @@ import Magnetic from "@/components/effects/magnetic";
 import BorderBeam from "@/components/effects/border-beam";
 import { REPO, INSTALL } from "@/site/chrome";
 import { IconCheck, IconCopy } from "@/site/icons";
+import HeroCatalog from "@/site/hero-catalog";
+import type { CatalogItem } from "@/site/catalog-data";
 
 gsap.registerPlugin(SplitText, useGSAP);
 
-export default function Hero({ skillCount, skillLines, componentCount }: { skillCount: number; skillLines: number; componentCount: number }) {
+export default function Hero({ skillCount, skillLines, componentCount, catalog }: { skillCount: number; skillLines: number; componentCount: number; catalog: CatalogItem[] }) {
   const root = useRef<HTMLElement>(null);
   const [copied, setCopied] = useState(false);
 
@@ -103,7 +105,7 @@ export default function Hero({ skillCount, skillLines, componentCount }: { skill
         <span className="grid size-7 shrink-0 place-items-center rounded-full bg-muted text-foreground [&_svg]:size-3.5">{copied ? <IconCheck /> : <IconCopy />}</span>
       </button>
 
-      <div className="hero-fade mt-16 grid w-full max-w-3xl grid-cols-3 divide-x divide-border rounded-2xl border border-border bg-background/60 backdrop-blur">
+      <div className="hero-fade mt-16 grid w-full max-w-5xl grid-cols-3 divide-x divide-border rounded-2xl border border-border bg-background/60 backdrop-blur">
         {[
           [componentCount, "components"],
           [skillCount, "working skills"],
@@ -116,6 +118,9 @@ export default function Hero({ skillCount, skillLines, componentCount }: { skill
             <div className="mt-0.5 text-[13px] text-muted-foreground">{label}</div>
           </div>
         ))}
+      </div>
+      <div className="hero-fade mt-4 flex w-full justify-center">
+        <HeroCatalog items={catalog} />
       </div>
     </section>
   );

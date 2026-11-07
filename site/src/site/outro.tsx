@@ -42,7 +42,6 @@ export default function Outro() {
           </a>{" "}
           · MIT licensed · Effects adapted from MagicUI, conventions from shadcn/ui
         </div>
-        <div>Dibuat oleh Faiz Hazim Hawari</div>
       </footer>
     </section>
   );
