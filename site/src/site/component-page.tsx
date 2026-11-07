@@ -6,6 +6,7 @@ import { DocPager } from "@/site/doc-pager";
 import { LangProvider, type Lang } from "@/site/i18n";
 import { allComponents, loadComponentDoc } from "@/site/component-doc";
 import { ComponentDemo } from "@/site/component-demos";
+import { ComponentThumb } from "@/site/component-thumbs";
 import { DEMO_NAMES, SCENES } from "@/site/component-demo-names";
 import { CopyCommand, DocTopBar } from "@/site/skill-page-client";
 
@@ -147,12 +148,14 @@ export function ComponentIndex({ lang }: { lang: Lang }) {
                     // A pile of sheets behind each card fans out on hover — the folder move, card-sized.
                     <StackCard key={c.name} className="h-full">
                     <GlassPanel delay={i * 40} press className="h-full p-0" contentClassName="h-full">
-                      <a href={`${base}/${c.name}`} className="block h-full p-5">
+                      <a href={`${base}/${c.name}`} className="flex h-full flex-col">
+                        <ComponentThumb name={c.name} />
+                        <div className="p-5">
                         <div className="flex items-baseline justify-between gap-3">
                           <span className="font-display text-lg font-bold tracking-tight">{c.title}</span>
-                          {DEMO_NAMES.has(c.name) && <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-semibold text-primary">{t("live", "hidup")}</span>}
                         </div>
                         <p className="mt-1 text-[13.5px] leading-snug text-muted-foreground">{c.description}</p>
+                        </div>
                       </a>
                     </GlassPanel>
                     </StackCard>
