@@ -72,7 +72,9 @@ export default function KaraokeText({ text, className, progress, duration = 2.5,
   }, [progress, reduce, seen, local, duration, delay]);
 
   return (
-    <p ref={ref} className={cn("text-pretty", className)} aria-label={text}>
+    // aria-label isn't allowed on a <p>; screen readers get the sentence once, as plain text.
+    <p ref={ref} className={cn("text-pretty", className)}>
+      <span className="sr-only">{text}</span>
       <span aria-hidden>
         {words.map((w, i) => (
           <Word key={`${w}-${i}`} word={w} i={i} n={words.length} p={p} dim={dim} />
