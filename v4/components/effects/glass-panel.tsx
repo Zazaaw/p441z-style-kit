@@ -7,8 +7,10 @@ import { cn } from "@/lib/utils";
 /**
  * GlassPanel — a frosted-glass surface with depth. It blurs and saturates whatever sits behind it,
  * wears a rim of light that is brightest where the light comes from, catches a soft specular that
- * follows the pointer, tilts a few degrees toward the cursor, and assembles itself (rise + unblur)
- * the first time it scrolls into view.
+ * follows the pointer, tilts a few degrees toward the cursor, and assembles itself the first time it
+ * scrolls into view — it rises, comes into focus, and lands on a spring (a few pixels past its spot,
+ * then back), the way the sheets in a folder settle. Give clickable cards `press` and they squish
+ * under the finger too.
  *
  * Glass needs something to frost: put it over color — the kit's `GlassBackdrop` (below), an
  * `Aurora`, a photo, or a busy pattern. Over a flat page it reads as a plain card.
@@ -23,6 +25,7 @@ import { cn } from "@/lib/utils";
  *     <GlassPanel className="p-6">…</GlassPanel>
  *     <GlassPanel className="p-6" delay={80} tilt={0}>…</GlassPanel>   // stagger, no tilt
  *     <GlassPanel contentClassName="flex items-center justify-between gap-4 px-6 py-5">…</GlassPanel>
+ *     <GlassPanel press><a href="/docs" className="block p-6">…</a></GlassPanel>   // a card that is a link
  *   </section>
  */
 
@@ -35,6 +38,8 @@ interface GlassPanelProps extends React.HTMLAttributes<HTMLDivElement> {
   delay?: number;
   /** Classes for the content wrapper (the panel wraps its children) — put flex/grid layout here. */
   contentClassName?: string;
+  /** Squish to 98.5 % while pressed and spring back — for panels that are (or wrap) a link or button. */
+  press?: boolean;
 }
 
 const CSS = `
@@ -49,14 +54,21 @@ const CSS = `
   backdrop-filter: blur(14px);
   box-shadow: inset 0 1px 0 rgb(255 255 255 / .6), 0 1px 2px rgb(0 0 0 / .05), 0 28px 56px -32px rgb(0 0 0 / .38);
   transform: perspective(1200px) rotateX(calc(var(--ty) * var(--tilt, 3) * -1deg)) rotateY(calc(var(--tx) * var(--tilt, 3) * 1deg)) translateY(var(--lift));
+  /* translate + scale land on the spring (they overshoot a few px, then settle); opacity and blur
+     can't overshoot, so they ease. */
   transition:
     transform .7s cubic-bezier(.22, 1, .36, 1),
     box-shadow .5s cubic-bezier(.22, 1, .36, 1),
     opacity .9s cubic-bezier(.22, 1, .36, 1) var(--glass-delay, 0ms),
-    translate 1s cubic-bezier(.22, 1, .36, 1) var(--glass-delay, 0ms),
-    scale 1s cubic-bezier(.22, 1, .36, 1) var(--glass-delay, 0ms),
+    translate 1s cubic-bezier(.34, 1.36, .5, 1) var(--glass-delay, 0ms),
+    scale 1s cubic-bezier(.34, 1.36, .5, 1) var(--glass-delay, 0ms),
     filter .9s cubic-bezier(.22, 1, .36, 1) var(--glass-delay, 0ms);
 }
+/* Once landed, the entrance delay is dropped so a press answers at once. */
+.p441z-glass[data-settled] {
+  transition: transform .7s cubic-bezier(.22, 1, .36, 1), box-shadow .5s cubic-bezier(.22, 1, .36, 1), scale .45s cubic-bezier(.34, 1.36, .5, 1);
+}
+.p441z-glass[data-press][data-settled]:active { scale: .985; transition-duration: .7s, .5s, .1s; }
 .dark .p441z-glass {
   background: linear-gradient(160deg, color-mix(in oklab, var(--color-background) 58%, transparent), color-mix(in oklab, var(--color-background) 32%, transparent));
   box-shadow: inset 0 1px 0 rgb(255 255 255 / .09), 0 1px 2px rgb(0 0 0 / .3), 0 28px 56px -28px rgb(0 0 0 / .75);
@@ -90,10 +102,11 @@ const CSS = `
 .p441z-glass:hover > .p441z-glass-spec { opacity: 1; }
 
 /* Entrance: rise and come into focus. */
-.p441z-glass[data-appear]:not([data-shown]) { opacity: 0; translate: 0 28px; scale: .97; filter: blur(8px); }
+.p441z-glass[data-appear]:not([data-shown]) { opacity: 0; translate: 0 36px; scale: .94; filter: blur(8px); }
 
 @media (prefers-reduced-motion: reduce) {
   .p441z-glass { transform: none !important; transition: none !important; }
+  .p441z-glass:active { scale: none !important; }
   .p441z-glass[data-appear]:not([data-shown]) { opacity: 1; translate: none; scale: none; filter: none; }
 }
 `;
@@ -107,9 +120,16 @@ function GlassStyles() {
   );
 }
 
-export default function GlassPanel({ className, contentClassName, children, style, tilt = 3, appear = true, delay = 0, onPointerMove, onPointerLeave, ...rest }: GlassPanelProps) {
+export default function GlassPanel({ className, contentClassName, children, style, tilt = 3, appear = true, delay = 0, press = false, onPointerMove, onPointerLeave, ...rest }: GlassPanelProps) {
   const ref = React.useRef<HTMLDivElement>(null);
   const [shown, setShown] = React.useState(!appear);
+  const [settled, setSettled] = React.useState(!appear);
+
+  React.useEffect(() => {
+    if (!shown || settled) return;
+    const t = window.setTimeout(() => setSettled(true), delay + 1000);
+    return () => window.clearTimeout(t);
+  }, [shown, settled, delay]);
   const raf = React.useRef(0);
 
   React.useEffect(() => {
@@ -148,6 +168,8 @@ export default function GlassPanel({ className, contentClassName, children, styl
       ref={ref}
       data-appear={appear || undefined}
       data-shown={shown || undefined}
+      data-settled={settled || undefined}
+      data-press={press || undefined}
       className={cn("p441z-glass rounded-2xl", className)}
       style={{ "--tilt": tilt, "--glass-delay": `${delay}ms`, ...style } as React.CSSProperties}
       onPointerMove={(e) => {
