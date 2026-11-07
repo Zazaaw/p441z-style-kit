@@ -57,6 +57,8 @@ h3 for document outline, but visually it's the largest text on the page.
 | `size` | `default` `sm` `lg` `icon` | `default` |
 | `asChild` | boolean — render a Slot instead of `<button>` | `false` |
 
+Every button squishes to 95 % when pressed (100 ms) and springs back on `ease-spring`.
+
 **When to use which:**
 
 - `default` — the one primary action on a screen
@@ -173,7 +175,23 @@ const [filter, setFilter] = useState("All");
 
 Two mobile details built in: `w-full md:w-fit` so it stretches on phones, and
 a scrollbar-hiding triple so overflow scrolls cleanly without a bar cutting
-through the pill.
+through the pill. The pill is a single element that springs to the picked tab
+(`SPRING.slide`); tabs squish when pressed.
+
+### `CopyButton`
+
+```tsx
+<CopyButton value="npx shadcn@latest add …" />                       // icon only
+<CopyButton value={cmd} label="Copy" copiedLabel="Copied" onCopied={…} />
+
+// The parts, for a bigger surface (a whole command row):
+const { copied, copy } = useCopy(cmd);
+<button onClick={copy} className={cn("…", PRESS)}>$ {cmd} <CopyGlyph copied={copied} /></button>
+```
+
+The clipboard turns away, a check turns in and draws its own stroke, the label
+rolls to "Copied", and it announces the copy to screen readers. `PRESS` is the
+squish-on-press class string — reuse it on any clickable surface.
 
 ---
 
@@ -251,18 +269,24 @@ Live demos: the landing page in [`site/`](../site/).
 | `MaskReveal` | `motion/mask-reveal.tsx` | Keynote headline: words rise from behind a mask | `text`, `as`, `delay`, `stagger`, `inView` |
 | `KaraokeText` | `motion/karaoke-text.tsx` | Words light up like a narrator — by time or by scroll | `text`, `progress` (MotionValue) or `duration`, `dim` |
 | `WordRotator` | `motion/word-rotator.tsx` | One word that keeps changing; box width glides | `words`, `interval` — use the serif italic, once per page |
-| `CountUp` | `motion/count-up.tsx` | Counts to its value in view, tabular figures | `to`, `from`, `decimals`, `prefix`/`suffix`, `format` |
+| `CountUp` | `motion/count-up.tsx` | Counts to its value in view, tabular figures, one spring bump on arrival | `to`, `from`, `decimals`, `prefix`/`suffix`, `format`, `land` |
 | `LaptopFrame` · `PhoneFrame` | `motion/device-frame.tsx` | Brandless CSS devices that size to their container | `url` (browser bar), `ratio` · `time` |
 | `VirtualCamera` | `motion/virtual-camera.tsx` | Frames part of its content: zoom, glide, pull back | `shot={{ x, y, zoom }}` or `progress` + `path` (scroll-scrubbed) |
 | `SoftCursor` | `motion/soft-cursor.tsx` | Hand-like pointer, click = shrink + soft halo | `points`, `onClick(i)`, `loop` |
 | `FlyingPill` | `motion/flying-pill.tsx` | A message that flies from one place to another on an arc | `run` (bump to launch), `from`, `to`, `title`, `onLand` |
 | `ElementLift` | `motion/element-lift.tsx` | Card rises to center, floats, flips in 3D, flies home | `id`, `front`, `back`, `lifted`, `onLower` |
 | `LogoCollapse` | `motion/logo-collapse.tsx` | Outro: feature cards pull into the logo | `items`, `logo`, `auto` or `collapsed` |
-| `Stepper` | `motion/stepper.tsx` | Story progress; the active pill glides between steps | `steps`, `active`, `id` |
+| `Stepper` | `motion/stepper.tsx` | Story progress; the active pill springs between steps, finished steps draw a check | `steps`, `active`, `id` |
+| `Swap` | `motion/swap.tsx` | Trades an icon or label for another on a spring — `turn`, `roll`, `pop` | `id` (change it to play), `mode` |
 
 **Curves** (`lib/motion.ts`): `EASE.reveal` and `EASE.toggle` are the kit's UI curves;
 `EASE.camera = [0.65, 0, 0.35, 1]` is symmetric and exists only for choreography (camera moves,
 flights, devices). Never use it for hovers or toggles — there it reads as lag.
+
+**Springs** (`lib/motion.ts` + `globals.css`): `EASE.spring` / `ease-spring` overshoots a few
+percent and settles — for things that move into place. `SPRING.press | slide | pop | drop` are the
+framer-motion versions, `layerDelay(n)` staggers a stack 40 ms apart. The rules are in
+[`DESIGN.md` → Springs](DESIGN.md#springs--micro-interactions).
 
 **Rule:** every click a `SoftCursor` makes must change something on screen — wire `onClick`.
 
@@ -277,9 +301,9 @@ greyscale except the traffic lights, which carry meaning (close / minimize / zoo
 |---|---|---|---|
 | `MacWindow` · `TrafficLights` | `mac/window.tsx` | Window with title bar; lights reveal × – + on hover | `title`, `toolbar`, `glass`, `onClose`/`onMinimize`/`onZoom` |
 | `Terminal` | `mac/terminal.tsx` | Commands type themselves in view; output fades in; Copy | `lines` (`{ cmd }` / `{ out, dim }`), `prompt`, `speed` |
-| `Dock` | `mac/dock.tsx` | Icons magnify near the pointer; labels; active dot | `items` (`href` or `onClick`), `size`, `magnified` |
-| `Spotlight` | `mac/spotlight.tsx` | ⌘K command palette, grouped, keyboard driven | `open`, `onOpenChange`, `items` + `useSpotlightHotkey()` |
-| `NotificationProvider` · `useNotify` | `mac/notification.tsx` | Frosted banners slide in top-right, stack, auto-dismiss | `notify({ title, body, icon, duration })` |
+| `Dock` | `mac/dock.tsx` | Icons magnify near the pointer; labels pop; a clicked icon hops twice like an app launching | `items` (`href` or `onClick`), `size`, `magnified` |
+| `Spotlight` | `mac/spotlight.tsx` | ⌘K command palette, grouped, keyboard driven; drops in, rows cascade, the highlight travels | `open`, `onOpenChange`, `items` + `useSpotlightHotkey()` |
+| `NotificationProvider` · `useNotify` | `mac/notification.tsx` | Frosted banners spring in top-right, icon pops, stack, auto-dismiss | `notify({ title, body, icon, duration })` |
 | `MenuBar` | `mac/menu-bar.tsx` | Slim frosted top bar with menus and a live clock | `brand`, `items`, `right`, `clock` |
 
 Frosted surfaces use `backdrop-blur-2xl backdrop-saturate-150` over `bg-background/60–70`, so
@@ -299,7 +323,9 @@ plain kit and take your accent after a rebrand. Each one is a single moment — 
 | `Marquee` | `effects/marquee.tsx` | Endless seamless ribbon, faded edges, pauses on hover (CSS only) | `duration`, `gap`, `reverse` |
 | `Aurora` | `effects/aurora.tsx` | Slow blurred light behind a hero (CSS only) | `intensity` |
 | `BorderBeam` | `effects/border-beam.tsx` | A beam of light circling a card's border (CSS only) | `size`, `duration`, `colorFrom`/`colorTo` |
-| `GlassPanel` | `effects/glass-panel.tsx` | Frosted-glass surface: blur, light rim, pointer specular, small tilt, assembles on first view | `tilt`, `appear`, `delay`, `contentClassName` |
+| `GlassPanel` | `effects/glass-panel.tsx` | Frosted-glass surface: blur, light rim, pointer specular, small tilt, lands on a spring on first view | `tilt`, `appear`, `delay`, `press`, `contentClassName` |
+| `StackCard` | `effects/stack-card.tsx` | Sheets behind a card fan out on hover, 40 ms apart — the glass-folder move, card-sized (CSS only) | `layers` (1–3), `radius` |
+| `PocketCard` | `effects/pocket-card.tsx` | A picture tucked in a card like a sheet in a pocket: drops in, slides out on hover | `sheet`, `tuck`, `delay`, `sheetClassName` |
 | `GlassBackdrop` | `effects/glass-panel.tsx` | Soft pools of the primary color for glass to frost; edges fade on all sides, costs nothing to scroll | `variant` (`a`/`b`/`c`), `strength` |
 
 `WordRotator` also gained `reserve` (the box is locked to the widest word, so a headline never reflows) and
@@ -315,7 +341,10 @@ Registered in the theme, available as classes:
 `animate-shimmer` · `animate-marquee` · `animate-marquee-vertical` ·
 `animate-spin-around` · `animate-slide` · `animate-gradient-x` ·
 `animate-spin-slow` · `animate-shine` · `animate-ripple` · `animate-rainbow` ·
-`animate-border-beam` · `animate-meteor` · `animate-orbit`
+`animate-border-beam` · `animate-meteor` · `animate-orbit` ·
+`animate-drop-in` · `animate-pop-in` · `animate-launch` (springs — see `DESIGN.md`)
+
+Plus the easing utilities `ease-spring`, `ease-reveal`, `ease-toggle`.
 
 Several read a CSS variable, set per-instance:
 
