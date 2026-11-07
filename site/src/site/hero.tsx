@@ -9,6 +9,7 @@ import { useGSAP } from "@gsap/react";
 
 import { Button } from "@/components/ui/button";
 import { CopyGlyph, PRESS, useCopy } from "@/components/ui/copy-button";
+import { IconGitHub } from "@/site/icons";
 import WordRotator from "@/components/motion/word-rotator";
 import CountUp from "@/components/motion/count-up";
 import Aurora from "@/components/effects/aurora";
@@ -104,15 +105,21 @@ export default function Hero({ skillCount, skillLines, componentCount, skills }:
             )}
           </p>
 
+          {/* The way in comes first: the install guide. The demo and the repo are the second looks. */}
           <div className="hero-fade mt-8 flex flex-wrap items-center justify-center gap-3">
             <Magnetic>
-              <Button asChild size="lg" className="h-12 rounded-full px-7 text-[15px] shadow-[0_14px_30px_-12px_var(--color-primary)]">
-                <a href="#keynote">{t("Watch it move", "Tonton demonya")}</a>
+              <Button asChild size="lg" className="group h-12 rounded-full px-7 text-[15px] shadow-[0_14px_30px_-12px_var(--color-primary)]">
+                <a href={t("/docs", "/id/docs")}>
+                  {t("Get started", "Mulai sekarang")} <span aria-hidden className="arrow">→</span>
+                </a>
               </Button>
             </Magnetic>
             <Button asChild size="lg" variant="outline" className="h-12 rounded-full bg-background/60 px-7 text-[15px] backdrop-blur">
-              <a href={REPO} target="_blank" rel="noreferrer">
-                {t("View on GitHub", "Buka GitHub")}
+              <a href="#keynote">{t("Watch it move", "Tonton demonya")}</a>
+            </Button>
+            <Button asChild size="icon" variant="outline" className="hidden size-12 rounded-full bg-background/60 backdrop-blur sm:inline-flex [&_svg]:size-5">
+              <a href={REPO} target="_blank" rel="noreferrer" aria-label={t("View on GitHub", "Buka GitHub")} title="GitHub">
+                <IconGitHub />
               </a>
             </Button>
           </div>
