@@ -43,7 +43,9 @@ function render(markdown: string) {
     },
   });
   // Wide tables scroll inside their own box instead of widening the page.
-  const html = (md.parse(markdown, { async: false }) as string).replace(/<table>/g, '<div class="table-wrap"><table>').replace(/<\/table>/g, "</table></div>");
+  const html = (md.parse(markdown, { async: false }) as string).replace(/<table>/g, '<div class="table-wrap"><table>').replace(/<\/table>/g, "</table></div>")
+    // Checklist items: a decorative box instead of an unlabelled disabled checkbox (the text says it all).
+    .replace(/<input (checked="" )?disabled="" type="checkbox">/g, (_, done) => `<span class="task-box${done ? " is-done" : ""}" aria-hidden="true"></span>`);
   return { html, toc };
 }
 
