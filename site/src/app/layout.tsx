@@ -17,6 +17,7 @@ export const metadata: Metadata = {
     "A quiet, editorial design system for React + Tailwind: greyscale tokens, shadcn-style components, keynote-grade motion graphics, desktop-style windows, and 15 working skills for AI coding agents.",
   metadataBase: new URL("https://style.p441z.my.id"),
   openGraph: { title: "p441z Style Kit", description: "Quiet design. Keynote motion.", url: "https://style.p441z.my.id", type: "website" },
+  twitter: { card: "summary_large_image", title: "p441z Style Kit", description: "Quiet design. Keynote motion.", creator: "@p441z" },
 };
 
 export const viewport: Viewport = { themeColor: "#ffffff" };
