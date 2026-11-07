@@ -5,17 +5,9 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { QuickLook, type SkillView } from "@/site/skills";
+import { GROUPS, QuickLook, inGroup, type SkillView } from "@/site/skills";
 import { useNum, useT } from "@/site/i18n";
 
-// Skill groups for the hero: what kind of work each skill is for.
-const GROUPS = [
-  { key: "all", label: "All", labelId: "Semua", files: null },
-  { key: "eng", label: "Engineering", labelId: "Engineering", files: ["backend.api", "database", "security", "performance", "testing", "debugging"] },
-  { key: "design", label: "Design", labelId: "Desain", files: ["ui.ux", "landing.page", "typography", "dashboard", "export.report", "motion.video"] },
-  { key: "flow", label: "Workflow", labelId: "Alur kerja", files: ["analysis", "git.workflow", "documentation"] },
-] as const;
-const inGroup = (g: (typeof GROUPS)[number], s: SkillView) => !g.files || (g.files as readonly string[]).includes(s.file.replace(/^skill-|\.md$/g, ""));
 
 /** The skills at a glance, right in the hero. Click one and it opens as a Quick Look window. */
 export default function HeroCatalog({ skills }: { skills: SkillView[] }) {

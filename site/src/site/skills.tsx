@@ -1,19 +1,20 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useInView } from "framer-motion";
+import { useTheme } from "next-themes";
 
-import BlurFade from "@/components/effects/blur-fade";
 import MaskReveal from "@/components/motion/mask-reveal";
 import { MacWindow } from "@/components/mac/window";
 import { useNotify } from "@/components/mac/notification";
 import { EASE } from "@/lib/motion";
-import { cn } from "@/lib/utils";
 import { useNum, useT } from "@/site/i18n";
 import { IconCopy, IconGitHub } from "@/site/icons";
 import { REPO } from "@/site/chrome";
 import { Compare, PREVIEWS } from "@/site/skill-previews";
+import { ACCENTS, useAccent } from "@/site/accent";
+import GlassFolder, { type ArtRecipe } from "@/site/glass-folder";
 
 export type SkillView = { file: string; name: string; title: string; tagline: string; description: string; when: string; lines: number; summary: string[]; outline: string[] };
 
@@ -119,61 +120,125 @@ export function QuickLook({ s, onClose, layoutId = `skill-${s.name}` }: { s: Ski
   );
 }
 
+// Skill groups: what kind of work each skill is for (hero catalog tabs, Skills section folders).
+export const GROUPS = [
+  { key: "all", label: "All", labelId: "Semua", files: null },
+  { key: "eng", label: "Engineering", labelId: "Engineering", files: ["backend.api", "database", "security", "performance", "testing", "debugging"] },
+  { key: "design", label: "Design", labelId: "Desain", files: ["ui.ux", "landing.page", "typography", "dashboard", "export.report", "motion.video"] },
+  { key: "flow", label: "Workflow", labelId: "Alur kerja", files: ["analysis", "git.workflow", "documentation"] },
+] as const;
+export const inGroup = (g: (typeof GROUPS)[number], s: SkillView) => !g.files || (g.files as readonly string[]).includes(s.file.replace(/^skill-|\.md$/g, ""));
+
+/** HSL triplet ("211 100% 50%") → #rrggbb, with lightness nudged by `dl` points. */
+function hslHex(triplet: string, dl = 0): string {
+  const [h, s, l] = triplet.split(/\s+/).map((x) => parseFloat(x));
+  const L = Math.min(100, Math.max(0, l + dl)) / 100;
+  const a = (s / 100) * Math.min(L, 1 - L);
+  const f = (n: number) => {
+    const k = (n + h / 30) % 12;
+    return Math.round(255 * (L - a * Math.max(-1, Math.min(k - 3, 9 - k, 1))))
+      .toString(16)
+      .padStart(2, "0");
+  };
+  return `#${f(0)}${f(8)}${f(4)}`;
+}
+
+/** Folder art painted from the visitor's accent, so the folders follow the accent picker. */
+function accentArt(hsl: string, kind: "streak" | "marble"): ArtRecipe {
+  return kind === "streak"
+    ? { style: "streak", colors: ["#f5f6f8", hslHex(hsl, 32), hslHex(hsl, 0), "#15171c", "#3b4250", hslHex(hsl, 22), "#eef1f5"], scale: 0.7, warp: 1.4, angle: -0.62, gloss: 0.2, veins: 0 }
+    : { style: "marble", colors: ["#07090c", "#1a1e26", hslHex(hsl, -22), hslHex(hsl, 0), hslHex(hsl, 18), "#f6f3ee"], scale: 0.66, warp: 3.2, angle: -0.5, gloss: 0.5, veins: 0.5 };
+}
+
+const wideQuery = "(min-width: 400px)";
+const subscribeWide = (cb: () => void) => {
+  const m = window.matchMedia(wideQuery);
+  m.addEventListener("change", cb);
+  return () => m.removeEventListener("change", cb);
+};
+
+/** The skills as three glass folders — Engineering, Design, Workflow. Open one, pick a file, Quick Look. */
 export default function Skills({ skills }: { skills: SkillView[] }) {
   const tr = useT();
   const num = useNum();
-  const [q, setQ] = useState("");
+  const notify = useNotify();
+  const accentKey = useAccent();
+  const accent = ACCENTS.find((a) => a.key === accentKey)!;
+  const { resolvedTheme } = useTheme();
+  const tone = resolvedTheme === "dark" ? "dark" : "light";
+  const wide = useSyncExternalStore(subscribeWide, () => window.matchMedia(wideQuery).matches, () => true);
   const [open, setOpen] = useState<SkillView | null>(null);
-  const hits = useMemo(() => {
-    const t = q.trim().toLowerCase();
-    return t ? skills.filter((s) => `${s.title} ${s.tagline} ${s.description} ${s.name}`.toLowerCase().includes(t)) : skills;
-  }, [q, skills]);
+  // Build the folders only as the section approaches: their artwork is painted on the main thread.
+  const box = useRef<HTMLDivElement>(null);
+  const near = useInView(box, { once: true, margin: "800px 0px" });
   const total = skills.reduce((a, s) => a + s.lines, 0);
+
+  const folders = GROUPS.filter((g) => g.files).map((g, i) => {
+    const list = skills.filter((s) => inGroup(g, s));
+    const lines = list.reduce((a, s) => a + s.lines, 0);
+    return {
+      g,
+      list,
+      meta: `${tr(`${list.length} skills`, `${list.length} skill`)} · ${num(lines)} ${tr("lines", "baris")}`,
+      art: (i === 0 ? accentArt(accent.hsl, "streak") : i === 1 ? accentArt(accent.hsl, "marble") : "none") as ArtRecipe | "none",
+    };
+  });
+  const installAll = (list: SkillView[]) =>
+    list.map((s) => `mkdir -p .claude/skills/${s.name} && curl -fsSL https://raw.githubusercontent.com/Zazaaw/p441z-style-kit/main/Skill.md/${s.file} -o .claude/skills/${s.name}/SKILL.md`).join(" && ");
 
   return (
     <section id="skills" className="relative mx-auto max-w-6xl scroll-mt-16 px-6 py-28">
-      <div className="flex flex-wrap items-end justify-between gap-6">
-        <div className="max-w-2xl">
-          <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Skill.md</div>
-          <MaskReveal as="h2" text={tr(`${skills.length} skills for your AI agent.`, `${skills.length} skill untuk agen AI-mu.`)} className="mt-3 font-display text-[clamp(2rem,4.5vw,3.25rem)] font-extrabold leading-[1.05] tracking-[-0.04em]" />
-          <p className="mt-4 text-lg text-muted-foreground">
-            {tr(
-              <>{num(total)} lines of rules, checklists, templates, and anti-patterns. Drop one into <code className="text-[0.9em]">.claude/skills/</code> and your agent works the way you do.</>,
-              <>{num(total)} baris aturan, checklist, template, dan contoh yang harus dihindari. Simpan satu di <code className="text-[0.9em]">.claude/skills/</code>, dan agenmu langsung bekerja dengan caramu.</>,
-            )}
-          </p>
-        </div>
-        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={tr("Filter skills…", "Cari skill…")} aria-label={tr("Filter skills", "Cari skill")} className="h-10 w-full rounded-lg border border-border bg-background px-3.5 text-[14px] outline-hidden transition-colors focus-visible:ring-1 focus-visible:ring-ring sm:w-64" />
+      <div className="max-w-2xl">
+        <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Skill.md</div>
+        <MaskReveal as="h2" text={tr(`${skills.length} skills for your AI agent.`, `${skills.length} skill untuk agen AI-mu.`)} className="mt-3 font-display text-[clamp(2rem,4.5vw,3.25rem)] font-extrabold leading-[1.05] tracking-[-0.04em]" />
+        <p className="mt-4 text-lg text-muted-foreground">
+          {tr(
+            <>{num(total)} lines of rules, checklists, templates, and anti-patterns. Drop one into <code className="text-[0.9em]">.claude/skills/</code> and your agent works the way you do.</>,
+            <>{num(total)} baris aturan, checklist, template, dan contoh yang harus dihindari. Simpan satu di <code className="text-[0.9em]">.claude/skills/</code>, dan agenmu langsung bekerja dengan caramu.</>,
+          )}
+        </p>
       </div>
 
-      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {hits.map((s, i) => (
-          <BlurFade key={s.file} inView delay={Math.min(i, 8) * 0.04} className="min-w-0">
-            <motion.button
-              type="button"
-              layoutId={`skill-${s.name}`}
-              transition={{ duration: 0.55, ease: EASE.camera }}
-              onClick={() => setOpen(s)}
-              className={cn("group flex h-full w-full flex-col rounded-2xl border border-border bg-background/80 p-5 text-left backdrop-blur transition-colors duration-200 hover:border-foreground/30", open?.file === s.file && "invisible")}
-            >
-              <div className="flex items-center justify-between font-mono text-[12px] text-muted-foreground">
-                <span>{String(skills.indexOf(s) + 1).padStart(2, "0")}</span>
-                <span>{num(s.lines)} {tr("lines", "baris")}</span>
-              </div>
-              <div className="mt-3 font-display text-[22px] font-extrabold tracking-tight">{s.title}</div>
-              <div className="mt-0.5 text-[14px] font-semibold text-muted-foreground">{s.tagline}</div>
-              <p className="mt-3 line-clamp-2 text-[13.5px] leading-relaxed text-muted-foreground">{s.description}</p>
-              <div className="mt-auto flex items-center justify-between pt-4">
-                <code className="text-[12px]">{s.name}</code>
-                <span className="text-[12px] font-medium text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5">{tr("Quick look →", "Quick Look →")}</span>
-              </div>
-            </motion.button>
-          </BlurFade>
-        ))}
-        {hits.length === 0 && <div className="col-span-full py-16 text-center text-muted-foreground">{tr(<>No skill matches “{q}”.</>, <>Belum ada skill yang cocok dengan “{q}”.</>)}</div>}
+      <div ref={box} className="mt-20 grid min-h-[340px] grid-cols-1 items-end justify-items-center gap-x-14 gap-y-20 md:grid-cols-2 xl:grid-cols-3">
+        {near &&
+          folders.map((f, i) => (
+            <GlassFolder
+              // Remount when the accent or theme changes so the art repaints in the new colour.
+              key={`${f.g.key}-${accent.key}-${tone}`}
+              label={tr(f.g.label, f.g.labelId)}
+              meta={f.meta}
+              tone={tone}
+              art={f.art}
+              seed={[3, 11, 7][i]}
+              width={wide ? 340 : 300}
+              maxVisible={6}
+              files={f.list.map((s) => ({ name: s.title, meta: `${num(s.lines)} ${tr("lines", "baris")}` }))}
+              action="more"
+              menu={[
+                {
+                  label: tr("Copy install for these skills", "Salin install skill di folder ini"),
+                  onSelect: () =>
+                    navigator.clipboard?.writeText(installAll(f.list)).then(() =>
+                      notify({ title: tr("Install command copied", "Perintah install tersalin"), body: tr(`${f.list.length} skills, one command.`, `${f.list.length} skill, satu perintah.`), icon: <IconCopy /> }),
+                    ),
+                },
+                { label: tr("Open on GitHub", "Buka di GitHub"), onSelect: () => window.open(`${REPO}/tree/main/Skill.md`, "_blank", "noopener") },
+              ]}
+              className="gf-many"
+              appearDelay={i * 140}
+              onFileSelect={(_, k) => setOpen(f.list[k])}
+              labels={tr(
+                {},
+                { open: "Buka", close: "Tutup", openFolder: "Buka folder", closeFolder: "Tutup folder", items: (n: number) => `${n} item`, contents: "isi", options: "opsi", addTo: "Tambah file ke", moreFor: "Opsi lain untuk" },
+              )}
+            />
+          ))}
       </div>
+      <p className="mt-14 text-center font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+        {tr("Hover to peek · Click to open · Pick a file for Quick Look", "Arahkan untuk mengintip · Klik untuk membuka · Pilih file untuk Quick Look")}
+      </p>
 
-      <AnimatePresence>{open && <QuickLook key={open.file} s={open} onClose={() => setOpen(null)} />}</AnimatePresence>
+      <AnimatePresence>{open && <QuickLook key={open.file} s={open} layoutId={`folder-${open.name}`} onClose={() => setOpen(null)} />}</AnimatePresence>
     </section>
   );
 }

@@ -48,7 +48,7 @@ export default function Outro() {
           <a href="https://p441z.my.id" className="font-semibold text-foreground underline-offset-4 hover:underline">
             Faiz Hazim Hawari
           </a>{" "}
-          {t("· MIT licensed · Effects adapted from MagicUI, conventions from shadcn/ui", "· Lisensi MIT · Efek diadaptasi dari MagicUI, konvensi mengikuti shadcn/ui")}
+          {t("· MIT licensed · Effects adapted from MagicUI, glass folders by Kedhareswer Naidu (21st.dev), conventions from shadcn/ui", "· Lisensi MIT · Efek diadaptasi dari MagicUI, folder kaca karya Kedhareswer Naidu (21st.dev), konvensi mengikuti shadcn/ui")}
         </div>
       </footer>
     </section>

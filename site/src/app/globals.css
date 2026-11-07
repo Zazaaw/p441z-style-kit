@@ -43,3 +43,8 @@ html.lenis, html.lenis body { height: auto; }
 @media (prefers-reduced-motion: reduce) { .text-sheen { animation: none; } }
 body { font-family: var(--font-sans); }
 .font-display { font-family: var(--font-display); }
+
+/* Glass folders holding six skills: a tighter stack at rest and on hover, so the files don't crowd the label. */
+.gf-root.gf-many { --gf-stack: 8px; }
+.gf-root.gf-many:hover, .gf-root.gf-many:focus-within { --gf-stack: 6px; }
+.gf-root.gf-many[data-open] { --gf-stack: 26px; }
