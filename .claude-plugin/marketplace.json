@@ -1,0 +1,16 @@
+{
+  "name": "p441z",
+  "owner": {
+    "name": "Faiz Hazim Hawari",
+    "url": "https://p441z.my.id"
+  },
+  "description": "Skills and tools by p441z.",
+  "plugins": [
+    {
+      "name": "p441z-skills",
+      "source": "./plugin",
+      "description": "The p441z Skill.md collection, packaged as one plugin.",
+      "category": "productivity"
+    }
+  ]
+}
