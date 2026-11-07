@@ -34,6 +34,7 @@ const TITLE: Record<string, [string, string]> = {
   "skill-ui.ux.md": ["UI / UX Taste", "Anti-slop frontend"],
   "skill-landing.page.md": ["Landing Page", "Strict design build prompt"],
   "skill-motion.video.md": ["Motion Video", "Product tutorials that feel like a keynote"],
+  "skill-darkmode.md": ["Dark Mode", "One token swap, no flash"],
 };
 
 // Indonesian copy for the /id page: [title, tagline, what it covers, when to open it].
@@ -54,6 +55,7 @@ const ID: Record<string, [string, string, string, string]> = {
   "skill-ui.ux.md": ["Selera UI / UX", "Frontend yang anti asal jadi", "Frontend yang anti asal jadi untuk landing page, portofolio, dan redesain", "Halaman publik yang butuh selera desain sungguhan"],
   "skill-landing.page.md": ["Landing Page", "Prompt desain yang ketat", "Prompt build ketat untuk hero satu layar (carousel + marquee)", "Meniru desain hero sampai presisi ke piksel"],
   "skill-motion.video.md": ["Video Motion", "Tutorial produk serasa keynote", "Video tutorial dan penjelasan bergaya keynote untuk aplikasi web: naskah, animatic, TTS per kalimat dengan timestamp kata, rekaman layar CDP asli dengan data disamarkan, komposisi Remotion, suara, render 60fps, ekspor web", "Membuat atau merevisi video tutorial, walkthrough, atau penjelasan software"],
+  "skill-darkmode.md": ["Mode Gelap", "Satu tukar token, tanpa kedip", "Mode gelap sebagai satu tukar token: variabel CSS semantik di bawah satu atribut, skrip sebelum halaman tergambar (tanpa kedip putih), pilihan terang/gelap/sistem, crossfade View Transitions, warna brand tetap, dokumen cetak tetap terang", "Saat menambah mode gelap, memperbaiki kedip putih, atau menghaluskan pergantian tema"],
 };
 
 export function loadSkills(lang: "en" | "id" = "en"): Skill[] {
