@@ -98,3 +98,9 @@ html.theme-transition, html.theme-transition *, html.theme-transition *::before,
 .arrow { display: inline-block; transition: translate .5s var(--ease-spring); }
 a:hover .arrow, button:hover .arrow, a:focus-visible .arrow { translate: .3em 0; }
 @media (prefers-reduced-motion: reduce) { .arrow { transition: none; } }
+
+/* Code blocks in docs carry a copy button in their corner (ProseCopy). */
+/* The code scrolls, not the block, so the button stays put on long one-line commands. */
+.skill-prose pre { position: relative; }
+.skill-prose pre:has(.prose-copy) { overflow: visible; }
+.skill-prose pre:has(.prose-copy) > code { display: block; overflow-x: auto; padding-right: 5.5rem; }
