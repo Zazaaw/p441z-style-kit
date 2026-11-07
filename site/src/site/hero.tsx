@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useMotionValue, useSpring } from "framer-motion";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
@@ -8,13 +8,13 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
 import { Button } from "@/components/ui/button";
+import { CopyGlyph, PRESS, useCopy } from "@/components/ui/copy-button";
 import WordRotator from "@/components/motion/word-rotator";
 import CountUp from "@/components/motion/count-up";
 import Aurora from "@/components/effects/aurora";
 import Magnetic from "@/components/effects/magnetic";
 import BorderBeam from "@/components/effects/border-beam";
 import { REPO, INSTALL } from "@/site/chrome";
-import { IconCheck, IconCopy } from "@/site/icons";
 import { useNum, useT } from "@/site/i18n";
 import HeroDesk, { PointerGlow } from "@/site/hero-desk";
 import HeroCompare from "@/site/hero-compare";
@@ -29,7 +29,7 @@ export default function Hero({ skillCount, skillLines, componentCount, skills }:
   const t = useT();
   const num = useNum();
   const stage = useRef<HTMLDivElement>(null);
-  const [copied, setCopied] = useState(false);
+  const { copied, copy } = useCopy(INSTALL);
   // Pointer position over the first screen, -0.5…0.5, smoothed — drives the desk parallax and the glow.
   const px = useMotionValue(0);
   const py = useMotionValue(0);
@@ -69,16 +69,6 @@ export default function Hero({ skillCount, skillLines, componentCount, skills }:
     },
     { scope: root },
   );
-
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(INSTALL);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1600);
-    } catch {
-      /* clipboard blocked */
-    }
-  };
 
   return (
     <section id="top" ref={root} className="relative isolate overflow-hidden">
@@ -130,12 +120,17 @@ export default function Hero({ skillCount, skillLines, componentCount, skills }:
           <button
             type="button"
             onClick={copy}
-            className="hero-fade group mt-5 inline-flex max-w-full items-center gap-3 rounded-full border border-border bg-background/70 py-2 pl-4 pr-2 font-mono text-[12.5px] text-muted-foreground backdrop-blur transition-colors hover:text-foreground"
+            className={`hero-fade group mt-5 inline-flex max-w-full items-center gap-3 rounded-full border border-border bg-background/70 py-2 pl-4 pr-2 font-mono text-[12.5px] text-muted-foreground backdrop-blur hover:text-foreground ${PRESS}`}
           >
             <span className="sr-only">{t("Copy:", "Salin:")} </span>
             <span className="text-primary">$</span>
             <span className="truncate">npx shadcn@latest add style.p441z.my.id/r/style-kit.json</span>
-            <span className="grid size-7 shrink-0 place-items-center rounded-full bg-muted text-foreground [&_svg]:size-3.5">{copied ? <IconCheck /> : <IconCopy />}</span>
+            <span className={`grid size-7 shrink-0 place-items-center rounded-full transition-[background-color,color,scale] duration-300 ease-spring ${copied ? "scale-110 bg-primary text-primary-foreground" : "bg-muted text-foreground"}`}>
+              <CopyGlyph copied={copied} className="size-3.5" />
+            </span>
+            <span aria-live="polite" className="sr-only">
+              {copied ? t("Copied", "Tersalin") : ""}
+            </span>
           </button>
 
           {/* The numbers, as one quiet line. Short desktop screens drop it (the dock would cover it; the bento repeats them). */}
