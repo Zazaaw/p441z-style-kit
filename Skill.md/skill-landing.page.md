@@ -241,6 +241,26 @@ text
 
 ---
 
+## 16. One-screen summary
+
+```
+SCOPE      → one 100vh hero only (no nav, footer, or extra sections); max-width 1100px wrapper; everything centered
+ORDER      → badge pill → line 1 "Unlimited [carousel] Design" → line 2 "for [logo box] Solid Startups" → subtext → CTA row
+BACKGROUND → #f2f2f2→#e9e9e9 soft gradient + 120deg white streak rgba(255,255,255,0.6) 0→40%; no borders, no grid
+BADGE      → white 999px pill, padding 10px 20px, 1px rgba(0,0,0,0.05) border, shadow 0 2px 8px rgba(0,0,0,0.06); 8px #22c55e glowing dot; 14px/500 #111; mb 40px
+HEADLINE   → Inter 800 (#111 words, #9a9a9a gray words, "for" at 700); clamp(48px, 6vw, 96px); lh 1.05; -0.02em; flex-wrap rows, gap 18px; 4px between lines
+CAROUSEL   → ~130×90px frame, radius 20px, rotate(-4deg), overflow hidden; slides UP one image per ~2.2s with 0.8s cubic-bezier(0.65,0,0.35,1); seamless loop; N images
+LOGO BOX   → #111 rounded rect ~150×100px, radius 28px, light logo centered, shadow 0 20px 40px rgba(0,0,0,0.3)
+SUBTEXT    → 17px/400 #8a8a8a, lh 1.6, centered, max-width 480px, mt 32px
+CTA        → #111 999px pill, padding 16px 28px, 15px/600 white + arrow in a 28px white circle; shadow 0 10px 20px rgba(0,0,0,0.25); hover scale(1.03) 0.2s
+MARQUEE    → ~160px window; 3 logos duplicated back-to-back; 36px overlapping circles (-10px); translateX(0→-50%) 8s linear infinite, never pauses
+ROW        → flex, centered, gap 20px, mt 36px; CTA left; marquee + "Trusted by Leaders" (12px/500 #9a9a9a, mt 6px) stacked right
+MOBILE     → <768px: headline wraps via clamp(), inline image/logo boxes shrink to 80px tall, CTA row stacks with gap 16px
+STACK      → plain HTML + CSS + vanilla JS (1 or 3 files); no UI libraries; animate transform only; semantic HTML, zero console errors
+```
+
+---
+
 ## Attribution
 
 This skill was written by **Faiz Hazim Hawari**. Free to use, copy, and adapt for any team,
