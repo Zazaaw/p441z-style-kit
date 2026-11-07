@@ -10,8 +10,9 @@ import { cn } from "@/lib/utils";
  * surface it sits on — important inside cards, which may be a different
  * shade than the page.
  *
- * Focus uses `ring-1` rather than a heavier 2px ring: quieter, and it doesn't
- * shift layout since the ring draws outside the box.
+ * Focus: the border takes the ring color and a soft 3px halo (ring at 30 %)
+ * blooms out on `ease-spring` — it grows a touch past 3px and settles. Still
+ * quiet, and it never shifts layout since the ring draws outside the box.
  *
  * v4 note: `outline-hidden` replaces v3's `outline-none`. In v4,
  * `outline-none` literally sets `outline: none`, which removes the focus
@@ -26,7 +27,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <input
         type={type}
         className={cn(
-          "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+          "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-[color,border-color,box-shadow] duration-300 ease-spring file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:border-ring focus-visible:outline-hidden focus-visible:ring-[3px] focus-visible:ring-ring/30 disabled:cursor-not-allowed disabled:opacity-50",
           className
         )}
         ref={ref}
