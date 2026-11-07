@@ -3,6 +3,9 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { AnimatePresence, animate, motion, useInView, useMotionValue, useMotionValueEvent, useReducedMotion, useTransform, type MotionValue } from "framer-motion";
 
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { LaptopFrame, PhoneFrame } from "@/components/motion/device-frame";
 import VirtualCamera from "@/components/motion/virtual-camera";
 import FlyingPill from "@/components/motion/flying-pill";
@@ -23,6 +26,8 @@ const STAGES = [
   { at: 0.72, label: "Letter", caption: "Your letter is ready, signed and verifiable." },
 ];
 const CLICK_AT = 0.36;
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
 const W = 1200; // design width of the app inside the laptop
 
 /** Scales a fixed-width design canvas to its container (keeps the fake app pixel-identical at any size). */
@@ -304,6 +309,20 @@ function Controls({ p, playing, onToggle, onReplay, onSeek }: { p: MotionValue<n
 
 export default function Keynote() {
   const ref = useRef<HTMLElement>(null);
+  const frame = useRef<HTMLDivElement>(null);
+  // Arrival: the devices rise and tilt up into place as the section scrolls in (scrubbed, so it
+  // tracks the scroll exactly). Reduced motion: they are simply there.
+  useGSAP(() => {
+    const mm = gsap.matchMedia();
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      gsap.fromTo(
+        frame.current,
+        { scale: 0.84, rotateX: 24, yPercent: 10, opacity: 0.35, transformPerspective: 1600, transformOrigin: "50% 100%" },
+        { scale: 1, rotateX: 0, yPercent: 0, opacity: 1, ease: "none", scrollTrigger: { trigger: frame.current, start: "top bottom", end: "top 30%", scrub: true } },
+      );
+    });
+    return () => mm.revert();
+  });
   const reduce = useReducedMotion();
   // The story's clock. Plays by itself while the section is on screen — no scrolling required.
   const p = useMotionValue(0);
@@ -392,7 +411,7 @@ export default function Keynote() {
           </AnimatePresence>
         </div>
         {/* Width follows the viewport height too, so laptop + phone always fit above the fold. */}
-        <div className="relative w-full" style={{ maxWidth: "min(72rem, calc((100svh - 300px) * 1.9))" }}>
+        <div ref={frame} className="relative w-full" style={{ maxWidth: "min(72rem, calc((100svh - 300px) * 1.9))" }}>
           <motion.div style={{ filter: devicesFilter, opacity: devicesOpacity }} className="flex items-end justify-center gap-6 md:gap-10">
             <LaptopFrame url="hr.acme.example/leave/new" className="w-[100%] md:w-[74%]">
               <VirtualCamera
