@@ -58,10 +58,20 @@ regenerates `registry.json` and `site/public/r/` from `v4/`.
 <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills-dark.png"><img src="docs/assets/readme/skills-light.png" alt="The 16 working skills in Skill.md, with line counts"></picture>
 
 Concrete rules, checklists, copy-paste templates, and anti-patterns for backend, database, testing, security, performance,
-debugging, git, dashboards, exports, docs, typography, UI taste, landing pages, and tutorial videos. Install one into
+debugging, git, dashboards, exports, docs, typography, dark mode, UI taste, landing pages, and tutorial videos. Install one into
 Claude Code as `.claude/skills/<skill-name>/SKILL.md`, or reference it from `CLAUDE.md` / `AGENTS.md` / `.cursorrules`.
 Every output made with a skill ends with `Dibuat oleh Faiz Hazim Hawari · <skill-name>` — see the
 [folder index](Skill.md/README.md) for the full table and the attribution rule.
+
+**All 16 at once, as a Claude Code plugin:**
+
+```
+/plugin marketplace add Zazaaw/p441z-style-kit
+/plugin install p441z-skills@p441z
+```
+
+Then call one directly (`/p441z-skills:skill-typography`) or let Claude pick it from your request. Details in
+[`plugin/README.md`](plugin/README.md).
 
 <table>
 <tr><td width="50%"><a href="Skill.md/skill-analysis.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/analysis-dark.png"><img src="docs/assets/readme/skills/analysis-light.png" alt="skill-analysis: Analysis"></picture></a></td><td width="50%"><a href="Skill.md/skill-backend.api.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/backend.api-dark.png"><img src="docs/assets/readme/skills/backend.api-light.png" alt="skill-backend-api: Backend & API"></picture></a></td></tr>
@@ -70,8 +80,8 @@ Every output made with a skill ends with `Dibuat oleh Faiz Hazim Hawari · <skil
 <tr><td width="50%"><a href="Skill.md/skill-debugging.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/debugging-dark.png"><img src="docs/assets/readme/skills/debugging-light.png" alt="skill-debugging: Debugging"></picture></a></td><td width="50%"><a href="Skill.md/skill-git.workflow.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/git.workflow-dark.png"><img src="docs/assets/readme/skills/git.workflow-light.png" alt="skill-git-workflow: Git & Code Review"></picture></a></td></tr>
 <tr><td width="50%"><a href="Skill.md/skill-dashboard.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/dashboard-dark.png"><img src="docs/assets/readme/skills/dashboard-light.png" alt="skill-dashboard: Dashboard & Admin"></picture></a></td><td width="50%"><a href="Skill.md/skill-export.report.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/export.report-dark.png"><img src="docs/assets/readme/skills/export.report-light.png" alt="skill-export-report: Export & Reports"></picture></a></td></tr>
 <tr><td width="50%"><a href="Skill.md/skill-documentation.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/documentation-dark.png"><img src="docs/assets/readme/skills/documentation-light.png" alt="skill-documentation: Documentation"></picture></a></td><td width="50%"><a href="Skill.md/skill-typography.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/typography-dark.png"><img src="docs/assets/readme/skills/typography-light.png" alt="skill-typography: Typography"></picture></a></td></tr>
-<tr><td width="50%"><a href="Skill.md/skill-ui.ux.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/ui.ux-dark.png"><img src="docs/assets/readme/skills/ui.ux-light.png" alt="skill-ui-ux: UI / UX Taste"></picture></a></td><td width="50%"><a href="Skill.md/skill-landing.page.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/landing.page-dark.png"><img src="docs/assets/readme/skills/landing.page-light.png" alt="skill-landing-page: Landing Page"></picture></a></td></tr>
-<tr><td width="50%"><a href="Skill.md/skill-motion.video.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/motion.video-dark.png"><img src="docs/assets/readme/skills/motion.video-light.png" alt="skill-motion-video: Motion Video"></picture></a></td><td width="50%"></td></tr>
+<tr><td width="50%"><a href="Skill.md/skill-darkmode.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/darkmode-dark.png"><img src="docs/assets/readme/skills/darkmode-light.png" alt="skill-darkmode: Dark Mode"></picture></a></td><td width="50%"><a href="Skill.md/skill-ui.ux.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/ui.ux-dark.png"><img src="docs/assets/readme/skills/ui.ux-light.png" alt="skill-ui-ux: UI / UX Taste"></picture></a></td></tr>
+<tr><td width="50%"><a href="Skill.md/skill-landing.page.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/landing.page-dark.png"><img src="docs/assets/readme/skills/landing.page-light.png" alt="skill-landing-page: Landing Page"></picture></a></td><td width="50%"><a href="Skill.md/skill-motion.video.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills/motion.video-dark.png"><img src="docs/assets/readme/skills/motion.video-light.png" alt="skill-motion-video: Motion Video"></picture></a></td></tr>
 </table>
 
 ## License & credits
