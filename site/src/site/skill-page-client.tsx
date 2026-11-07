@@ -52,9 +52,9 @@ export function CopyCommand({ label, command }: { label: string; command: string
       <button
         type="button"
         onClick={copy}
-        aria-label={`${t("Copy", "Salin")}: ${label}`}
         className="group mt-1.5 flex w-full items-center gap-3 rounded-xl border border-border bg-background/70 py-2 pl-3.5 pr-2 text-left font-mono text-[12.5px] text-muted-foreground backdrop-blur transition-colors hover:text-foreground"
       >
+        <span className="sr-only">{t("Copy:", "Salin:")} </span>
         <span className="text-primary">$</span>
         <span className="min-w-0 flex-1 truncate">{command}</span>
         <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-muted text-foreground [&_svg]:size-3.5">{done ? <IconCheck /> : <IconCopy />}</span>
