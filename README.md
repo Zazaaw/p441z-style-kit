@@ -8,7 +8,7 @@
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/hero-dark.png"><img src="docs/assets/readme/hero-light.png" alt="p441z Style Kit — a quiet, editorial design system for React + Tailwind"></picture>
 
-**[style.p441z.my.id](https://style.p441z.my.id)** — live site · [Component docs](https://style.p441z.my.id/components) · [Skill pages](https://style.p441z.my.id/#skills) · [Bahasa Indonesia](https://style.p441z.my.id/id)
+**[style.p441z.my.id](https://style.p441z.my.id)** — live site · [Getting started](https://style.p441z.my.id/docs) · [Component docs](https://style.p441z.my.id/components) · [Skill pages](https://style.p441z.my.id/#skills) · [Bahasa Indonesia](https://style.p441z.my.id/id)
 
 [**Full guide**](docs/GUIDE.md) · [Design](docs/DESIGN.md) · [Components](docs/COMPONENTS.md) · [Recipes](docs/RECIPES.md) · [Setup v4](v4/SETUP.md) · [Skills](Skill.md/README.md)
 
