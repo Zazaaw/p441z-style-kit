@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 
 import GlassPanel, { GlassBackdrop } from "@/components/effects/glass-panel";
+import StackCard from "@/components/effects/stack-card";
 import { DocPager } from "@/site/doc-pager";
 import { LangProvider, type Lang } from "@/site/i18n";
 import { allComponents, loadComponentDoc } from "@/site/component-doc";
@@ -139,12 +140,14 @@ export function ComponentIndex({ lang }: { lang: Lang }) {
           {groups.map((g) => (
             <section key={g}>
               <h2 className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t(GROUPS[g]?.[0] ?? g, GROUPS[g]?.[1] ?? g)}</h2>
-              <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="mt-5 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {list
                   .filter((c) => c.group === g)
                   .map((c, i) => (
-                    <GlassPanel key={c.name} delay={i * 40} className="p-0">
-                      <a href={`${base}/${c.name}`} className="block p-5">
+                    // A pile of sheets behind each card fans out on hover — the folder move, card-sized.
+                    <StackCard key={c.name} className="h-full">
+                    <GlassPanel delay={i * 40} press className="h-full p-0" contentClassName="h-full">
+                      <a href={`${base}/${c.name}`} className="block h-full p-5">
                         <div className="flex items-baseline justify-between gap-3">
                           <span className="font-display text-lg font-bold tracking-tight">{c.title}</span>
                           {DEMO_NAMES.has(c.name) && <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-semibold text-primary">{t("live", "hidup")}</span>}
@@ -152,6 +155,7 @@ export function ComponentIndex({ lang }: { lang: Lang }) {
                         <p className="mt-1 text-[13.5px] leading-snug text-muted-foreground">{c.description}</p>
                       </a>
                     </GlassPanel>
+                    </StackCard>
                   ))}
               </div>
             </section>
