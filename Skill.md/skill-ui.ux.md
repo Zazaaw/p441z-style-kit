@@ -993,6 +993,27 @@ If a single checkbox cannot be honestly ticked, the page is not done. Fix it bef
 
 ---
 
+## 15. One-screen summary
+
+```
+READ        → one line "Reading this as: <page kind> for <audience>, with a <vibe> language, leaning toward <system>"; ask at most ONE question, only if reads diverge
+DIALS       → DESIGN_VARIANCE / MOTION_INTENSITY / VISUAL_DENSITY, baseline 8/6/4, inferred from the brief (calm 5-6/3-4/2-3, public-sector 3/2/5)
+SYSTEM      → brief reads as a real DS (Fluent, Material, Carbon, Primer, GOV.UK, USWDS, shadcn) → its official package, one per project; aesthetics labelled honestly
+STACK       → Next.js RSC + Tailwind v4 + motion/react in 'use client' leaves; next/font; Phosphor/HugeIcons/Radix/Tabler icons, never hand-rolled SVG; check package.json first
+TYPE        → not Inter by default (Geist, Satoshi, Cabinet Grotesk); serif only with a brand reason, never Fraunces/Instrument Serif; emphasis = italic/bold of the same family
+COLOR/SHAPE → one theme, one accent (saturation <80%), one radius system, locked page-wide; no AI-purple glow; no beige+brass+espresso default; no pure #000/#fff
+HERO        → fits 100dvh: headline ≤2 lines, subtext ≤20 words, max 4 text elements, top padding ≤ pt-24; logo wall goes under the hero, never inside
+LAYOUT      → no centered hero when DESIGN_VARIANCE >4; no 3 equal cards; each layout family once; ≤2 zigzag splits in a row; bento N items = N cells; grid over flex math
+CTA         → one label per intent, ≤3 words, never wraps at desktop; button and form contrast WCAG AA; full loading/empty/error states
+BANS        → zero em/en dashes; eyebrows ≤ ceil(sections/3); no section numbers, scroll cues, decorative dots, version labels, locale strips, div fake screenshots
+CONTENT     → real images (gen tool → picsum seed → labelled slots); real SVG logos, logo only; headline ≤8 words, body ≤25; quotes ≤3 lines; no fake-precise numbers
+MOTION      → motivated and shown if claimed; max one marquee; transform/opacity only; no scroll listeners; GSAP pins start "top top"; reduced-motion → static
+GUARDRAILS  → test both themes; LCP <2.5s, INP <200ms, CLS <0.1; grain only on fixed pointer-events-none layers; explicit <768px collapse; run the Section 14 pre-flight
+REDESIGN    → detect greenfield / preserve / overhaul; audit tokens, IA, SEO first; never silently change URLs, nav labels, form fields, or the logo
+```
+
+---
+
 # APPENDICES - Real Source-Backed Reference Material
 
 The sections below are vendored reference content. They give the agent real install commands, real canonical doc links, and real working starter snippets for each design system named in Section 2. Use them to ground decisions in production reality, not training-data fiction.
