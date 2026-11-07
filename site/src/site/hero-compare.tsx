@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
 
+import GlassPanel from "@/components/effects/glass-panel";
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { Compare, PREVIEWS } from "@/site/skill-previews";
@@ -85,9 +86,9 @@ export default function HeroCompare({ skills }: { skills: SkillView[] }) {
             </div>
           </motion.div>
         </AnimatePresence>
-        <div className="order-1 min-w-0 shadow-[0_40px_90px_-50px_rgba(0,0,0,0.5)] lg:order-2">
+        <GlassPanel tilt={0} appear={false} className="order-1 min-w-0 rounded-[1.25rem] p-1.5 lg:order-2">
           <Compare key={s.file} before={p.before} after={p.after} play={seen} onGrab={() => setHeld(true)} />
-        </div>
+        </GlassPanel>
       </div>
       <AnimatePresence>{open && <QuickLook key={open.file} s={open} layoutId={`hero-cmp-${open.name}`} onClose={() => setOpen(null)} />}</AnimatePresence>
     </div>

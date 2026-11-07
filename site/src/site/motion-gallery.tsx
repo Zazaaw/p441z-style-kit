@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useInView } from "framer-motion";
 
-import SpotlightCard from "@/components/effects/spotlight-card";
+import GlassPanel, { GlassBackdrop } from "@/components/effects/glass-panel";
 import MaskReveal from "@/components/motion/mask-reveal";
 import KaraokeText from "@/components/motion/karaoke-text";
 import WordRotator from "@/components/motion/word-rotator";
@@ -44,7 +44,7 @@ function useVisibleInterval(ref: React.RefObject<Element | null>, fn: () => void
 function Demo({ name, file, wide, children, onReplay, note }: { name: string; file: string; wide?: boolean; children: React.ReactNode; onReplay?: () => void; note: string }) {
   const t = useT();
   return (
-    <SpotlightCard className={cn("demo-card flex min-w-0 flex-col lg:shrink-0", wide ? "sm:col-span-2 lg:w-[640px]" : "lg:w-[380px]")}>
+    <GlassPanel tilt={2} className={cn("demo-card flex min-w-0 flex-col lg:shrink-0", wide ? "sm:col-span-2 lg:w-[640px]" : "lg:w-[380px]")}>
       <div className="relative grid min-h-56 flex-1 place-items-center overflow-hidden border-b border-border bg-muted/30 p-6 lg:min-h-[300px]">{children}</div>
       <div className="flex items-start gap-3 p-4">
         <div className="min-w-0 flex-1">
@@ -61,7 +61,7 @@ function Demo({ name, file, wide, children, onReplay, note }: { name: string; fi
           <CopyInstall file={file} />
         </div>
       </div>
-    </SpotlightCard>
+    </GlassPanel>
   );
 }
 
@@ -239,7 +239,6 @@ export default function MotionGallery() {
           ease: "none",
           scrollTrigger: { trigger: root.current, start: "top top", end: () => `+=${distance()}`, scrub: 0.6, pin: true, invalidateOnRefresh: true, anticipatePin: 1 },
         });
-        gsap.from(".demo-card", { opacity: 0, y: 40, stagger: 0.06, duration: 0.8, ease: "expo.out", scrollTrigger: { trigger: root.current, start: "top 70%" } });
       });
     },
     { scope: root },
@@ -253,6 +252,7 @@ export default function MotionGallery() {
   );
   return (
     <section id="motion" ref={root} className="relative overflow-hidden py-24 lg:flex lg:h-[100svh] lg:flex-col lg:justify-center lg:py-10">
+      <GlassBackdrop variant="c" />
       <div className="mx-auto w-full max-w-6xl px-6">
       <div className="max-w-2xl">
         <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">components/motion</div>

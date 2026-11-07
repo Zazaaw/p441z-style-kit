@@ -32,11 +32,11 @@ function Float({ p, depth, className, tilt = 0, children }: { p: Pointer; depth:
 const NOTES = [
   { app: "Quick Look", title: ["Typography", "Tipografi"], body: ["Every size has a reason — ×1.618.", "Setiap ukuran punya alasan — ×1,618."] },
   { app: "Claude Code", title: ["skill-dashboard loaded", "skill-dashboard dimuat"], body: ["Honest tables, real empty states.", "Tabel jujur, empty state yang jelas."] },
-  { app: "Registry", title: ["style-kit installed", "style-kit terpasang"], body: ["35 components · 1 theme.", "35 komponen · 1 tema."] },
+  { app: "Registry", title: ["style-kit installed", "style-kit terpasang"], body: ["{n} components · 1 theme.", "{n} komponen · 1 tema."] },
   { app: "Keynote", title: ["Ready to play", "Siap diputar"], body: ["Nothing is a video. It's all components.", "Ini bukan video — semuanya komponen."] },
 ] as const;
 
-function Notes() {
+function Notes({ count }: { count: number }) {
   const reduce = useReducedMotion();
   const [i, setI] = useState(0);
   useEffect(() => {
@@ -64,7 +64,7 @@ function Notes() {
               <span>{t("now", "baru saja")}</span>
             </span>
             <span className="mt-0.5 block truncate text-[13.5px] font-semibold">{t(n.title[0], n.title[1])}</span>
-            <span className="block truncate text-[12.5px] text-muted-foreground">{t(n.body[0], n.body[1])}</span>
+            <span className="block truncate text-[12.5px] text-muted-foreground">{t(n.body[0], n.body[1]).replace("{n}", String(count))}</span>
           </span>
         </motion.div>
       </AnimatePresence>
@@ -106,15 +106,15 @@ function Appearance() {
   );
 }
 
-export default function HeroDesk({ p }: { p: Pointer }) {
+export default function HeroDesk({ p, count }: { p: Pointer; count: number }) {
   const t = useT();
   return (
     <div className="hero-desk pointer-events-none absolute inset-0 z-10 hidden xl:block [&_.hero-win]:pointer-events-auto">
       <Float p={p} depth={26} tilt={-2.5} className="left-[2.5vw] top-[20%] w-[clamp(250px,19vw,300px)]">
-        <Terminal title="zsh" prompt="%" speed={48} lines={[{ cmd: INSTALL.replace("https://", "") }, { out: t("✓ 35 components · 1 theme", "✓ 35 komponen · 1 tema") }, { out: t("Done in 4.2s", "Beres dalam 4,2 detik"), dim: true }]} />
+        <Terminal title="zsh" prompt="%" speed={48} lines={[{ cmd: INSTALL.replace("https://", "") }, { out: t(`✓ ${count} components · 1 theme`, `✓ ${count} komponen · 1 tema`) }, { out: t("Done in 4.2s", "Beres dalam 4,2 detik"), dim: true }]} />
       </Float>
       <Float p={p} depth={14} tilt={2} className="right-[2.5vw] top-[17%] w-[clamp(250px,19vw,300px)]">
-        <Notes />
+        <Notes count={count} />
       </Float>
       <Float p={p} depth={40} tilt={1.5} className="bottom-[13%] left-[4vw] w-[clamp(230px,17vw,270px)]">
         <Appearance />

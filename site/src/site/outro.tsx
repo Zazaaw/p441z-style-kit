@@ -5,6 +5,7 @@ import KaraokeText from "@/components/motion/karaoke-text";
 import { Button } from "@/components/ui/button";
 import { REPO } from "@/site/chrome";
 import { useT } from "@/site/i18n";
+import GlassPanel, { GlassBackdrop } from "@/components/effects/glass-panel";
 
 const CHIPS: [string, string][] = [
   ["Tokens", "Token"],
@@ -18,14 +19,15 @@ export default function Outro() {
   const t = useT();
   return (
     <section className="relative mx-auto max-w-6xl px-6 pb-40 pt-24 text-center">
+      <GlassBackdrop className="left-1/2 right-auto w-screen -translate-x-1/2" variant="c" strength={0.7} />
       <LogoCollapse
         auto
         hold={1.4}
         className="min-h-56"
         items={CHIPS.map(([en, id]) => (
-          <div key={en} className="grid h-24 w-32 place-items-center rounded-2xl border border-border bg-background font-display text-[15px] font-bold shadow-sm">
+          <GlassPanel key={en} tilt={0} appear={false} className="h-24 w-32 font-display text-[15px] font-bold" contentClassName="grid h-24 place-items-center">
             {t(en, id)}
-          </div>
+          </GlassPanel>
         ))}
         logo={<span className="font-display text-[clamp(3.5rem,9vw,6.5rem)] font-extrabold tracking-[-0.05em]">p441z</span>}
       />

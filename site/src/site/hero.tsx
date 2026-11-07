@@ -88,7 +88,7 @@ export default function Hero({ skillCount, skillLines, componentCount, skills }:
       {/* First screen: headline in the middle, the kit's own windows floating around it. */}
       <div ref={stage} onPointerMove={onMove} className="relative isolate min-h-[100svh]">
         <PointerGlow p={pointer} />
-        <HeroDesk p={pointer} />
+        <HeroDesk p={pointer} count={componentCount} />
         <div className="hero-stage flex min-h-[100svh] flex-col items-center justify-center px-6 pb-24 pt-24 text-center [@media(max-height:760px)]:pt-14">
           <a href="#motion" className="hero-chip relative inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-3.5 py-1.5 text-[13px] font-medium text-muted-foreground backdrop-blur transition-colors hover:text-foreground">
             <span className="rounded-full bg-primary px-1.5 py-px text-[11px] font-semibold text-primary-foreground">{t("New", "Baru")}</span>

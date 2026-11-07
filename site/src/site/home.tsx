@@ -32,7 +32,7 @@ export default function Home({ lang }: { lang: Lang }) {
           <GridPattern width={50} height={50} duration={15} repeatDelay={1} maxOpacity={0.1} x={-1} y={-1} className="[mask-image:linear-gradient(to_top_left,white,transparent,transparent)]" />
         </div>
         <Chrome skills={skills.map(({ name, title, file }) => ({ name, title, file }))} />
-        <main className="relative z-20">
+        <main className="relative z-20 overflow-x-clip">
           <Hero skillCount={skills.length} skillLines={lines} componentCount={comps.length} skills={skills} />
           <div className="border-y border-border bg-background/60 py-5 backdrop-blur">
             <Marquee duration="60s" gap="2.75rem">

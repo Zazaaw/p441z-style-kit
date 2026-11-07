@@ -6,7 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
-import SpotlightCard from "@/components/effects/spotlight-card";
+import GlassPanel, { GlassBackdrop } from "@/components/effects/glass-panel";
 import MaskReveal from "@/components/motion/mask-reveal";
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -181,7 +181,7 @@ function LeadingCard() {
   const good = lh >= 1.5 && lh <= 1.7;
   const t = useT();
   return (
-    <SpotlightCard className="type-card flex flex-col p-6">
+    <GlassPanel delay={0} className="type-card flex flex-col p-6">
       <div className="flex items-center justify-between">
         <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Leading</div>
         <Verdict ok={good}>{Math.abs(lh - 1.618) < 0.03 ? t("φ — the body default", "φ — standar body") : good ? t("comfortable", "nyaman") : lh < 1.5 ? t("too tight", "terlalu rapat") : t("too loose", "terlalu renggang")}</Verdict>
@@ -198,7 +198,7 @@ function LeadingCard() {
         <Range value={lh} min={1} max={2.2} step={0.001} onChange={(v) => setLh(Math.abs(v - 1.618) < 0.02 ? 1.618 : v)} label={t("Line height", "Tinggi baris")} />
         <div className="mt-2">{t("Headings tighten as they grow: h3 1.15 · h2 1.1 · h1 1.05 · display 1.0.", "Makin besar heading, makin rapat barisnya: h3 1.15 · h2 1.1 · h1 1.05 · display 1.0.")}</div>
       </div>
-    </SpotlightCard>
+    </GlassPanel>
   );
 }
 
@@ -208,7 +208,7 @@ function MeasureCard() {
   const t = useT();
   const sample = t(SAMPLE, SAMPLE_ID);
   return (
-    <SpotlightCard className="type-card flex flex-col p-6">
+    <GlassPanel delay={70} className="type-card flex flex-col p-6">
       <div className="flex items-center justify-between">
         <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Measure</div>
         <Verdict ok={good}>{good ? (Math.abs(ch - 66) <= 3 ? "ideal" : t("readable", "enak dibaca")) : ch < 45 ? t("too short", "terlalu pendek") : t("too long", "terlalu panjang")}</Verdict>
@@ -227,7 +227,7 @@ function MeasureCard() {
         <Range value={ch} min={30} max={100} step={1} onChange={setCh} label={t("Line length", "Panjang baris")} />
         <div className="mt-2">{t("Prose caps at 65ch, captions at 50ch. Long lines lose the reader at the turn.", "Paragraf maksimal 65ch, caption 50ch. Baris yang kepanjangan bikin mata tersesat saat pindah baris.")}</div>
       </div>
-    </SpotlightCard>
+    </GlassPanel>
   );
 }
 
@@ -238,7 +238,7 @@ function TrackingCard() {
   const tr = trackingFor(px);
   const t = useT();
   return (
-    <SpotlightCard className="type-card flex flex-col p-6">
+    <GlassPanel delay={140} className="type-card flex flex-col p-6">
       <div className="flex items-center justify-between">
         <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Tracking</div>
         <Verdict ok>{tr === 0 ? t("0 at body", "0 di body") : `${tr}em`}</Verdict>
@@ -257,7 +257,7 @@ function TrackingCard() {
         <Range value={SCALE.findIndex((s) => s.px === px)} min={2} max={8} step={1} onChange={(i) => setPx(SCALE[i].px)} label={t("Font size", "Ukuran font")} />
         <div className="mt-2">{t("Small caps and overlines open up (+0.06em); display sizes close in (−0.03em).", "Huruf kapital kecil dan overline direnggangkan (+0.06em); ukuran display dirapatkan (−0.03em).")}</div>
       </div>
-    </SpotlightCard>
+    </GlassPanel>
   );
 }
 
@@ -266,7 +266,7 @@ function NumbersCard() {
   const t = useT();
   const rows = t(["1,111.11", "8,048.00", "12,350.70", "906.45"], ["1.111,11", "8.048,00", "12.350,70", "906,45"]);
   return (
-    <SpotlightCard className="type-card flex flex-col p-6">
+    <GlassPanel delay={210} className="type-card flex flex-col p-6">
       <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Numbers", "Angka")}</div>
       <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("Tables use tabular figures.", "Di tabel, pakai angka tabular.")}</div>
       <div className="mt-4 flex gap-1">
@@ -287,14 +287,14 @@ function NumbersCard() {
         ))}
       </div>
       <div className="mt-auto pt-4 text-[12px] text-muted-foreground">{t("Right-aligned, fixed decimals — the digits line up so the eye can compare columns.", "Rata kanan, desimal tetap — digitnya sejajar, jadi mata gampang membandingkan kolom.")}</div>
-    </SpotlightCard>
+    </GlassPanel>
   );
 }
 
 function PairingCard() {
   const t = useT();
   return (
-    <SpotlightCard className="type-card flex flex-col p-6">
+    <GlassPanel delay={280} className="type-card flex flex-col p-6">
       <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Pairing", "Padanan")}</div>
       <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("Two families. One mono.", "Dua jenis huruf. Satu mono.")}</div>
       <div className="mt-5 space-y-3">
@@ -303,14 +303,14 @@ function PairingCard() {
         <div className="font-mono text-[14px] text-muted-foreground">{t("mono → code · IDs · data", "mono → kode · ID · data")}</div>
       </div>
       <div className="mt-auto pt-4 text-[12px] text-muted-foreground">{t("One moment of contrast reads as intent. Ten reads as indecision. SF is never self-hosted — the system stack serves it.", "Satu kontras terasa disengaja; sepuluh terasa bimbang. SF tak pernah di-host sendiri — biar system stack yang menyediakannya.")}</div>
-    </SpotlightCard>
+    </GlassPanel>
   );
 }
 
 function WeightsCard() {
   const t = useT();
   return (
-    <SpotlightCard className="type-card flex flex-col p-6">
+    <GlassPanel delay={350} className="type-card flex flex-col p-6">
       <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Weights", "Ketebalan")}</div>
       <div className="mt-2 font-display text-xl font-extrabold tracking-tight">{t("Few weights, clear jobs.", "Sedikit ketebalan, jelas tugasnya.")}</div>
       <div className="mt-5 grid grid-cols-5 gap-2 text-center">
@@ -324,7 +324,7 @@ function WeightsCard() {
         ))}
       </div>
       <div className="mt-auto pt-4 text-[12px] text-muted-foreground">{t("400 / 500 / 600 for product UI, 400 / 600 / 700 for marketing, 800 only for display. No faux bold: font-synthesis: none.", "400 / 500 / 600 untuk UI produk, 400 / 600 / 700 untuk marketing, 800 khusus display. Tidak ada bold palsu: font-synthesis: none.")}</div>
-    </SpotlightCard>
+    </GlassPanel>
   );
 }
 
@@ -342,13 +342,13 @@ export default function Typography({ skillLines }: { skillLines: number }) {
         gsap.set(path, { strokeDasharray: len, strokeDashoffset: len });
         gsap.to(path, { strokeDashoffset: 0, ease: "none", scrollTrigger: { trigger: ".gold-wrap", start: "top 80%", end: "bottom 45%", scrub: 0.8 } });
         gsap.from(".gold-sq", { opacity: 0, scale: 0.94, transformOrigin: "50% 50%", stagger: 0.08, duration: 0.8, ease: "expo.out", scrollTrigger: { trigger: ".gold-wrap", start: "top 80%" } });
-        gsap.from(".type-card", { y: 40, opacity: 0, duration: 0.9, ease: "expo.out", stagger: 0.06, scrollTrigger: { trigger: ".type-cards", start: "top 80%" } });
       });
     },
     { scope: root },
   );
   return (
     <section id="type" ref={root} className="relative mx-auto max-w-6xl scroll-mt-16 px-6 py-28">
+      <GlassBackdrop className="left-1/2 right-auto w-screen -translate-x-1/2" variant="b" />
       <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
         <div>
           <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Typography", "Tipografi")}</div>
@@ -384,18 +384,18 @@ export default function Typography({ skillLines }: { skillLines: number }) {
             9.89 · 12.58 · <span className="text-foreground">16</span> · 20.35 · 25.89 · 32.93 · 41.89 · 53.28 · 67.78 · 86.21
           </div>
         </div>
-        <div className="gold-wrap rounded-3xl border border-border bg-background/60 p-6 backdrop-blur">
+        <GlassPanel tilt={2} className="gold-wrap rounded-3xl p-6">
           <GoldenSpiral />
           <div className="mt-4 flex items-center justify-between text-[12px] text-muted-foreground">
             <span>{t("Each square is φ× the next — the same step as the type scale.", "Tiap persegi φ kali lebih besar dari persegi berikutnya — rasio yang sama dengan skala hurufnya.")}</span>
             <span className="font-mono">16 × φ = 25.89</span>
           </div>
-        </div>
+        </GlassPanel>
       </div>
 
-      <SpotlightCard className="mt-16 p-6 md:p-8">
+      <GlassPanel className="mt-16 p-6 md:p-8">
         <ScaleExplorer />
-      </SpotlightCard>
+      </GlassPanel>
 
       <div className="type-cards mt-4 grid gap-4 md:grid-cols-3">
         <LeadingCard />
@@ -406,7 +406,7 @@ export default function Typography({ skillLines }: { skillLines: number }) {
         <WeightsCard />
       </div>
 
-      <div className="mt-10 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-border bg-background/60 px-6 py-5 backdrop-blur">
+      <GlassPanel tilt={0} className="mt-10" contentClassName="flex flex-wrap items-center justify-between gap-4 px-6 py-5">
         <div className="text-[14px] text-muted-foreground">
           {t(
             <>
@@ -420,7 +420,7 @@ export default function Typography({ skillLines }: { skillLines: number }) {
         <a href={`${REPO}/blob/main/Skill.md/skill-typography.md`} target="_blank" rel="noreferrer" className="text-[14px] font-semibold text-primary hover:underline">
           {t("Read the skill →", "Baca skill-nya →")}
         </a>
-      </div>
+      </GlassPanel>
     </section>
   );
 }

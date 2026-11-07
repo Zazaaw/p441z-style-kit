@@ -1,13 +1,10 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
 
-import SpotlightCard from "@/components/effects/spotlight-card";
+import GlassPanel, { GlassBackdrop } from "@/components/effects/glass-panel";
 import MaskReveal from "@/components/motion/mask-reveal";
 import CountUp from "@/components/motion/count-up";
 import { EASE } from "@/lib/motion";
@@ -15,7 +12,6 @@ import { cn } from "@/lib/utils";
 import { AccentDots } from "@/site/accent";
 import { useT } from "@/site/i18n";
 
-gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const CURVES = [
   { name: "reveal", v: [0.22, 1, 0.36, 1], note: "entrances · ≤ 500 ms", noteId: "untuk muncul · ≤ 500 ms" },
@@ -99,26 +95,17 @@ function ThemeTile() {
 }
 
 export default function Bento({ componentCount, skillCount }: { componentCount: number; skillCount: number }) {
-  const root = useRef<HTMLElement>(null);
   const t = useT();
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".bento-tile", { y: 50, opacity: 0, scale: 0.97, duration: 1, ease: "expo.out", stagger: 0.07, scrollTrigger: { trigger: root.current, start: "top 75%" } });
-      });
-    },
-    { scope: root },
-  );
   const greys = [100, 96.1, 89.8, 63.9, 45.1, 14.9, 3.9];
   return (
-    <section id="kit" ref={root} className="relative mx-auto max-w-6xl scroll-mt-16 px-6 py-28">
+    <section id="kit" className="relative mx-auto max-w-6xl scroll-mt-16 px-6 py-28">
+      <GlassBackdrop className="left-1/2 right-auto w-screen -translate-x-1/2" variant="a" />
       <div className="max-w-2xl">
         <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Inside the kit", "Di dalam kit")}</div>
         <MaskReveal as="h2" text={t("Quiet by default. Precise by design.", "Kalem dari awal. Presisi sampai detail.")} className="mt-3 font-display text-[clamp(2rem,4.5vw,3.25rem)] font-extrabold leading-[1.05] tracking-[-0.04em]" />
       </div>
       <div className="mt-12 grid auto-rows-[minmax(200px,auto)] gap-4 md:grid-cols-6">
-        <SpotlightCard className="bento-tile p-6 md:col-span-4">
+        <GlassPanel delay={0} className="bento-tile p-6 md:col-span-4">
           <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Tokens", "Token")}</div>
           <div className="mt-2 font-display text-2xl font-extrabold tracking-tight">{t("Pure greyscale. Color only as meaning.", "Serba abu-abu. Warna cuma dipakai kalau ada artinya.")}</div>
           <div className="mt-6 flex gap-2">
@@ -146,8 +133,8 @@ export default function Bento({ componentCount, skillCount }: { componentCount: 
             </div>
             <AccentDots size={20} />
           </div>
-        </SpotlightCard>
-        <SpotlightCard className="bento-tile flex flex-col justify-between p-6 md:col-span-2">
+        </GlassPanel>
+        <GlassPanel delay={70} className="bento-tile flex flex-col justify-between p-6 md:col-span-2">
           <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Components", "Komponen")}</div>
           <div>
             <div className="font-display text-6xl font-extrabold tracking-tight">
@@ -155,18 +142,18 @@ export default function Bento({ componentCount, skillCount }: { componentCount: 
             </div>
             <div className="mt-1 text-[13px] text-muted-foreground">{t("UI · effects · motion · desktop — copy-paste, zero lock-in", "UI · efek · motion · desktop — tinggal salin, tanpa terikat library")}</div>
           </div>
-        </SpotlightCard>
-        <SpotlightCard className="bento-tile p-6 md:col-span-3">
+        </GlassPanel>
+        <GlassPanel delay={140} className="bento-tile p-6 md:col-span-3">
           <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Motion</div>
           <div className="mt-2 font-display text-2xl font-extrabold tracking-tight">{t("Three curves. No linear.", "Tiga kurva. Tak ada yang linear.")}</div>
           <div className="mt-5 h-[150px]">
             <CurvePlayground />
           </div>
-        </SpotlightCard>
-        <SpotlightCard className="bento-tile p-6 md:col-span-3">
+        </GlassPanel>
+        <GlassPanel delay={210} className="bento-tile p-6 md:col-span-3">
           <ThemeTile />
-        </SpotlightCard>
-        <SpotlightCard className="bento-tile flex flex-col justify-between p-6 md:col-span-2">
+        </GlassPanel>
+        <GlassPanel delay={280} className="bento-tile flex flex-col justify-between p-6 md:col-span-2">
           <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Skills", "Skill")}</div>
           <div>
             <div className="font-display text-6xl font-extrabold tracking-tight">
@@ -174,8 +161,8 @@ export default function Bento({ componentCount, skillCount }: { componentCount: 
             </div>
             <div className="mt-1 text-[13px] text-muted-foreground">{t("working guides your AI agent follows", "panduan kerja yang dipatuhi agen AI-mu")}</div>
           </div>
-        </SpotlightCard>
-        <SpotlightCard className="bento-tile p-6 md:col-span-4">
+        </GlassPanel>
+        <GlassPanel delay={350} className="bento-tile p-6 md:col-span-4">
           <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Ships anywhere", "Jalan di mana pun")}</div>
           <div className="mt-2 font-display text-2xl font-extrabold tracking-tight">{t("Tailwind v4 and v3. React 18 and 19.", "Tailwind v4 dan v3. React 18 dan 19.")}</div>
           <div className="mt-5 flex flex-wrap gap-2">
@@ -185,7 +172,7 @@ export default function Bento({ componentCount, skillCount }: { componentCount: 
               </span>
             ))}
           </div>
-        </SpotlightCard>
+        </GlassPanel>
       </div>
     </section>
   );
