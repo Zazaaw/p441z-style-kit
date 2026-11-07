@@ -42,8 +42,8 @@ export const POP = { type: "spring", damping: 16, stiffness: 180 } as const;
  *   SPRING.drop    larger things landing: banners, panels, sheets
  */
 export const SPRING = {
-  press: { type: "spring", stiffness: 700, damping: 30, mass: 0.6 },
-  slide: { type: "spring", stiffness: 420, damping: 30, mass: 0.8 },
+  press: { type: "spring", stiffness: 700, damping: 22, mass: 0.6 },
+  slide: { type: "spring", stiffness: 420, damping: 24, mass: 0.8 },
   pop: { type: "spring", stiffness: 520, damping: 20, mass: 0.7 },
   drop: { type: "spring", stiffness: 300, damping: 22, mass: 0.9 },
 } as const;
