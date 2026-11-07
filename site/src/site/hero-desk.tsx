@@ -1,19 +1,18 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
-import { AnimatePresence, motion, useMotionTemplate, useMotionValue, useReducedMotion, useSpring, useTransform, type MotionValue } from "framer-motion";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion, useMotionTemplate, useReducedMotion, useTransform, type MotionValue } from "framer-motion";
 
 import Terminal from "@/components/mac/terminal";
+import { MacWindow } from "@/components/mac/window";
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { AccentDots } from "@/site/accent";
 import { INSTALL } from "@/site/chrome";
-import HeroCompare from "@/site/hero-compare";
-import type { SkillView } from "@/site/skills";
 
-// The hero's right column: the before/after product window, tilted in 3D, with real kit windows
-// stacked around it that drift against the pointer at different depths (nearer ones move more).
-// The extra windows are for wide screens; a phone gets the product window alone, flat.
-// Pointer position arrives as two springs in -0.5…0.5.
+// The hero's desktop: real kit windows floating around the headline, drifting against the pointer
+// at different depths (nearer windows move more). Wide screens only — on a phone the headline is
+// the whole stage. Pointer position arrives as two springs in -0.5…0.5.
 type Pointer = { x: MotionValue<number>; y: MotionValue<number> };
 
 /** One floating window. Outer layer = pointer parallax (framer), inner = GSAP intro (.hero-win). */
@@ -71,40 +70,50 @@ function Notes() {
   );
 }
 
-
-
-const wideQuery = "(min-width: 1024px)";
-const subscribeWide = (cb: () => void) => {
-  const m = window.matchMedia(wideQuery);
-  m.addEventListener("change", cb);
-  return () => m.removeEventListener("change", cb);
-};
-
-export default function HeroStack({ p, skills }: { p: Pointer; skills: SkillView[] }) {
-  const wide = useSyncExternalStore(subscribeWide, () => window.matchMedia(wideQuery).matches, () => false);
-  const reduce = useReducedMotion();
-  // Resting 3D tilt that leans with the pointer, and lies flat while the pointer is on the window
-  // (so dragging the slider maps 1:1).
-  const flat = useMotionValue(0);
-  const f = useSpring(flat, { stiffness: 120, damping: 22 });
-  const on = wide && !reduce;
-  const rotateY = useTransform([p.x, f] as MotionValue<number>[], ([x, k]: number[]) => (on ? (1 - k) * (-11 + x * 8) : 0));
-  const rotateX = useTransform([p.y, f] as MotionValue<number>[], ([y, k]: number[]) => (on ? (1 - k) * (5 - y * 6) : 0));
+/** The reveal ease drawn as a curve, with a dot riding it — the kit's motion in one glance. */
+function Curve() {
+  // Control points are EASE.reveal mapped onto the 160×104 box.
+  const d = "M 12 108 C 47.2 4, 69.6 4, 172 4";
   return (
-    <div className="relative [perspective:2200px]">
-      <Float p={p} depth={12} tilt={-3} className="-left-8 -top-24 z-0 hidden w-[300px] lg:block [@media(max-height:780px)]:!hidden">
+    <MacWindow glass title="Motion" bodyClassName="px-4 pb-3 pt-2">
+      <svg viewBox="0 0 184 116" className="w-full overflow-visible" aria-hidden>
+        <path d="M12 4H172M12 108H172" className="stroke-border" strokeDasharray="3 4" />
+        <path d={d} fill="none" className="stroke-primary" strokeWidth="2.5" strokeLinecap="round" />
+        <circle r="5" className="fill-primary motion-reduce:hidden" style={{ offsetPath: `path("${d}")`, animation: "hero-ride 2.6s cubic-bezier(0.22,1,0.36,1) infinite" }} />
+      </svg>
+      <div className="mt-1 flex items-baseline justify-between font-mono text-[11px] text-muted-foreground">
+        <span>EASE.reveal</span>
+        <span>0.22, 1, 0.36, 1</span>
+      </div>
+      <style>{`@keyframes hero-ride { 0% { offset-distance: 0% } 70%, 100% { offset-distance: 100% } }`}</style>
+    </MacWindow>
+  );
+}
+
+function Appearance() {
+  return (
+    <MacWindow glass title="Appearance" bodyClassName="p-4">
+      <div className="text-[12px] font-semibold text-muted-foreground">Accent color</div>
+      <AccentDots size={16} className="mt-2.5 gap-2" />
+      <div className="mt-3 text-[11.5px] leading-snug text-muted-foreground">The whole page follows. Two tokens: <code className="whitespace-nowrap text-foreground">--primary</code> + <code className="whitespace-nowrap text-foreground">--ring</code>.</div>
+    </MacWindow>
+  );
+}
+
+export default function HeroDesk({ p }: { p: Pointer }) {
+  return (
+    <div className="hero-desk pointer-events-none absolute inset-0 z-10 hidden xl:block [&_.hero-win]:pointer-events-auto">
+      <Float p={p} depth={26} tilt={-2.5} className="left-[2.5vw] top-[20%] w-[clamp(250px,19vw,300px)]">
         <Terminal title="zsh" prompt="%" speed={48} lines={[{ cmd: INSTALL.replace("https://", "") }, { out: "✓ 35 components · 1 theme" }, { out: "Done in 4.2s", dim: true }]} />
       </Float>
-      <motion.div
-        style={{ rotateY, rotateX, transformStyle: "preserve-3d" }}
-        onPointerEnter={(e) => e.pointerType !== "touch" && flat.set(1)}
-        onPointerLeave={() => flat.set(0)}
-        className="hero-window-in relative z-10"
-      >
-        <HeroCompare skills={skills} />
-      </motion.div>
-      <Float p={p} depth={34} tilt={2} className="-right-6 -top-[5.5rem] z-20 hidden w-[270px] lg:block [@media(max-height:780px)]:!hidden">
+      <Float p={p} depth={14} tilt={2} className="right-[2.5vw] top-[17%] w-[clamp(250px,19vw,300px)]">
         <Notes />
+      </Float>
+      <Float p={p} depth={40} tilt={1.5} className="bottom-[13%] left-[4vw] w-[clamp(230px,17vw,270px)]">
+        <Appearance />
+      </Float>
+      <Float p={p} depth={20} tilt={-1.5} className="bottom-[16%] right-[4vw] w-[clamp(220px,16vw,250px)]">
+        <Curve />
       </Float>
     </div>
   );

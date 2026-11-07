@@ -29,7 +29,7 @@ function Scaled({ children }: { children: React.ReactNode }) {
 }
 
 /** Drag (or arrow-key) the divider to compare. Opens with a short nudge so people see it moves. */
-export function Compare({ before, after, play = true, onGrab, className }: { before: React.ReactNode; after: React.ReactNode; /** Run the intro nudge (pass false until it is on screen). */ play?: boolean; onGrab?: () => void; className?: string }) {
+export function Compare({ before, after, play = true, onGrab }: { before: React.ReactNode; after: React.ReactNode; /** Run the intro sweep (pass false until it is on screen). */ play?: boolean; onGrab?: () => void }) {
   const box = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState(50);
   const reduce = useReducedMotion();
@@ -46,7 +46,7 @@ export function Compare({ before, after, play = true, onGrab, className }: { bef
   return (
     <div
       ref={box}
-      className={cn("relative cursor-ew-resize select-none overflow-hidden rounded-xl border border-border", className)}
+      className="relative cursor-ew-resize select-none overflow-hidden rounded-xl border border-border"
       onPointerDown={(e) => {
         dragging.current = true;
         onGrab?.();
