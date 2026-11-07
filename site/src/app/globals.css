@@ -48,3 +48,10 @@ body { font-family: var(--font-sans); }
 .gf-root.gf-many { --gf-stack: 8px; }
 .gf-root.gf-many:hover, .gf-root.gf-many:focus-within { --gf-stack: 6px; }
 .gf-root.gf-many[data-open] { --gf-stack: 26px; }
+
+/* Theme switch (skill-darkmode §5): View Transitions crossfade, colour-only CSS fallback. */
+::view-transition-old(root),
+::view-transition-new(root) { animation-duration: .35s; animation-timing-function: ease-in-out; }
+html.theme-transition, html.theme-transition *, html.theme-transition *::before, html.theme-transition *::after {
+  transition: background-color .4s ease, color .4s ease, border-color .4s ease, fill .4s ease, stroke .4s ease !important;
+}

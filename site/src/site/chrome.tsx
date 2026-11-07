@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 
 import { EASE } from "@/lib/motion";
@@ -10,7 +9,7 @@ import MenuBar from "@/components/mac/menu-bar";
 import Spotlight, { useSpotlightHotkey, type SpotlightItem } from "@/components/mac/spotlight";
 import Dock from "@/components/mac/dock";
 import { useNotify } from "@/components/mac/notification";
-import { ThemeToggle } from "@/site/theme";
+import { ThemeToggle, useThemeSwitch } from "@/site/theme";
 import { ACCENTS, AccentMenu, setAccent } from "@/site/accent";
 import { LangSwitch, homeFor, useLang, useT } from "@/site/i18n";
 import { IconBell, IconBook, IconCopy, IconGitHub, IconHome, IconMoon, IconPlay, IconSearch, IconSpark, IconWindow } from "@/site/icons";
@@ -28,7 +27,7 @@ const go = (hash: string) => document.querySelector(hash)?.scrollIntoView({ beha
 /** Menu bar + ⌘K Spotlight + Dock: the desktop "chrome" around every section. */
 export default function Chrome({ skills }: { skills: { name: string; title: string; file: string }[] }) {
   const [open, setOpen] = useState(false);
-  const { resolvedTheme, setTheme } = useTheme();
+  const { dark: isDark, toggle: toggleTheme } = useThemeSwitch();
   const notify = useNotify();
   const t = useT();
   const lang = useLang();
@@ -74,10 +73,10 @@ export default function Chrome({ skills }: { skills: { name: string; title: stri
     },
     {
       group: A,
-      label: resolvedTheme === "dark" ? t("Switch to light mode", "Ganti ke mode terang") : t("Switch to dark mode", "Ganti ke mode gelap"),
+      label: isDark ? t("Switch to light mode", "Ganti ke mode terang") : t("Switch to dark mode", "Ganti ke mode gelap"),
       icon: <IconMoon />,
       keywords: "theme dark light tema gelap terang",
-      onSelect: () => setTheme(resolvedTheme === "dark" ? "light" : "dark"),
+      onSelect: toggleTheme,
     },
     {
       group: A,

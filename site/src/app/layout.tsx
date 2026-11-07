@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Instrument_Serif, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 
 import "./globals.css";
@@ -18,6 +18,8 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://style.p441z.my.id"),
   openGraph: { title: "p441z Style Kit", description: "Quiet design. Keynote motion.", url: "https://style.p441z.my.id", type: "website" },
 };
+
+export const viewport: Viewport = { themeColor: "#ffffff" };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useTheme } from "next-themes";
 
 import GlassPanel, { GlassBackdrop } from "@/components/effects/glass-panel";
 import MaskReveal from "@/components/motion/mask-reveal";
@@ -10,6 +9,7 @@ import CountUp from "@/components/motion/count-up";
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { AccentDots } from "@/site/accent";
+import { useThemeSwitch } from "@/site/theme";
 import { useT } from "@/site/i18n";
 
 
@@ -77,11 +77,10 @@ function CurvePlayground() {
 }
 
 function ThemeTile() {
-  const { resolvedTheme, setTheme } = useTheme();
-  const dark = resolvedTheme === "dark";
+  const { dark, toggle } = useThemeSwitch();
   const t = useT();
   return (
-    <button type="button" onClick={() => setTheme(dark ? "light" : "dark")} className="flex h-full w-full flex-col text-left" aria-label={t("Toggle theme", "Ganti tema")}>
+    <button type="button" onClick={toggle} className="flex h-full w-full flex-col text-left" aria-label={t("Toggle theme", "Ganti tema")}>
       <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{t("Light + dark", "Terang + gelap")}</div>
       <div className="mt-2 font-display text-2xl font-extrabold tracking-tight">{t("One token swap.", "Satu token, dua suasana.")}</div>
       <div className="mt-auto flex items-center gap-3 pt-6">
