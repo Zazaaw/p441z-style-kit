@@ -10,7 +10,7 @@ import { IconCheck, IconCopy } from "@/site/icons";
 import { ThemeToggle } from "@/site/theme";
 
 /** Slim top bar for skill and component pages: back home, then language, accent, theme. */
-export function DocTopBar({ paths, crumb }: { paths: { en: string; id: string }; crumb: string }) {
+export function DocTopBar({ paths, crumb, root }: { paths: { en: string; id: string }; crumb: string; root?: { href: string; label: string } }) {
   const lang = useLang();
   const t = useT();
   return (
@@ -20,8 +20,8 @@ export function DocTopBar({ paths, crumb }: { paths: { en: string; id: string };
           p441z
         </a>
         <span className="text-muted-foreground/60">/</span>
-        <a href={`${homeFor(lang)}#skills`} className="text-muted-foreground transition-colors hover:text-foreground">
-          {t("Skills", "Skill")}
+        <a href={root?.href ?? `${homeFor(lang)}#skills`} className="text-muted-foreground transition-colors hover:text-foreground">
+          {root?.label ?? t("Skills", "Skill")}
         </a>
         <span className="text-muted-foreground/60">/</span>
         <span className="truncate font-medium">{crumb}</span>
