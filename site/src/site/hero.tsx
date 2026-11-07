@@ -9,7 +9,6 @@ import { useGSAP } from "@gsap/react";
 
 import { Button } from "@/components/ui/button";
 import WordRotator from "@/components/motion/word-rotator";
-import CountUp from "@/components/motion/count-up";
 import Aurora from "@/components/effects/aurora";
 import Magnetic from "@/components/effects/magnetic";
 import BorderBeam from "@/components/effects/border-beam";
@@ -18,7 +17,6 @@ import { IconCheck, IconCopy } from "@/site/icons";
 import HeroCatalog from "@/site/hero-catalog";
 import HeroDesk, { PointerGlow } from "@/site/hero-desk";
 import HeroCompare from "@/site/hero-compare";
-import { AccentDots } from "@/site/accent";
 import type { SkillView } from "@/site/skills";
 
 gsap.registerPlugin(SplitText, ScrollTrigger, useGSAP);
@@ -56,9 +54,16 @@ export default function Hero({ skillCount, skillLines, componentCount, skills }:
           .from(split.chars, { yPercent: 110, duration: 1.1, stagger: 0.018 }, 0.1)
           .from(".hero-rot", { yPercent: 40, opacity: 0, filter: "blur(10px)", duration: 1.1 }, 0.35)
           .from(".hero-fade", { y: 18, opacity: 0, filter: "blur(6px)", duration: 1, stagger: 0.08 }, 0.6)
-          .from(".hero-win", { y: 40, opacity: 0, scale: 0.94, duration: 1.2, stagger: 0.12 }, 0.85);
+          .from(".hero-win", { y: 40, opacity: 0, scale: 0.94, duration: 1.2, stagger: 0.12 }, 0.85)
+          .from(".hero-window-in", { y: 80, opacity: 0, duration: 1.4 }, 0.7);
+        // The product window rises from the fold tilted back, and lies flat as it scrolls up.
+        gsap.fromTo(
+          ".hero-window",
+          { rotateX: 16, scale: 0.94, transformPerspective: 2000, transformOrigin: "50% 0%" },
+          { rotateX: 0, scale: 1, ease: "none", scrollTrigger: { trigger: ".hero-window", start: "top bottom", end: "top 18%", scrub: true } },
+        );
         // Leaving the first screen: the headline sinks back while the desk windows fly past the camera.
-        const out = { trigger: stage.current, start: "top top", end: "bottom 10%", scrub: true };
+        const out = { trigger: stage.current, start: "top top", end: "bottom top", scrub: true };
         gsap.to(".hero-stage", { scale: 0.9, yPercent: 8, opacity: 0, ease: "none", scrollTrigger: out });
         gsap.to(".hero-desk", { scale: 1.18, opacity: 0, ease: "none", scrollTrigger: { ...out } });
         return () => split.revert();
@@ -82,20 +87,24 @@ export default function Hero({ skillCount, skillLines, componentCount, skills }:
       <Aurora intensity={0.55} className="-z-10" />
       <div aria-hidden className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-linear-to-b from-transparent to-background" />
 
-      {/* First screen: headline in the middle, the kit's own windows floating around it. */}
-      <div ref={stage} onPointerMove={onMove} className="relative isolate min-h-[100svh]">
+      {/* First screen: the headline, the kit's own windows floating around it (wide screens), and a
+          product window rising from the fold. */}
+      <div ref={stage} onPointerMove={onMove} className="relative isolate">
         <PointerGlow p={pointer} />
         <HeroDesk p={pointer} />
-        <div className="hero-stage flex min-h-[100svh] flex-col items-center justify-center px-6 pb-24 pt-24 text-center [@media(max-height:760px)]:pt-14">
-          <a href="#motion" className="hero-chip relative inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-3.5 py-1.5 text-[13px] font-medium text-muted-foreground backdrop-blur transition-colors hover:text-foreground">
-            <span className="rounded-full bg-primary px-1.5 py-px text-[11px] font-semibold text-primary-foreground">New</span>
-            12 motion + 7 desktop components
+        <div className="hero-stage flex flex-col items-center px-6 pb-12 pt-24 text-center md:pt-28 [@media(max-height:760px)]:pt-16">
+          <a href="#kit" className="hero-chip relative inline-flex max-w-full items-center gap-2 rounded-full border border-border bg-background/70 py-1.5 pl-1.5 pr-3.5 text-[13px] font-medium text-muted-foreground backdrop-blur transition-colors hover:text-foreground">
+            <span className="rounded-full bg-primary px-2 py-px text-[11px] font-semibold text-primary-foreground">New</span>
+            <span className="truncate">
+              <b className="font-semibold text-foreground">{componentCount}</b> components · <b className="font-semibold text-foreground">{skillCount}</b> skills<span className="hidden sm:inline"> · <b className="font-semibold text-foreground">{skillLines.toLocaleString("en-US")}</b> lines of guidance</span>
+            </span>
             <span aria-hidden>→</span>
             <BorderBeam size={60} duration={6} />
           </a>
 
-          {/* Each line is its own block and never wraps — the rotating word can't push anything around. */}
-          <h1 className="mt-7 font-display text-[clamp(2.6rem,min(7.2vw,10.5svh),7.4rem)] [@media(max-height:760px)]:mt-5 font-extrabold leading-[0.98] tracking-[-0.05em]">
+          {/* Each line is its own block and never wraps — the rotating word can't push anything around.
+              Tight tracking also tightens the word gap, so the spaces get a little back. */}
+          <h1 className="mt-7 font-display text-[clamp(2.6rem,min(7.2vw,10.5svh),7.4rem)] font-extrabold leading-[0.98] tracking-[-0.05em] [word-spacing:0.12em] [@media(max-height:760px)]:mt-5">
             <span className="hero-line block whitespace-nowrap">Interfaces that</span>
             <span className="hero-rot block whitespace-nowrap py-[0.04em]">
               <WordRotator reserve align="center" words={["move", "breathe", "ship", "feel right"]} interval={2.6} wordClassName="text-sheen" className="font-serif text-[1.08em] font-normal italic tracking-[-0.02em]" />
@@ -130,33 +139,16 @@ export default function Hero({ skillCount, skillLines, componentCount, skills }:
             <span className="truncate">npx shadcn@latest add style.p441z.my.id/r/style-kit.json</span>
             <span className="grid size-7 shrink-0 place-items-center rounded-full bg-muted text-foreground [&_svg]:size-3.5">{copied ? <IconCheck /> : <IconCopy />}</span>
           </button>
-
-          {/* The numbers, as one quiet line. Short desktop screens drop it (the dock would cover it; the bento repeats them). */}
-          <div className="hero-fade mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[13px] text-muted-foreground md:[@media(max-height:760px)]:hidden">
-            {[
-              [componentCount, "components"],
-              [skillCount, "skills"],
-              [skillLines, "lines of guidance"],
-            ].map(([n, label]) => (
-              <span key={label}>
-                <span className="font-display text-[15px] font-extrabold tabular-nums text-foreground">
-                  <CountUp to={Number(n)} />
-                </span>{" "}
-                {label}
-              </span>
-            ))}
-          </div>
-          {/* Narrow screens don't get the desk — give them the accent picker inline. */}
-          <div className="hero-fade mt-5 flex items-center gap-3 rounded-full border border-border bg-background/70 px-3.5 py-2 backdrop-blur xl:hidden">
-            <span className="text-[12px] font-semibold text-muted-foreground">Accent</span>
-            <AccentDots size={16} className="gap-1.5" />
-          </div>
         </div>
       </div>
 
-      <div className="relative px-6 pb-24 pt-6">
-        <HeroCompare skills={skills} />
-        <div className="mx-auto mt-16 flex w-full max-w-6xl justify-center">
+      <div className="relative px-4 pb-24 sm:px-6">
+        <div className="hero-window-in mx-auto w-full max-w-4xl">
+          <div className="hero-window">
+            <HeroCompare skills={skills} />
+          </div>
+        </div>
+        <div className="mx-auto mt-20 flex w-full max-w-6xl justify-center">
           <HeroCatalog skills={skills} />
         </div>
       </div>
