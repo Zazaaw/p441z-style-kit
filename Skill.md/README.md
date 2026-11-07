@@ -33,7 +33,7 @@ every skill file.
 
 | File | Skill name | What it covers | When to open it |
 |---|---|---|---|
-| [skill-analysis.md](skill-analysis.md) | `skill-analysis` | "Don't ship half-baked work": understand the flow, map the blast radius, re-check from the user's side, report honestly. Written in Indonesian. | **Always.** This is the base skill; the others build on it |
+| [skill-analysis.md](skill-analysis.md) | `skill-analysis` | "Don't ship half-baked work": understand the flow, map the blast radius, re-check from the user's side, report honestly. | **Always.** This is the base skill; the others build on it |
 | [skill-backend.api.md](skill-backend.api.md) | `skill-backend-api` | Designing and building backends/APIs: contracts, validation, error shape, authorization, pagination, background jobs, webhooks | Creating or changing endpoints, services, integrations |
 | [skill-database.md](skill-database.md) | `skill-database` | Schema, queries, indexes, transactions, safe migrations, multi-tenant, time zones | Touching tables, queries, or migrations |
 | [skill-testing.md](skill-testing.md) | `skill-testing` | Test strategy and writing: unit, integration, e2e, edge data, regression, how an AI agent verifies its own work | Every feature or bug fix before claiming "done" |
@@ -123,7 +123,7 @@ without reading the whole file.
 - YAML frontmatter `name` + `description` on the first lines.
 - Header: title, `Created by`, `Version`, `License`, and the **Attribution rule** block.
 - Footer: an `## Attribution` section with the same attribution line.
-- English for all skills; `skill-analysis.md` stays in Indonesian by design.
+- English for all skills.
 
 ---
 

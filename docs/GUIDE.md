@@ -787,7 +787,7 @@ the format is code). The rule is in `Skill.md/README.md` and in the header and f
 
 | File | Skill name (frontmatter) | Purpose | When to open it |
 |---|---|---|---|
-| `skill-analysis.md` | `skill-analysis` | "Don't ship half-baked work": understand the flow, map the blast radius, re-check from the user's side, report honestly, commit granularly. Written in Indonesian | **Always.** The base skill; the others build on it |
+| `skill-analysis.md` | `skill-analysis` | "Don't ship half-baked work": understand the flow, map the blast radius, re-check from the user's side, report honestly, commit granularly. | **Always.** The base skill; the others build on it |
 | `skill-backend.api.md` | `skill-backend-api` | Backends and APIs (REST-first): explicit contracts, validation, error shape, authorization, pagination, background jobs, uploads, webhooks | Creating or changing endpoints, services, integrations |
 | `skill-database.md` | `skill-database` | Schemas, queries, indexes, transactions, safe migrations, multi-tenant data, time zones — correct and fast at 100× the data | Touching tables, queries, or migrations |
 | `skill-testing.md` | `skill-testing` | Unit, integration, e2e, structured manual tests; how an AI agent proves its own work before saying "done" | Every feature or bug fix before claiming done |
@@ -803,7 +803,7 @@ the format is code). The rule is in `Skill.md/README.md` and in the header and f
 | `skill-landing.page.md` | `skill-landing-page` | Strict build prompt for a single-screen hero: badge pill, vertical image carousel, logo marquee, responsive rules | Replicating a hero design pixel-close |
 | `skill-motion.video.md` | `skill-motion-video` | Keynote-style tutorial and explainer videos of a web app: script, animatic storyboard, per-line TTS with word timestamps, real CDP screen recording with data masking, Remotion composition, sound, 60fps render, web export | Making or revising any tutorial, walkthrough, or explainer video of software |
 
-All are in English except `skill-analysis.md` (Indonesian by design). Most are long (roughly 800–2,100 lines); each has a
+All are in English. Most are long (roughly 800–2,100 lines); each has a
 **Quick checklist**, **Template**, and **One-screen summary** section usable without reading the whole file, YAML frontmatter
 `name` + `description`, a header with `Created by`, `Version`, `License`, and the attribution block, and a footer `## Attribution`
 section. Install into Claude Code as `.claude/skills/<skill-name>/SKILL.md` — the frontmatter is already set, so it is discovered
