@@ -111,7 +111,7 @@ p441z-style-kit/
 │   └── components/         ← same 8 ui files (4 differ from v4 in class strings only); 3 effects byte-identical
 ├── docs/                   ← DESIGN.md (philosophy, read first) · COMPONENTS.md (condensed props) · RECIPES.md (13 patterns) · MIGRATION.md (v3 → v4)
 ├── templates/CLAUDE.md     ← drop into a new project's root; Claude Code loads it every session
-└── Skill.md/               ← 15 working skills (skill-*.md) for AI agents and humans, plus README.md
+└── Skill.md/               ← 16 working skills (skill-*.md) for AI agents and humans, plus README.md
 ```
 
 | File | Exports | One line |
@@ -769,7 +769,7 @@ loads it every session. It restates the rules above, the need → use table, the
 a five-item completion checklist; it also works as `.cursorrules` or `.github/copilot-instructions.md` with minor edits.
 
 ## The Skill.md folder
-`Skill.md/` is a separate collection of 15 project-agnostic working guides ("skills") for AI coding agents (Claude Code,
+`Skill.md/` is a separate collection of 16 project-agnostic working guides ("skills") for AI coding agents (Claude Code,
 Cursor, Copilot, …) and humans: concrete rules, checklists, copy-paste templates, worked examples, anti-patterns. They
 cover backend, database, testing, security, and more, and live here because the author uses both together. Created by
 Faiz Hazim Hawari · updated 6 November 2026 · free to use, copy, and adapt for any team, keeping the author's name.

@@ -2,7 +2,7 @@
 
 # p441z Style Kit
 
-**A quiet, editorial design system for React + Tailwind — plus 15 working skills for AI coding agents.**
+**A quiet, editorial design system for React + Tailwind — plus 16 working skills for AI coding agents.**
 
 [![Tailwind v4](https://img.shields.io/badge/Tailwind-v4-38bdf8?logo=tailwindcss&logoColor=white)](v4/) [![Tailwind v3](https://img.shields.io/badge/Tailwind-v3-0ea5e9?logo=tailwindcss&logoColor=white)](v3/) [![React 18+](https://img.shields.io/badge/React-18%2B-61dafb?logo=react&logoColor=white)](#) [![TypeScript](https://img.shields.io/badge/TypeScript-3178c6?logo=typescript&logoColor=white)](#) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
@@ -50,12 +50,12 @@ regenerates `registry.json` and `site/public/r/` from `v4/`.
 | [`v4/`](v4/) · [`v3/`](v3/) | `globals.css`, `lib/`, 8 UI components, 3 effects, and a step-by-step `SETUP.md` — v4 adds **12 motion**, **7 desktop**, and **5 more effects** (spotlight card, magnetic, marquee, aurora, border beam) |
 | [`site/`](site/) | The landing page (Next.js 16), built from the kit itself — a scroll-driven keynote demo of every motion component |
 | [`docs/`](docs/) | [GUIDE](docs/GUIDE.md) (everything, one file) · [DESIGN](docs/DESIGN.md) (read first) · [COMPONENTS](docs/COMPONENTS.md) · [RECIPES](docs/RECIPES.md) · [MIGRATION](docs/MIGRATION.md) |
-| [`Skill.md/`](Skill.md/) | 15 project-agnostic working guides for AI agents and humans |
+| [`Skill.md/`](Skill.md/) | 16 project-agnostic working guides for AI agents and humans |
 | [`templates/CLAUDE.md`](templates/CLAUDE.md) · [`AGENTS.md`](AGENTS.md) | Drop-in instructions so AI agents follow the kit |
 
-## Skill.md — 15 working skills
+## Skill.md — 16 working skills
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills-dark.png"><img src="docs/assets/readme/skills-light.png" alt="The 15 working skills in Skill.md, with line counts"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/skills-dark.png"><img src="docs/assets/readme/skills-light.png" alt="The 16 working skills in Skill.md, with line counts"></picture>
 
 Concrete rules, checklists, copy-paste templates, and anti-patterns for backend, database, testing, security, performance,
 debugging, git, dashboards, exports, docs, typography, UI taste, landing pages, and tutorial videos. Install one into
