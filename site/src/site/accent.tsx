@@ -9,15 +9,17 @@ import { useT } from "@/site/i18n";
 
 // Desktop accent colors (the System Settings row). The kit rebrands through --primary/--ring only, so
 // switching an accent is two CSS variables on <html> — every component, glow, and video frame follows.
+// `fg` is the text color on the accent, picked for WCAG AA contrast: white on blue and purple,
+// near-black on the lighter hues.
 export const ACCENTS = [
-  { key: "blue", label: "Blue", labelId: "Biru", hsl: "211 100% 50%", fg: "0 0% 100%" },
-  { key: "purple", label: "Purple", labelId: "Ungu", hsl: "280 64% 58%", fg: "0 0% 100%" },
-  { key: "pink", label: "Pink", labelId: "Merah muda", hsl: "331 92% 61%", fg: "0 0% 100%" },
-  { key: "red", label: "Red", labelId: "Merah", hsl: "3 100% 59%", fg: "0 0% 100%" },
-  { key: "orange", label: "Orange", labelId: "Oranye", hsl: "35 100% 50%", fg: "0 0% 100%" },
+  { key: "blue", label: "Blue", labelId: "Biru", hsl: "211 100% 45%", fg: "0 0% 100%" },
+  { key: "purple", label: "Purple", labelId: "Ungu", hsl: "280 64% 54%", fg: "0 0% 100%" },
+  { key: "pink", label: "Pink", labelId: "Merah muda", hsl: "331 92% 61%", fg: "0 0% 9%" },
+  { key: "red", label: "Red", labelId: "Merah", hsl: "3 100% 59%", fg: "0 0% 9%" },
+  { key: "orange", label: "Orange", labelId: "Oranye", hsl: "35 100% 50%", fg: "0 0% 9%" },
   { key: "yellow", label: "Yellow", labelId: "Kuning", hsl: "48 100% 50%", fg: "0 0% 9%" },
-  { key: "green", label: "Green", labelId: "Hijau", hsl: "135 59% 49%", fg: "0 0% 100%" },
-  { key: "graphite", label: "Graphite", labelId: "Grafit", hsl: "240 2% 57%", fg: "0 0% 100%" },
+  { key: "green", label: "Green", labelId: "Hijau", hsl: "135 59% 49%", fg: "0 0% 9%" },
+  { key: "graphite", label: "Graphite", labelId: "Grafit", hsl: "240 2% 57%", fg: "0 0% 9%" },
 ] as const;
 export type AccentKey = (typeof ACCENTS)[number]["key"];
 const STORE = "p441z:accent";
