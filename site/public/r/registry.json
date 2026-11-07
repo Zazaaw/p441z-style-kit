@@ -16,6 +16,7 @@
         "https://style.p441z.my.id/r/blur-fade.json",
         "https://style.p441z.my.id/r/border-beam.json",
         "https://style.p441z.my.id/r/dot-pattern.json",
+        "https://style.p441z.my.id/r/glass-panel.json",
         "https://style.p441z.my.id/r/grid-pattern.json",
         "https://style.p441z.my.id/r/magnetic.json",
         "https://style.p441z.my.id/r/marquee.json",
@@ -712,6 +713,25 @@
           "path": "v4/components/effects/dot-pattern.tsx",
           "type": "registry:component",
           "target": "@components/effects/dot-pattern.tsx"
+        }
+      ]
+    },
+    {
+      "name": "glass-panel",
+      "type": "registry:component",
+      "title": "GlassPanel",
+      "description": "Frosted glass with a light rim, a pointer specular, and an entrance.",
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "files": [
+        {
+          "path": "v4/components/effects/glass-panel.tsx",
+          "type": "registry:component",
+          "target": "@components/effects/glass-panel.tsx"
         }
       ]
     },

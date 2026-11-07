@@ -50,6 +50,7 @@ const COPY = {
   marquee: ["Marquee", "Endless seamless ribbon, pauses on hover."],
   aurora: ["Aurora", "Slow blurred light behind a hero."],
   "border-beam": ["BorderBeam", "A beam of light circling a card's border."],
+  "glass-panel": ["GlassPanel", "Frosted glass with a light rim, a pointer specular, and an entrance."],
   "mask-reveal": ["MaskReveal", "Keynote headline: words rise from a mask."],
   "karaoke-text": ["KaraokeText", "Words light up like a narrator — by time or scroll."],
   "word-rotator": ["WordRotator", "One word that keeps changing, without reflow."],

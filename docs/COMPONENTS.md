@@ -297,6 +297,8 @@ plain kit and take your accent after a rebrand. Each one is a single moment — 
 | `Marquee` | `effects/marquee.tsx` | Endless seamless ribbon, faded edges, pauses on hover (CSS only) | `duration`, `gap`, `reverse` |
 | `Aurora` | `effects/aurora.tsx` | Slow blurred light behind a hero (CSS only) | `intensity` |
 | `BorderBeam` | `effects/border-beam.tsx` | A beam of light circling a card's border (CSS only) | `size`, `duration`, `colorFrom`/`colorTo` |
+| `GlassPanel` | `effects/glass-panel.tsx` | Frosted-glass surface: blur, light rim, pointer specular, small tilt, assembles on first view | `tilt`, `appear`, `delay`, `contentClassName` |
+| `GlassBackdrop` | `effects/glass-panel.tsx` | Soft pools of the primary color for glass to frost; edges fade on all sides, costs nothing to scroll | `variant` (`a`/`b`/`c`), `strength` |
 
 `WordRotator` also gained `reserve` (the box is locked to the widest word, so a headline never reflows) and
 `wordClassName` — put gradient-text / `background-clip: text` effects there, never on `className`: on the
