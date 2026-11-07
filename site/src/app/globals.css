@@ -20,6 +20,8 @@
 :root { --primary: 211 100% 45%; --primary-foreground: 0 0% 100%; --ring: 211 100% 45%; }
 .dark { --primary: 211 100% 45%; --primary-foreground: 0 0% 100%; --ring: 211 100% 52%; }
 ::selection { background: hsl(var(--primary) / 0.22); }
+/* The accent is tuned for white text on it; as small text on a near-black page it needs a lift. */
+.dark .text-primary { color: color-mix(in oklab, hsl(var(--primary)) 72%, white); }
 
 /* Lenis smooth scroll (recommended base styles). */
 html.lenis, html.lenis body { height: auto; }
