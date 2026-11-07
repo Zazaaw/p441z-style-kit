@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
@@ -37,7 +37,7 @@ interface GridPatternProps {
   /** Pattern y-offset. -1 keeps 1px lines crisp. */
   y?: number;
   /** Pass a value for dashed grid lines. */
-  strokeDasharray?: any;
+  strokeDasharray?: string | number;
   /** How many cells twinkle at once. */
   numSquares?: number;
   className?: string;
@@ -45,6 +45,7 @@ interface GridPatternProps {
   maxOpacity?: number;
   /** Seconds for one fade cycle. Higher = slower, calmer. */
   duration?: number;
+  /** Seconds a cell waits, dark, before it lights up again. */
   repeatDelay?: number;
 }
 
@@ -61,69 +62,36 @@ export function GridPattern({
   repeatDelay = 0.5,
   ...props
 }: GridPatternProps) {
-  const id = useId();
-  const containerRef = useRef(null);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  // useId() can contain ":" or "«»", which break url(#…) references.
+  const id = useId().replace(/[^a-zA-Z0-9_-]/g, "");
+  const containerRef = useRef<SVGSVGElement>(null);
+  const size = useRef({ width: 0, height: 0 });
   // Start empty: squares need the measured size, and calling Math.random() during the first render
-  // breaks prerendering on Next.js 16 ("blocking-prerender-random-client"). The effect below fills
-  // them in as soon as the ResizeObserver reports a size.
+  // breaks prerendering on Next.js 16 ("blocking-prerender-random-client"). The ResizeObserver
+  // below fills them in as soon as it reports a size.
   const [squares, setSquares] = useState<{ id: number; pos: number[] }[]>([]);
 
-  function getPos() {
-    return [
-      Math.floor((Math.random() * dimensions.width) / width),
-      Math.floor((Math.random() * dimensions.height) / height),
-    ];
-  }
-
-  function generateSquares(count: number) {
-    return Array.from({ length: count }, (_, i) => ({
-      id: i,
-      pos: getPos(),
-    }));
-  }
+  const getPos = useCallback(
+    () => [Math.floor((Math.random() * size.current.width) / width), Math.floor((Math.random() * size.current.height) / height)],
+    [width, height],
+  );
 
   // When a square finishes its fade, teleport it somewhere new. That's what
   // makes the twinkle endless without ever re-running the whole animation.
   const updateSquarePosition = (id: number) => {
-    setSquares((currentSquares) =>
-      currentSquares.map((sq) =>
-        sq.id === id
-          ? {
-              ...sq,
-              pos: getPos(),
-            }
-          : sq
-      )
-    );
+    setSquares((current) => current.map((sq) => (sq.id === id ? { ...sq, pos: getPos() } : sq)));
   };
 
   useEffect(() => {
-    if (dimensions.width && dimensions.height) {
-      setSquares(generateSquares(numSquares));
-    }
-  }, [dimensions, numSquares]);
-
-  useEffect(() => {
-    const resizeObserver = new ResizeObserver((entries) => {
-      for (let entry of entries) {
-        setDimensions({
-          width: entry.contentRect.width,
-          height: entry.contentRect.height,
-        });
-      }
+    const el = containerRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => {
+      size.current = { width: entry.contentRect.width, height: entry.contentRect.height };
+      if (size.current.width && size.current.height) setSquares(Array.from({ length: numSquares }, (_, i) => ({ id: i, pos: getPos() })));
     });
-
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
-    }
-
-    return () => {
-      if (containerRef.current) {
-        resizeObserver.unobserve(containerRef.current);
-      }
-    };
-  }, [containerRef]);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [numSquares, getPos]);
 
   return (
     <svg
@@ -161,6 +129,7 @@ export function GridPattern({
               duration,
               repeat: 1,
               delay: index * 0.1,
+              repeatDelay,
               repeatType: "reverse",
             }}
             onAnimationComplete={() => updateSquarePosition(id)}
