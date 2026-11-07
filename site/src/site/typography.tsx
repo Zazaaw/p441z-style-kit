@@ -417,8 +417,8 @@ export default function Typography({ skillLines }: { skillLines: number }) {
             </>,
           )}
         </div>
-        <a href={`${REPO}/blob/main/Skill.md/skill-typography.md`} target="_blank" rel="noreferrer" className="text-[14px] font-semibold text-primary hover:underline">
-          {t("Read the skill →", "Baca skill-nya →")}
+        <a href={`${REPO}/blob/main/Skill.md/skill-typography.md`} target="_blank" rel="noreferrer" className="text-[14px] font-semibold text-primary">
+          {t("Read the skill", "Baca skill-nya")} <span aria-hidden className="arrow">→</span>
         </a>
       </GlassPanel>
     </section>

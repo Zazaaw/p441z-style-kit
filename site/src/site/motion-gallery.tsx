@@ -54,7 +54,7 @@ function Demo({ name, file, wide, children, onReplay, note }: { name: string; fi
           <div className="mt-0.5 text-[13px] leading-snug text-muted-foreground">{note}</div>
           <a href={doc} className="mt-2 inline-flex items-center gap-1 text-[11.5px] text-muted-foreground transition-colors hover:text-primary">
             <code>{file}</code>
-            <span aria-hidden>→</span>
+            <span aria-hidden className="arrow">→</span>
             <span className="sr-only">{t("Docs", "Dokumentasi")}</span>
           </a>
         </div>

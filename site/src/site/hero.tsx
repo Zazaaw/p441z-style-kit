@@ -83,7 +83,7 @@ export default function Hero({ skillCount, skillLines, componentCount, skills }:
           <a href="#motion" className="hero-chip relative inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-3.5 py-1.5 text-[13px] font-medium text-muted-foreground backdrop-blur transition-colors hover:text-foreground">
             <span className="rounded-full bg-primary px-1.5 py-px text-[11px] font-semibold text-primary-foreground">{t("New", "Baru")}</span>
             {t("12 motion + 7 desktop components", "12 komponen motion, 7 jendela desktop")}
-            <span aria-hidden>→</span>
+            <span aria-hidden className="arrow">→</span>
             <BorderBeam size={60} duration={6} />
           </a>
 

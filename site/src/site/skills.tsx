@@ -58,7 +58,7 @@ export function QuickLook({ s, onClose, layoutId = `skill-${s.name}` }: { s: Ski
                 <span className="size-3.5 [&_svg]:size-3.5"><IconGitHub /></span>
               </a>
               <a href={`${lang === "id" ? "/id" : ""}/skills/${skillSlug(s.file)}`} className="rounded-md px-2 py-0.5 text-[12px] font-semibold text-primary transition-colors hover:bg-primary/10">
-                {t("Read the full skill →", "Baca skill lengkap →")}
+                {t("Read the full skill", "Baca skill lengkap")} <span aria-hidden className="arrow">→</span>
               </a>
             </div>
           }

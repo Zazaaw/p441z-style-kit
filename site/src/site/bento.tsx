@@ -140,8 +140,8 @@ export default function Bento({ componentCount, skillCount }: { componentCount: 
               <CountUp to={componentCount} />
             </div>
             <div className="mt-1 text-[13px] text-muted-foreground">{t("UI · effects · motion · desktop — copy-paste, zero lock-in", "UI · efek · motion · desktop — tinggal salin, tanpa terikat library")}</div>
-            <a href={t("/components", "/id/components")} className="mt-3 inline-block text-[13px] font-semibold text-primary hover:underline">
-              {t("Browse all →", "Lihat semuanya →")}
+            <a href={t("/components", "/id/components")} className="mt-3 inline-block text-[13px] font-semibold text-primary">
+              {t("Browse all", "Lihat semuanya")} <span aria-hidden className="arrow">→</span>
             </a>
           </div>
         </GlassPanel>

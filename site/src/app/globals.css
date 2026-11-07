@@ -93,3 +93,8 @@ html.theme-transition, html.theme-transition *, html.theme-transition *::before,
 .skill-prose li:has(> .task-box) { list-style: none; margin-left: -1.4rem; }
 .skill-prose .task-box { display: inline-block; width: .95em; height: .95em; margin-right: .55em; vertical-align: -.12em; border: 1.5px solid hsl(var(--muted-foreground) / .6); border-radius: .25em; }
 .skill-prose .task-box.is-done { background: hsl(var(--primary)); border-color: hsl(var(--primary)); }
+
+/* Arrows in text links spring ahead on hover (the kit's ease-spring). */
+.arrow { display: inline-block; transition: translate .5s var(--ease-spring); }
+a:hover .arrow, button:hover .arrow, a:focus-visible .arrow { translate: .3em 0; }
+@media (prefers-reduced-motion: reduce) { .arrow { transition: none; } }
