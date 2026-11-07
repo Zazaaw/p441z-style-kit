@@ -5,6 +5,8 @@ export const DEMO_NAMES = new Set([
   "glass-panel", "stack-card", "pocket-card", "spotlight-card", "border-beam", "marquee", "magnetic", "aurora", "dot-pattern", "grid-pattern", "blur-fade",
   "word-rotator", "count-up", "mask-reveal", "stepper", "swap", "copy-button",
   "mac-window", "terminal", "notification",
+  "typography", "page-header", "karaoke-text", "logo-collapse", "device-frame", "soft-cursor", "flying-pill",
+  "element-lift", "virtual-camera", "dock", "menu-bar", "spotlight",
 ]);
 
 /** Where to see the components that need a whole scene. */

@@ -101,7 +101,7 @@ function useReplay() {
   return [k, () => setK((x) => x + 1)] as const;
 }
 
-function CursorDemo() {
+export function CursorDemo() {
   const [on, setOn] = useState(false);
   const t = useT();
   return (
@@ -116,7 +116,7 @@ function CursorDemo() {
   );
 }
 
-function PillDemo() {
+export function PillDemo() {
   const [run, setRun] = useState(1);
   const [got, setGot] = useState(0);
   const tr = useT();
@@ -134,7 +134,7 @@ function PillDemo() {
   );
 }
 
-function LiftDemo() {
+export function LiftDemo() {
   const [up, setUp] = useState(false);
   const t = useT();
   const card = (
@@ -185,7 +185,7 @@ function StepperDemo() {
   );
 }
 
-function CameraDemo() {
+export function CameraDemo() {
   const t = useT();
   const shots: [string, Shot][] = [
     [t("Wide", "Penuh"), { x: 0.5, y: 0.5, zoom: 1 }],

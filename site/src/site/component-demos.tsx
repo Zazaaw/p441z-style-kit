@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Aurora from "@/components/effects/aurora";
 import BlurFade from "@/components/effects/blur-fade";
@@ -13,10 +13,16 @@ import { GridPattern } from "@/components/effects/grid-pattern";
 import Magnetic from "@/components/effects/magnetic";
 import Marquee from "@/components/effects/marquee";
 import SpotlightCard from "@/components/effects/spotlight-card";
+import Dock from "@/components/mac/dock";
+import MenuBar from "@/components/mac/menu-bar";
 import { useNotify } from "@/components/mac/notification";
+import Spotlight from "@/components/mac/spotlight";
 import Terminal from "@/components/mac/terminal";
 import { MacWindow } from "@/components/mac/window";
 import CountUp from "@/components/motion/count-up";
+import { LaptopFrame, PhoneFrame } from "@/components/motion/device-frame";
+import KaraokeText from "@/components/motion/karaoke-text";
+import LogoCollapse from "@/components/motion/logo-collapse";
 import MaskReveal from "@/components/motion/mask-reveal";
 import Stepper from "@/components/motion/stepper";
 import Swap from "@/components/motion/swap";
@@ -26,13 +32,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import CopyButton from "@/components/ui/copy-button";
 import { Input } from "@/components/ui/input";
+import PageHeader from "@/components/ui/page-header";
 import PillTabs from "@/components/ui/pill-tabs";
 import { Skeleton } from "@/components/ui/skeleton";
-import { IconBell } from "@/site/icons";
+import { IconBell, IconBook, IconGitHub, IconHome, IconSearch, IconSpark, IconWindow } from "@/site/icons";
+import { CameraDemo, CursorDemo, LiftDemo, PillDemo } from "@/site/motion-gallery";
 
-// Live previews for the component pages. Each one is the component itself, with a few props —
-// not a screenshot. Components that need a whole scene (the dock, the keynote camera, the flying
-// pill) link to the landing page instead.
+// Live previews for the component pages (and, shrunk, the cards on /components). Each one is the
+// component itself with a few props — not a screenshot.
 
 function Tabs() {
   const [v, setV] = useState("All");
@@ -76,13 +83,46 @@ function Swaps() {
   );
 }
 
+function Replay({ every, children }: { every: number; children: React.ReactNode }) {
+  // Re-mounts its children every `every` ms so one-shot entrances (a reveal, a collapse) keep playing.
+  const [k, setK] = useState(0);
+  useEffect(() => {
+    const t = window.setInterval(() => setK((x) => x + 1), every);
+    return () => window.clearInterval(t);
+  }, [every]);
+  return <div key={k} className="contents">{children}</div>;
+}
+
+function SpotlightDemo() {
+  const [open, setOpen] = useState(false);
+  const go = () => setOpen(false);
+  return (
+    <>
+      <Button variant="outline" onClick={() => setOpen(true)} className="gap-3">
+        <IconSearch /> Search <kbd className="rounded border border-border px-1.5 text-[11px] text-muted-foreground">⌘K</kbd>
+      </Button>
+      <Spotlight
+        open={open}
+        onOpenChange={setOpen}
+        items={[
+          { group: "Pages", label: "Home", hint: "/", icon: <IconHome />, onSelect: go },
+          { group: "Pages", label: "Components", hint: "/components", icon: <IconWindow />, onSelect: go },
+          { group: "Pages", label: "Getting started", hint: "/docs", icon: <IconBook />, onSelect: go },
+          { group: "Actions", label: "Toggle the accent", icon: <IconSpark />, onSelect: go },
+          { group: "Actions", label: "Open GitHub", icon: <IconGitHub />, onSelect: go },
+        ]}
+      />
+    </>
+  );
+}
+
 function Notify() {
   const notify = useNotify();
   return <Button onClick={() => notify({ title: "Leave approved", body: "17 – 19 Nov · signed by Maya", icon: <IconBell /> })}>Send a notification</Button>;
 }
 
 // Keep DEMO_NAMES (component-demo-names.ts) in step with the keys below.
-const DEMOS: Record<string, React.ReactNode> = {
+export const DEMOS: Record<string, React.ReactNode> = {
   button: (
     <div className="flex flex-wrap items-center justify-center gap-3">
       <Button>Primary</Button>
@@ -203,6 +243,76 @@ const DEMOS: Record<string, React.ReactNode> = {
   terminal: <Terminal className="w-full max-w-md" title="zsh" lines={[{ cmd: "npx shadcn@latest add style.p441z.my.id/r/terminal.json" }, { out: "✓ Created components/mac/terminal.tsx" }, { out: "Done in 1.8s", dim: true }]} />,
   notification: <Notify />,
   swap: <Swaps />,
+  typography: (
+    <div className="text-center">
+      <div className="font-display text-5xl font-extrabold tracking-[-0.04em]">Aa</div>
+      <div className="mt-2 font-display text-2xl font-bold tracking-tight">
+        Quiet design. <span className="font-serif font-normal italic text-primary">Keynote motion.</span>
+      </div>
+      <p className="mt-2 text-[14px] text-muted-foreground">Body text at 16px, muted for the second line.</p>
+      <code className="mt-2 inline-block font-mono text-[13px] text-muted-foreground">mono → code · IDs · data</code>
+    </div>
+  ),
+  "page-header": (
+    <div className="w-full max-w-lg">
+      <PageHeader title="Leave requests" subtitle="Everything you asked for this year, newest first." action={<Button size="sm">New request</Button>} className="mb-0" />
+    </div>
+  ),
+  "karaoke-text": (
+    <Replay every={4200}>
+      <KaraokeText text="Plan ahead, approved faster, signed in seconds." duration={2.6} className="max-w-md text-center font-display text-2xl font-bold tracking-tight" />
+    </Replay>
+  ),
+  "logo-collapse": (
+    <Replay every={4800}>
+      <LogoCollapse
+        auto
+        hold={1.1}
+        items={["Tokens", "Motion", "Skills"].map((l) => (
+          <div key={l} className="grid size-20 place-items-center rounded-2xl border border-border bg-background text-[12px] font-semibold shadow-sm">
+            {l}
+          </div>
+        ))}
+        logo={<span className="font-display text-4xl font-extrabold tracking-tight">p441z</span>}
+      />
+    </Replay>
+  ),
+  "device-frame": (
+    <div className="flex w-full max-w-xl items-end justify-center gap-6">
+      <LaptopFrame url="app.example.com" className="w-[70%]">
+        <div className="grid h-full place-items-center text-[13px] text-muted-foreground">Your UI here</div>
+      </LaptopFrame>
+      <PhoneFrame className="w-[19%]">
+        <div className="grid h-full place-items-center text-[10px] text-muted-foreground">Mobile</div>
+      </PhoneFrame>
+    </div>
+  ),
+  "soft-cursor": <CursorDemo />,
+  "flying-pill": <PillDemo />,
+  "element-lift": <LiftDemo />,
+  "virtual-camera": (
+    <div className="w-full max-w-md">
+      <CameraDemo />
+    </div>
+  ),
+  dock: (
+    <Dock
+      items={[
+        { label: "Home", icon: <IconHome />, active: true, onClick: () => {} },
+        { label: "Motion", icon: <IconSpark />, onClick: () => {} },
+        { label: "Windows", icon: <IconWindow />, onClick: () => {} },
+        { label: "Docs", icon: <IconBook />, onClick: () => {} },
+        { label: "GitHub", icon: <IconGitHub />, onClick: () => {} },
+      ]}
+    />
+  ),
+  "menu-bar": (
+    <div className="w-full max-w-xl overflow-hidden rounded-xl border border-border">
+      <MenuBar brand="p441z" items={[{ label: "Kit" }, { label: "Motion" }, { label: "Docs" }]} className="relative" />
+      <div className="h-24 bg-muted/30" />
+    </div>
+  ),
+  spotlight: <SpotlightDemo />,
   "copy-button": (
     <div className="flex items-center gap-3 rounded-xl border border-border bg-background/70 py-2 pl-4 pr-2 font-mono text-[13px] text-muted-foreground">
       <span className="text-primary">$</span> npx shadcn@latest add …/copy-button.json
