@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
 import BlurFade from "@/components/effects/blur-fade";
@@ -20,7 +21,10 @@ const split = (l: string): [string, string] => {
   return m ? [m[1], m[2]] : ["", l.trim()];
 };
 
-function QuickLook({ s, onClose }: { s: SkillView; onClose: () => void }) {
+/** Quick Look window for one skill. `layoutId` lets any card morph into it (grid card, hero catalog…).
+ *  Rendered into <body> through a portal: an ancestor with backdrop-filter (frosted panels) would
+ *  otherwise become the containing block of this fixed overlay and clip it. */
+export function QuickLook({ s, onClose, layoutId = `skill-${s.name}` }: { s: SkillView; onClose: () => void; layoutId?: string }) {
   const notify = useNotify();
   const install = `mkdir -p .claude/skills/${s.name} && curl -fsSL https://raw.githubusercontent.com/Zazaaw/p441z-style-kit/main/Skill.md/${s.file} -o .claude/skills/${s.name}/SKILL.md`;
   useEffect(() => {
@@ -28,10 +32,10 @@ function QuickLook({ s, onClose }: { s: SkillView; onClose: () => void }) {
     window.addEventListener("keydown", k);
     return () => window.removeEventListener("keydown", k);
   }, [onClose]);
-  return (
+  return createPortal(
     <motion.div className="fixed inset-0 z-[75] grid place-items-center p-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} role="dialog" aria-modal aria-label={s.title}>
       <div className="absolute inset-0 bg-background/50 backdrop-blur-md" />
-      <motion.div layoutId={`skill-${s.name}`} transition={{ duration: 0.55, ease: EASE.camera }} className="relative w-[min(860px,96vw)]" onClick={(e) => e.stopPropagation()}>
+      <motion.div layoutId={layoutId} transition={{ duration: 0.55, ease: EASE.camera }} className="relative w-[min(860px,96vw)]" onClick={(e) => e.stopPropagation()}>
         <MacWindow
           title={s.file}
           onClose={onClose}
@@ -57,7 +61,7 @@ function QuickLook({ s, onClose }: { s: SkillView; onClose: () => void }) {
               <button
                 type="button"
                 onClick={() => navigator.clipboard?.writeText(install).then(() => notify({ title: "Install command copied", body: `Paste it in your project to add ${s.name} to Claude Code.`, icon: <IconCopy /> }))}
-                className="mt-5 flex w-full items-center justify-center gap-2 rounded-lg bg-foreground px-4 py-2.5 text-[14px] font-semibold text-background transition-transform duration-200 active:scale-[0.98]"
+                className="mt-5 flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-[14px] font-semibold text-primary-foreground shadow-[0_12px_28px_-12px_var(--color-primary)] transition-transform duration-200 active:scale-[0.98]"
               >
                 <span className="size-4 [&_svg]:size-4"><IconCopy /></span> Copy install for Claude Code
               </button>
@@ -87,7 +91,8 @@ function QuickLook({ s, onClose }: { s: SkillView; onClose: () => void }) {
           </motion.div>
         </MacWindow>
       </motion.div>
-    </motion.div>
+    </motion.div>,
+    document.body,
   );
 }
 

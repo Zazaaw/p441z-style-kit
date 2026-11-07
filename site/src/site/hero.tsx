@@ -14,11 +14,11 @@ import BorderBeam from "@/components/effects/border-beam";
 import { REPO, INSTALL } from "@/site/chrome";
 import { IconCheck, IconCopy } from "@/site/icons";
 import HeroCatalog from "@/site/hero-catalog";
-import type { CatalogItem } from "@/site/catalog-data";
+import type { SkillView } from "@/site/skills";
 
 gsap.registerPlugin(SplitText, useGSAP);
 
-export default function Hero({ skillCount, skillLines, componentCount, catalog }: { skillCount: number; skillLines: number; componentCount: number; catalog: CatalogItem[] }) {
+export default function Hero({ skillCount, skillLines, componentCount, skills }: { skillCount: number; skillLines: number; componentCount: number; skills: SkillView[] }) {
   const root = useRef<HTMLElement>(null);
   const [copied, setCopied] = useState(false);
 
@@ -120,7 +120,7 @@ export default function Hero({ skillCount, skillLines, componentCount, catalog }
         ))}
       </div>
       <div className="hero-fade mt-4 flex w-full justify-center">
-        <HeroCatalog items={catalog} />
+        <HeroCatalog skills={skills} />
       </div>
     </section>
   );

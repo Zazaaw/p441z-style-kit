@@ -91,7 +91,7 @@ function ScaleExplorer() {
     <div className="grid gap-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.4fr)]">
       <div className="flex flex-col">
         <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">The scale</div>
-        <div className="mt-2 font-display text-2xl font-extrabold tracking-tight">The steps you'll use. One ratio.</div>
+        <div className="mt-2 font-display text-2xl font-extrabold tracking-tight">The steps you’ll use. One ratio.</div>
         <div className="mt-5 flex gap-1">
           {FAMILIES.map((x, i) => (
             <button key={x.key} type="button" onClick={() => setFam(i)} className={cn("rounded-full px-3 py-1 text-[12px] font-semibold transition-colors duration-200", i === fam ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted")}>

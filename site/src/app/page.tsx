@@ -14,7 +14,6 @@ import Skills from "@/site/skills";
 import Outro from "@/site/outro";
 import { loadSkills } from "@/site/skills-data";
 import { kitComponents } from "@/site/kit-stats";
-import { loadCatalog } from "@/site/catalog-data";
 
 export default function Home() {
   const skills = loadSkills();
@@ -32,7 +31,7 @@ export default function Home() {
       </div>
       <Chrome skills={skills.map(({ name, title, file }) => ({ name, title, file }))} />
       <main className="relative z-20">
-        <Hero skillCount={skills.length} skillLines={lines} componentCount={comps.length} catalog={loadCatalog()} />
+        <Hero skillCount={skills.length} skillLines={lines} componentCount={comps.length} skills={skills} />
         <div className="border-y border-border bg-background/60 py-5 backdrop-blur">
           <Marquee duration="60s" gap="2.75rem">
             {comps.map((c) => (
