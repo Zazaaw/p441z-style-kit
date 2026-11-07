@@ -1,14 +1,18 @@
 "use client";
 
 import * as React from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
-import { EASE } from "@/lib/motion";
+import { EASE, SPRING } from "@/lib/motion";
 
 /**
  * Notifications — desktop-style banners that slide in at the top-right, stack, and leave on their
  * own after a few seconds (hovering pauses nothing on purpose — keep messages short).
+ *
+ * The motion is physical: a banner arrives on a spring (it swings a few pixels past its spot and
+ * settles), its app icon pops in a beat later, the ones below make room on the same spring, and a
+ * click squishes it before it leaves. Reduced motion: banners fade.
  *
  * Wrap the app once in <NotificationProvider>, then call `notify()` from anywhere.
  * Announced politely to screen readers (`aria-live`).
@@ -36,6 +40,7 @@ export function useNotify() {
 export function NotificationProvider({ children, max = 3 }: { children: React.ReactNode; max?: number }) {
   const [list, setList] = React.useState<Live[]>([]);
   const seq = React.useRef(0);
+  const reduce = useReducedMotion();
 
   const notify = React.useCallback(
     (n: Note) => {
@@ -55,14 +60,22 @@ export function NotificationProvider({ children, max = 3 }: { children: React.Re
             <motion.div
               key={n.id}
               layout
-              initial={{ x: 380, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: 380, opacity: 0, transition: { duration: 0.35, ease: EASE.toggle } }}
-              transition={{ duration: 0.5, ease: EASE.reveal }}
+              initial={reduce ? { opacity: 0 } : { x: 380, opacity: 0, scale: 0.96 }}
+              animate={{ x: 0, opacity: 1, scale: 1 }}
+              exit={reduce ? { opacity: 0 } : { x: 380, opacity: 0, transition: { duration: 0.35, ease: EASE.toggle } }}
+              transition={reduce ? { duration: 0.2 } : { ...SPRING.drop, opacity: { duration: 0.25 } }}
+              whileTap={reduce ? undefined : { scale: 0.97, transition: SPRING.press }}
               className={cn("pointer-events-auto flex gap-3 rounded-2xl border border-black/10 bg-background/70 p-3 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.45)] backdrop-blur-2xl backdrop-saturate-150 dark:border-white/10")}
               onClick={() => setList((l) => l.filter((x) => x.id !== n.id))}
             >
-              <span className="grid size-9 shrink-0 place-items-center rounded-[10px] bg-primary text-primary-foreground [&_svg]:size-5">{n.icon ?? "●"}</span>
+              <motion.span
+                className="grid size-9 shrink-0 place-items-center rounded-[10px] bg-primary text-primary-foreground [&_svg]:size-5"
+                initial={reduce ? false : { scale: 0.3, rotate: -25 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ ...SPRING.pop, delay: 0.12 }}
+              >
+                {n.icon ?? "●"}
+              </motion.span>
               <span className="min-w-0 flex-1 leading-snug">
                 <span className="flex items-baseline gap-2">
                   <span className="flex-1 truncate text-[13px] font-semibold">{n.title}</span>
