@@ -424,7 +424,8 @@ export default function Keynote() {
         </div>
         {/* Width follows the viewport height too, so laptop + phone always fit above the fold. */}
         <div ref={frame} className="relative w-full" style={{ maxWidth: "min(72rem, calc((100svh - 300px) * 1.9))" }}>
-          <motion.div style={{ filter: devicesFilter, opacity: devicesOpacity }} className="flex items-end justify-center gap-6 md:gap-10">
+          {/* The devices are an illustration of the story the captions tell; screen readers get the captions. */}
+          <motion.div aria-hidden style={{ filter: devicesFilter, opacity: devicesOpacity }} className="flex items-end justify-center gap-6 md:gap-10">
             <LaptopFrame url="hr.acme.example/leave/new" className="w-[100%] md:w-[74%]">
               <VirtualCamera
                 progress={p}
