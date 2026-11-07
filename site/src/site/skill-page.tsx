@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { GlassBackdrop } from "@/components/effects/glass-panel";
+import { DocPager } from "@/site/doc-pager";
 import { LangProvider, type Lang } from "@/site/i18n";
 import { loadSkillDoc } from "@/site/skill-doc";
 import { CopyCommand, DocToc, DocTopBar } from "@/site/skill-page-client";
@@ -59,22 +60,13 @@ export function SkillPage({ lang, slug }: { lang: Lang; slug: string }) {
           <article className="skill-prose min-w-0" dangerouslySetInnerHTML={{ __html: html }} />
         </div>
 
-        <nav aria-label={t("More skills", "Skill lainnya")} className="mx-auto grid max-w-6xl gap-4 border-t border-border px-6 py-12 sm:grid-cols-2">
-          {prev ? (
-            <a href={`${base}/${prev.slug}`} className="rounded-2xl border border-border p-5 transition-colors hover:border-foreground/30">
-              <div className="text-[12px] text-muted-foreground">← {t("Previous", "Sebelumnya")}</div>
-              <div className="mt-1 font-display text-lg font-bold">{prev.title}</div>
-            </a>
-          ) : (
-            <span />
-          )}
-          {next && (
-            <a href={`${base}/${next.slug}`} className="rounded-2xl border border-border p-5 text-right transition-colors hover:border-foreground/30">
-              <div className="text-[12px] text-muted-foreground">{t("Next", "Berikutnya")} →</div>
-              <div className="mt-1 font-display text-lg font-bold">{next.title}</div>
-            </a>
-          )}
-        </nav>
+        <DocPager
+          label={t("More skills", "Skill lainnya")}
+          prev={prev && { href: `${base}/${prev.slug}`, title: prev.title }}
+          next={next && { href: `${base}/${next.slug}`, title: next.title }}
+          prevLabel={t("Previous", "Sebelumnya")}
+          nextLabel={t("Next", "Berikutnya")}
+        />
       </main>
     </LangProvider>
   );

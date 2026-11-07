@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 
 import GlassPanel, { GlassBackdrop } from "@/components/effects/glass-panel";
+import { DocPager } from "@/site/doc-pager";
 import { LangProvider, type Lang } from "@/site/i18n";
 import { allComponents, loadComponentDoc } from "@/site/component-doc";
 import { ComponentDemo } from "@/site/component-demos";
@@ -102,22 +103,13 @@ export function ComponentPage({ lang, name }: { lang: Lang; name: string }) {
           </details>
         </div>
 
-        <nav aria-label={t("More components", "Komponen lainnya")} className="mx-auto grid max-w-6xl gap-4 border-t border-border px-6 py-12 sm:grid-cols-2">
-          {doc.prev ? (
-            <a href={`${base}/${doc.prev.name}`} className="rounded-2xl border border-border p-5 transition-colors hover:border-foreground/30">
-              <div className="text-[12px] text-muted-foreground">← {t("Previous", "Sebelumnya")}</div>
-              <div className="mt-1 font-display text-lg font-bold">{doc.prev.title}</div>
-            </a>
-          ) : (
-            <span />
-          )}
-          {doc.next && (
-            <a href={`${base}/${doc.next.name}`} className="rounded-2xl border border-border p-5 text-right transition-colors hover:border-foreground/30">
-              <div className="text-[12px] text-muted-foreground">{t("Next", "Berikutnya")} →</div>
-              <div className="mt-1 font-display text-lg font-bold">{doc.next.title}</div>
-            </a>
-          )}
-        </nav>
+        <DocPager
+          label={t("More components", "Komponen lainnya")}
+          prev={doc.prev && { href: `${base}/${doc.prev.name}`, title: doc.prev.title }}
+          next={doc.next && { href: `${base}/${doc.next.name}`, title: doc.next.title }}
+          prevLabel={t("Previous", "Sebelumnya")}
+          nextLabel={t("Next", "Berikutnya")}
+        />
       </main>
     </LangProvider>
   );
