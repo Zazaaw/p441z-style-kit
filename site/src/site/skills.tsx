@@ -9,7 +9,8 @@ import MaskReveal from "@/components/motion/mask-reveal";
 import { MacWindow } from "@/components/mac/window";
 import { useNotify } from "@/components/mac/notification";
 import { EASE } from "@/lib/motion";
-import { useNum, useT } from "@/site/i18n";
+import { useLang, useNum, useT } from "@/site/i18n";
+import { skillSlug } from "@/site/skill-slug";
 import { IconCopy, IconGitHub } from "@/site/icons";
 import { REPO } from "@/site/chrome";
 import { Compare, PREVIEWS } from "@/site/skill-previews";
@@ -30,6 +31,7 @@ const split = (l: string): [string, string] => {
 export function QuickLook({ s, onClose, layoutId = `skill-${s.name}` }: { s: SkillView; onClose: () => void; layoutId?: string }) {
   const notify = useNotify();
   const t = useT();
+  const lang = useLang();
   const num = useNum();
   const preview = PREVIEWS[s.file];
   // Condensed summary: only keyed rows (continuations dropped), first four (a 2×2 on desktop).
@@ -51,9 +53,14 @@ export function QuickLook({ s, onClose, layoutId = `skill-${s.name}` }: { s: Ski
           onClose={onClose}
           className="shadow-[0_60px_120px_-40px_rgba(0,0,0,0.6)]"
           toolbar={
-            <a href={`${REPO}/blob/main/Skill.md/${s.file}`} target="_blank" rel="noreferrer" className="flex items-center gap-1 rounded-md px-2 py-0.5 text-[12px] font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
-              <span className="size-3.5 [&_svg]:size-3.5"><IconGitHub /></span> {t("Open", "Buka")}
-            </a>
+            <div className="flex items-center gap-1">
+              <a href={`${REPO}/blob/main/Skill.md/${s.file}`} target="_blank" rel="noreferrer" aria-label="GitHub" className="grid size-6 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
+                <span className="size-3.5 [&_svg]:size-3.5"><IconGitHub /></span>
+              </a>
+              <a href={`${lang === "id" ? "/id" : ""}/skills/${skillSlug(s.file)}`} className="rounded-md px-2 py-0.5 text-[12px] font-semibold text-primary transition-colors hover:bg-primary/10">
+                {t("Read the full skill →", "Baca skill lengkap →")}
+              </a>
+            </div>
           }
           bodyClassName="max-h-[82vh] overflow-y-auto"
         >
