@@ -63,7 +63,7 @@ export default function Showcase() {
       {featured && (
         <div className="mt-14 [perspective:1600px]">
           <div className="show-window relative mx-auto max-w-5xl rounded-xl">
-            <MacWindow title={t(featured.title, featured.titleId ?? featured.title)} className="relative shadow-[0_60px_120px_-50px_hsl(var(--primary)/0.55)]" toolbar={<span className="rounded-full bg-primary px-2 py-0.5 text-[11px] font-semibold text-primary-foreground">{t(featured.madeWith, featured.madeWithId ?? featured.madeWith)}</span>}>
+            <MacWindow title={t(featured.title, featured.titleId ?? featured.title)} className="relative shadow-[0_60px_120px_-50px_hsl(var(--primary)/0.55)]" toolbar={<span className="rounded-full bg-primary px-2 py-0.5 text-[11px] font-semibold text-primary-foreground">{t(featured.madeWith ?? "", featured.madeWithId ?? featured.madeWith ?? "")}</span>}>
               <AutoVideo item={featured} />
             </MacWindow>
             <BorderBeam duration={10} />
@@ -72,26 +72,38 @@ export default function Showcase() {
         </div>
       )}
       {rest.length > 0 && (
-        <div className="mt-14 grid gap-4 md:grid-cols-2">
-          {rest.map((s) => (
-            <GlassPanel delay={0} key={s.title} className="p-0">
-              {s.video && <AutoVideo item={s} />}
-              {!s.video && s.poster && (
-                <a href={s.href} target="_blank" rel="noreferrer" tabIndex={-1} aria-hidden className="block overflow-hidden rounded-t-2xl border-b border-border/60">
-                  {/* eslint-disable-next-line @next/next/no-img-element -- static poster, sized by its container */}
-                  <img src={s.poster} alt="" width={1440} height={900} loading="lazy" className="aspect-[16/10] w-full object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[1.03]" />
-                </a>
-              )}
-              <a href={s.href ?? s.video} target={s.href ? "_blank" : undefined} rel="noreferrer" className="block p-5">
-                <div className="flex items-center justify-between gap-3">
-                  <div className="font-display text-xl font-extrabold tracking-tight">{t(s.title, s.titleId ?? s.title)}</div>
-                  <span className="shrink-0 rounded-full border border-border px-2.5 py-0.5 text-[12px] text-muted-foreground">{t(s.madeWith, s.madeWithId ?? s.madeWith)}</span>
-                </div>
-                <p className="mt-1.5 text-[14px] text-muted-foreground">{t(s.note, s.noteId ?? s.note)}</p>
-                {s.href && <div className="mt-3 text-[13px] font-semibold text-primary">{t("Visit →", "Kunjungi →")}</div>}
-              </a>
-            </GlassPanel>
-          ))}
+        <div className="mx-auto mt-24 max-w-5xl">
+          <div className="text-center text-[12px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">{t("From the same hands", "Dari tangan yang sama")}</div>
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            {rest.map((s, i) => (
+              <GlassPanel key={s.title} delay={i * 90} className="group overflow-hidden p-0">
+                {s.video ? (
+                  <AutoVideo item={s} />
+                ) : (
+                  <a href={s.href} target="_blank" rel="noreferrer" className="block">
+                    {s.poster && (
+                      <div className="overflow-hidden border-b border-border/60">
+                        {/* eslint-disable-next-line @next/next/no-img-element -- static screenshot, sized by its container */}
+                        <img src={s.poster} alt="" width={1440} height={900} loading="lazy" className="aspect-[16/9] w-full object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]" />
+                      </div>
+                    )}
+                    <div className="p-5">
+                      <div className="flex items-baseline justify-between gap-3">
+                        <span className="font-display text-xl font-extrabold tracking-tight">{t(s.title, s.titleId ?? s.title)}</span>
+                        {s.host ? (
+                          <span className="font-mono text-[12px] text-muted-foreground">{s.host}</span>
+                        ) : (
+                          s.madeWith && <span className="shrink-0 rounded-full border border-border px-2.5 py-0.5 text-[12px] text-muted-foreground">{t(s.madeWith, s.madeWithId ?? s.madeWith)}</span>
+                        )}
+                      </div>
+                      <p className="mt-1.5 text-[14px] leading-relaxed text-muted-foreground">{t(s.note, s.noteId ?? s.note)}</p>
+                      <div className="mt-3 text-[13px] font-semibold text-primary transition-transform duration-300 group-hover:translate-x-0.5">{t(s.cta ?? "Visit", s.ctaId ?? "Kunjungi")} →</div>
+                    </div>
+                  </a>
+                )}
+              </GlassPanel>
+            ))}
+          </div>
         </div>
       )}
     </section>

@@ -12,8 +12,13 @@ export type ShowcaseItem = {
   video?: string;
   poster?: string;
   href?: string;
+  /** Domain shown on a link card, e.g. "p441z.my.id". */
+  host?: string;
+  /** Call to action on a link card (and its Indonesian twin). */
+  cta?: string;
+  ctaId?: string;
   /** Which skill or part of the kit produced it. */
-  madeWith: string;
+  madeWith?: string;
   /** Indonesian label for /id (falls back to `madeWith`). */
   madeWithId?: string;
   featured?: boolean;
@@ -31,12 +36,23 @@ export const SHOWCASE: ShowcaseItem[] = [
     featured: true,
   },
   {
-    title: "p441z.my.id",
-    note: "Portfolio, blog, studio CMS, and AI agent — the site this design system was extracted from.",
-    noteId: "Portofolio, blog, CMS, dan AI agent — situs tempat design system ini lahir.",
+    title: "Faiz Hazim Hawari",
+    note: "Portfolio, projects, and writing — “I build for the web — and I design.” Fullstack development, UI/UX, video, and photography.",
+    noteId: "Portofolio, proyek, dan tulisan — “I build for the web — and I design.” Fullstack development, UI/UX, video, dan fotografi.",
     href: "https://p441z.my.id",
+    host: "p441z.my.id",
     poster: "/showcase/p441z-portfolio.jpg",
-    madeWith: "the style kit",
-    madeWithId: "style kit ini",
+    cta: "See the portfolio",
+    ctaId: "Lihat portofolionya",
+  },
+  {
+    title: "Satu Visual",
+    note: "A creative studio in Pematangsiantar and Medan — photo, video, and websites for bold brands, made by one team.",
+    noteId: "Studio kreatif di Pematangsiantar dan Medan — foto, video, dan website untuk brand yang berani, dikerjakan satu tim.",
+    href: "https://satuvisual.p441z.my.id",
+    host: "satuvisual.p441z.my.id",
+    poster: "/showcase/satu-visual.jpg",
+    cta: "Visit the studio",
+    ctaId: "Kunjungi studionya",
   },
 ];
