@@ -25,9 +25,9 @@ import { cn } from "@/lib/utils";
  * `glow` makes the dots pulse at randomized intervals. Leave it off for a
  * background; it's better suited to a small hero panel.
  *
- * Perf note: this renders one <circle> per dot. Over a full viewport at tight
- * spacing that's thousands of nodes. Keep `width`/`height` at 16–24px or
- * larger, and don't enable `glow` full-screen.
+ * Perf note: the static pattern is a single SVG <pattern> — free at any size.
+ * `glow` renders one animated <circle> per dot (thousands over a viewport), so
+ * keep it to small panels.
  */
 
 interface DotPatternProps extends React.SVGProps<SVGSVGElement> {
@@ -63,51 +63,51 @@ export function DotPattern({
   glow = false,
   ...props
 }: DotPatternProps) {
-  const id = useId();
+  // useId() can contain ":" or "«»", which break url(#…) references.
+  const id = useId().replace(/[^a-zA-Z0-9_-]/g, "");
   const containerRef = useRef<SVGSVGElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
+  // Only the glowing variant needs to know its size (one element per dot); the static one is a
+  // single SVG <pattern>, so a full-screen background costs one node instead of thousands.
   useEffect(() => {
-    const updateDimensions = () => {
-      if (containerRef.current) {
-        const { width, height } = containerRef.current.getBoundingClientRect();
-        setDimensions({ width, height });
-      }
-    };
+    if (!glow) return;
+    const el = containerRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([e]) => setDimensions({ width: e.contentRect.width, height: e.contentRect.height }));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [glow]);
 
-    updateDimensions();
-    window.addEventListener("resize", updateDimensions);
-    return () => window.removeEventListener("resize", updateDimensions);
-  }, []);
+  if (!glow) {
+    return (
+      <svg ref={containerRef} aria-hidden="true" className={cn("pointer-events-none absolute inset-0 h-full w-full text-neutral-400/80", className)} {...props}>
+        <defs>
+          <pattern id={`${id}-dots`} width={width} height={height} x={x} y={y} patternUnits="userSpaceOnUse">
+            <circle cx={cx} cy={cy} r={cr} fill="currentColor" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill={`url(#${id}-dots)`} />
+      </svg>
+    );
+  }
 
-  const dots = Array.from(
-    {
-      length:
-        Math.ceil(dimensions.width / width) *
-        Math.ceil(dimensions.height / height),
-    },
-    (_, i) => {
-      const col = i % Math.ceil(dimensions.width / width);
-      const row = Math.floor(i / Math.ceil(dimensions.width / width));
-      return {
-        x: col * width + cx + x,
-        y: row * height + cy + y,
-        delay: Math.random() * 5,
-        duration: Math.random() * 3 + 2,
-      };
-    }
-  );
+  // Deterministic "random" timing per dot: render stays pure and server/client markup matches.
+  const rand = (i: number, salt: number) => {
+    const s = Math.sin(i * 12.9898 + salt * 78.233) * 43758.5453;
+    return s - Math.floor(s);
+  };
+  const cols = Math.ceil(dimensions.width / width);
+  const rows = Math.ceil(dimensions.height / height);
+  const dots = Array.from({ length: cols * rows }, (_, i) => ({
+    x: (i % cols) * width + cx + x,
+    y: Math.floor(i / cols) * height + cy + y,
+    delay: rand(i, 1) * 5,
+    duration: rand(i, 2) * 3 + 2,
+  }));
 
   return (
-    <svg
-      ref={containerRef}
-      aria-hidden="true"
-      className={cn(
-        "pointer-events-none absolute inset-0 h-full w-full text-neutral-400/80",
-        className
-      )}
-      {...props}
-    >
+    <svg ref={containerRef} aria-hidden="true" className={cn("pointer-events-none absolute inset-0 h-full w-full text-neutral-400/80", className)} {...props}>
       <defs>
         <radialGradient id={`${id}-gradient`}>
           <stop offset="0%" stopColor="currentColor" stopOpacity="1" />
@@ -120,27 +120,10 @@ export function DotPattern({
           cx={dot.x}
           cy={dot.y}
           r={cr}
-          fill={glow ? `url(#${id}-gradient)` : "currentColor"}
-          initial={glow ? { opacity: 0.4, scale: 1 } : {}}
-          animate={
-            glow
-              ? {
-                  opacity: [0.4, 1, 0.4],
-                  scale: [1, 1.5, 1],
-                }
-              : {}
-          }
-          transition={
-            glow
-              ? {
-                  duration: dot.duration,
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                  delay: dot.delay,
-                  ease: "easeInOut",
-                }
-              : {}
-          }
+          fill={`url(#${id}-gradient)`}
+          initial={{ opacity: 0.4, scale: 1 }}
+          animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.5, 1] }}
+          transition={{ duration: dot.duration, repeat: Infinity, repeatType: "reverse", delay: dot.delay, ease: "easeInOut" }}
         />
       ))}
     </svg>
