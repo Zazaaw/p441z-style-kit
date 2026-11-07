@@ -26,10 +26,14 @@ import { cn } from "@/lib/utils";
  *    way v3 did, so an icon in a flex button can squash without it.
  *  - `outline-hidden` replaces v3's `outline-none` (which now means
  *    "outline: none" literally and hurts forced-colors accessibility).
+ *
+ * PRESS: every button squishes to 95 % under the finger in 100 ms and springs
+ * back on `ease-spring` (globals.css). `scale` is a separate property in v4, so
+ * it never fights a `transform` you add (Magnetic, a tilt). Reduced motion: no squish.
  */
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,background-color,border-color,box-shadow,scale] duration-300 ease-spring active:scale-95 active:duration-100 motion-reduce:active:scale-100 outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
