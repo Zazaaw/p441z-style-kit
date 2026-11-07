@@ -23,7 +23,7 @@ export default function HeroCatalog({ skills }: { skills: SkillView[] }) {
   const group = GROUPS.find((g) => g.key === tab)!;
   const list = skills.filter((s) => inGroup(group, s));
   return (
-    <div className="w-full max-w-6xl overflow-hidden rounded-2xl border border-border bg-background/70 text-left shadow-[0_30px_80px_-40px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+    <div className="w-full max-w-7xl overflow-hidden rounded-2xl border border-border bg-background/70 text-left shadow-[0_30px_80px_-40px_rgba(0,0,0,0.35)] backdrop-blur-xl">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-3 py-2.5">
         <div role="tablist" aria-label="Skill groups" className="-mx-1 flex max-w-full items-center gap-1 overflow-x-auto px-1 [scrollbar-width:none]">
           {GROUPS.map((g) => {

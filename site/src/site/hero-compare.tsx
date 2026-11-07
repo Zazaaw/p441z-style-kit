@@ -9,8 +9,7 @@ import { cn } from "@/lib/utils";
 import { Compare, PREVIEWS } from "@/site/skill-previews";
 import { QuickLook, type SkillView } from "@/site/skills";
 
-// The hero's product shot: one big window rising from the bottom of the first screen, showing what
-// an agent ships without a skill vs with it. Cycles through a few skills on its own until the
+// The hero's product shot: one window showing what an agent ships without a skill vs with it. Cycles through a few skills on its own until the
 // visitor grabs the slider or a tab.
 const PICKS = ["skill-typography.md", "skill-dashboard.md", "skill-backend.api.md", "skill-ui.ux.md"];
 const EVERY = 7; // seconds per skill while auto-playing
@@ -77,7 +76,6 @@ export default function HeroCompare({ skills }: { skills: SkillView[] }) {
               );
             })}
           </div>
-          <span className="hidden text-[12.5px] text-muted-foreground md:block">Drag the line — that’s what the skill changes.</span>
         </div>
         <Compare key={s.file} before={p.before} after={p.after} play={seen} onGrab={() => setHeld(true)} className="rounded-none border-0" />
         <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-t border-border/70 px-4 py-2.5">
@@ -86,7 +84,7 @@ export default function HeroCompare({ skills }: { skills: SkillView[] }) {
               <span className="font-semibold text-foreground">{s.title}.</span> {p.note}
             </motion.p>
           </AnimatePresence>
-          <span className="shrink-0 font-mono text-[11.5px] text-muted-foreground">{s.lines.toLocaleString("en-US")} lines</span>
+          <span className="shrink-0 text-[11.5px] text-muted-foreground">↔ drag to compare · <span className="font-mono">{s.lines.toLocaleString("en-US")} lines</span></span>
         </div>
       </MacWindow>
       <AnimatePresence>{open && <QuickLook key={open.file} s={open} layoutId={`hero-cmp-${open.name}`} onClose={() => setOpen(null)} />}</AnimatePresence>
