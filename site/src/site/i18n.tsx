@@ -36,15 +36,17 @@ export const homeFor = (lang: Lang) => (lang === "id" ? "/id" : "/");
 /** Inline <head> script: the root layout is shared, so set <html lang> from the path before paint. */
 export const LANG_BOOT = `if(location.pathname==="/id"||location.pathname.indexOf("/id/")===0)document.documentElement.lang="id"`;
 
-/** Menu-bar switch between the English and Indonesian pages; keeps the section you're on. */
-export function LangSwitch() {
+/** Menu-bar switch between the English and Indonesian pages; keeps the section you're on.
+ *  `paths` maps each language to the same page elsewhere (e.g. a skill page); default is home. */
+export function LangSwitch({ paths }: { paths?: Partial<Record<Lang, string>> }) {
   const lang = useLang();
+  const to = (l: Lang) => paths?.[l] ?? homeFor(l);
   return (
     <div role="group" aria-label={lang === "id" ? "Bahasa" : "Language"} className="flex items-center rounded-md bg-foreground/[0.06] p-0.5 text-[11px] font-semibold">
       {(["en", "id"] as const).map((l) => (
         <a
           key={l}
-          href={homeFor(l)}
+          href={to(l)}
           hrefLang={l}
           lang={l}
           aria-current={l === lang ? "page" : undefined}
@@ -52,7 +54,7 @@ export function LangSwitch() {
           onClick={(e) => {
             if (l === lang) return e.preventDefault();
             e.preventDefault();
-            window.location.href = homeFor(l) + window.location.hash;
+            window.location.href = to(l) + window.location.hash;
           }}
           className={l === lang ? "rounded-[5px] bg-background px-1.5 py-px text-foreground shadow-[0_1px_2px_rgba(0,0,0,0.12)]" : "px-1.5 py-px text-foreground/55 transition-colors hover:text-foreground"}
         >
