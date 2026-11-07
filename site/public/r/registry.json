@@ -511,7 +511,7 @@
       "name": "dock",
       "type": "registry:component",
       "title": "Dock",
-      "description": "A desktop dock: icons grow as the pointer passes over them (magnification), the label floats above the hovered icon, and a small dot marks the active item.",
+      "description": "Icons magnify near the pointer, with labels.",
       "dependencies": [
         "framer-motion"
       ],
@@ -532,8 +532,8 @@
     {
       "name": "mac-window",
       "type": "registry:component",
-      "title": "MacWindow",
-      "description": "A desktop-style window: title centered in a slim bar, the three traffic-light buttons on the left that reveal their × – + glyphs on hover.",
+      "title": "MacWindow · TrafficLights",
+      "description": "Window with traffic lights and a centered title.",
       "registryDependencies": [
         "https://style.p441z.my.id/r/utils.json"
       ],
@@ -552,7 +552,7 @@
       "name": "menu-bar",
       "type": "registry:component",
       "title": "MenuBar",
-      "description": "The slim frosted bar across the top of a desktop: a brand mark and menu items on the left, status items and a live clock on the right.",
+      "description": "Slim frosted top bar with menus and a clock.",
       "registryDependencies": [
         "https://style.p441z.my.id/r/utils.json"
       ],
@@ -571,7 +571,7 @@
       "name": "notification",
       "type": "registry:component",
       "title": "Notifications",
-      "description": "Desktop-style banners that slide in at the top-right, stack, and leave on their own after a few seconds (hovering pauses nothing on purpose",
+      "description": "Frosted banners that slide in and stack.",
       "dependencies": [
         "framer-motion"
       ],
@@ -594,7 +594,7 @@
       "name": "spotlight",
       "type": "registry:component",
       "title": "Spotlight",
-      "description": "A desktop-search command palette: a frosted bar floating in the upper third of the screen, results grouped under it, fully keyboard driven (↑ ↓ Enter, Esc to close).",
+      "description": "⌘K command palette, fully keyboard driven.",
       "dependencies": [
         "framer-motion"
       ],
@@ -617,7 +617,7 @@
       "name": "terminal",
       "type": "registry:component",
       "title": "Terminal",
-      "description": "A desktop terminal window whose commands type themselves when it scrolls into view; each command's output fades in after it \"runs\".",
+      "description": "Commands type themselves; one-click copy.",
       "dependencies": [
         "framer-motion"
       ],
@@ -640,7 +640,7 @@
       "name": "aurora",
       "type": "registry:component",
       "title": "Aurora",
-      "description": "Slow, soft light behind a hero: three blurred blobs drifting out of phase.",
+      "description": "Slow blurred light behind a hero.",
       "registryDependencies": [
         "https://style.p441z.my.id/r/utils.json"
       ],
@@ -659,7 +659,7 @@
       "name": "blur-fade",
       "type": "registry:component",
       "title": "BlurFade",
-      "description": "The signature entrance of this design system.",
+      "description": "The signature entrance: fade, un-blur, drift.",
       "dependencies": [
         "framer-motion"
       ],
@@ -678,7 +678,7 @@
       "name": "border-beam",
       "type": "registry:component",
       "title": "BorderBeam",
-      "description": "A short beam of light that travels around a card's border.",
+      "description": "A beam of light circling a card's border.",
       "registryDependencies": [
         "https://style.p441z.my.id/r/utils.json"
       ],
@@ -697,7 +697,7 @@
       "name": "dot-pattern",
       "type": "registry:component",
       "title": "DotPattern",
-      "description": "An SVG dot grid used as an ambient page background.",
+      "description": "Ambient dot grid for backgrounds.",
       "dependencies": [
         "framer-motion"
       ],
@@ -719,7 +719,7 @@
       "name": "grid-pattern",
       "type": "registry:component",
       "title": "GridPattern",
-      "description": "A line grid where random cells softly light up and fade.",
+      "description": "Line grid whose cells softly twinkle.",
       "dependencies": [
         "framer-motion"
       ],
@@ -741,7 +741,7 @@
       "name": "magnetic",
       "type": "registry:component",
       "title": "Magnetic",
-      "description": "The element leans toward the pointer while it hovers nearby, then springs back.",
+      "description": "Leans toward the pointer, springs back.",
       "dependencies": [
         "framer-motion"
       ],
@@ -763,7 +763,7 @@
       "name": "marquee",
       "type": "registry:component",
       "title": "Marquee",
-      "description": "An endless ribbon of items (logos, component names, quotes).",
+      "description": "Endless seamless ribbon, pauses on hover.",
       "registryDependencies": [
         "https://style.p441z.my.id/r/utils.json"
       ],
@@ -782,7 +782,7 @@
       "name": "spotlight-card",
       "type": "registry:component",
       "title": "SpotlightCard",
-      "description": "A card lit by the pointer: a soft radial glow follows the cursor across the surface, and the border brightens where the light touches it.",
+      "description": "A card lit by the pointer, border included.",
       "registryDependencies": [
         "https://style.p441z.my.id/r/utils.json"
       ],
@@ -801,7 +801,7 @@
       "name": "motion",
       "type": "registry:lib",
       "title": "motion",
-      "description": "Motion vocabulary shared by every component in components/motion and components/mac.",
+      "description": "Shared easing curves and durations.",
       "categories": [
         "lib"
       ],
@@ -816,8 +816,8 @@
     {
       "name": "use-hydrated",
       "type": "registry:lib",
-      "title": "true after hydration, false during SSR and the hydration pass",
-      "description": "Without setState-in-effect.",
+      "title": "useHydrated",
+      "description": "True after hydration, without setState-in-effect.",
       "categories": [
         "lib"
       ],
@@ -833,7 +833,7 @@
       "name": "utils",
       "type": "registry:lib",
       "title": "utils",
-      "description": "The single most-used helper in the whole system.",
+      "description": "cn() — clsx + tailwind-merge.",
       "dependencies": [
         "clsx",
         "tailwind-merge"
@@ -853,7 +853,7 @@
       "name": "count-up",
       "type": "registry:component",
       "title": "CountUp",
-      "description": "A number that counts to its value when it scrolls into view.",
+      "description": "Counts to its value in view, digits never wobble.",
       "dependencies": [
         "framer-motion"
       ],
@@ -875,8 +875,8 @@
     {
       "name": "device-frame",
       "type": "registry:component",
-      "title": "LaptopFrame",
-      "description": "Brandless CSS device mockups for showing a UI inside a \"real\" device.",
+      "title": "LaptopFrame · PhoneFrame",
+      "description": "Brandless CSS devices that size to their container.",
       "registryDependencies": [
         "https://style.p441z.my.id/r/utils.json"
       ],
@@ -895,7 +895,7 @@
       "name": "element-lift",
       "type": "registry:component",
       "title": "ElementLift",
-      "description": "The \"wow\" moment of a keynote: a card rises out of the page to the center, floats, flips in 3D to show its back, then flies home to the exact spot it came from.",
+      "description": "A card rises, flips in 3D, and flies home.",
       "dependencies": [
         "framer-motion"
       ],
@@ -919,7 +919,7 @@
       "name": "flying-pill",
       "type": "registry:component",
       "title": "FlyingPill",
-      "description": "A small \"message\" that leaves one place and lands in another along an arc: \"Request sent to your manager\" flying from the laptop's button to the phone.",
+      "description": "A message that flies from one place to another.",
       "dependencies": [
         "framer-motion"
       ],
@@ -942,7 +942,7 @@
       "name": "karaoke-text",
       "type": "registry:component",
       "title": "KaraokeText",
-      "description": "Words light up one by one, like subtitles following a narrator.",
+      "description": "Words light up like a narrator — by time or scroll.",
       "dependencies": [
         "framer-motion"
       ],
@@ -964,7 +964,7 @@
       "name": "logo-collapse",
       "type": "registry:component",
       "title": "LogoCollapse",
-      "description": "The outro of a product video: feature cards pop in one by one, then all of them pull into the center and become the logo.",
+      "description": "Outro: feature cards pull into the logo.",
       "dependencies": [
         "framer-motion"
       ],
@@ -987,7 +987,7 @@
       "name": "mask-reveal",
       "type": "registry:component",
       "title": "MaskReveal",
-      "description": "The keynote headline.",
+      "description": "Keynote headline: words rise from a mask.",
       "dependencies": [
         "framer-motion"
       ],
@@ -1010,7 +1010,7 @@
       "name": "soft-cursor",
       "type": "registry:component",
       "title": "SoftCursor",
-      "description": "A demo pointer that moves like a hand and clicks without any red ring or box.",
+      "description": "A hand-like pointer that clicks without red rings.",
       "dependencies": [
         "framer-motion"
       ],
@@ -1033,7 +1033,7 @@
       "name": "stepper",
       "type": "registry:component",
       "title": "Stepper",
-      "description": "The progress line at the top of a story: Request → Review → Approved → Letter.",
+      "description": "Story progress with a gliding active pill.",
       "dependencies": [
         "framer-motion"
       ],
@@ -1056,7 +1056,7 @@
       "name": "virtual-camera",
       "type": "registry:component",
       "title": "VirtualCamera",
-      "description": "Frames part of its content like a film camera: zoom in on a button, glide to a table, pull back to the whole screen.",
+      "description": "Zooms and glides across a UI like a film camera.",
       "dependencies": [
         "framer-motion"
       ],
@@ -1079,7 +1079,7 @@
       "name": "word-rotator",
       "type": "registry:component",
       "title": "WordRotator",
-      "description": "One word that keeps changing (design → code → motion → ship).",
+      "description": "One word that keeps changing, without reflow.",
       "dependencies": [
         "framer-motion"
       ],
@@ -1102,7 +1102,7 @@
       "name": "badge",
       "type": "registry:ui",
       "title": "Badge",
-      "description": "Small labels: tags, counts, categories.",
+      "description": "Small labels for tags, counts, and status.",
       "dependencies": [
         "class-variance-authority"
       ],
@@ -1123,7 +1123,7 @@
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
-      "description": "Tailwind v4.",
+      "description": "6 variants × 4 sizes, asChild for links.",
       "dependencies": [
         "@radix-ui/react-slot",
         "class-variance-authority"
@@ -1145,7 +1145,7 @@
       "name": "card",
       "type": "registry:ui",
       "title": "Card",
-      "description": "The base surface.",
+      "description": "The base surface, in six composable parts.",
       "registryDependencies": [
         "https://style.p441z.my.id/r/utils.json"
       ],
@@ -1163,7 +1163,7 @@
       "name": "input",
       "type": "registry:ui",
       "title": "Input",
-      "description": "H-9 to match Button's default height, so a field and a button sit flush side by side in a row without manual alignment.",
+      "description": "Text field that sits flush with Button.",
       "registryDependencies": [
         "https://style.p441z.my.id/r/utils.json"
       ],
@@ -1181,7 +1181,7 @@
       "name": "page-header",
       "type": "registry:ui",
       "title": "PageHeader",
-      "description": "The opening block every top-level page uses.",
+      "description": "Title, muted subtitle, and an action slot.",
       "registryDependencies": [
         "https://style.p441z.my.id/r/utils.json"
       ],
@@ -1199,7 +1199,7 @@
       "name": "pill-tabs",
       "type": "registry:ui",
       "title": "PillTabs",
-      "description": "The rounded segmented filter used for status filters, view switchers, and category toggles.",
+      "description": "Rounded segmented filter that scrolls on mobile.",
       "registryDependencies": [
         "https://style.p441z.my.id/r/utils.json"
       ],
@@ -1217,7 +1217,7 @@
       "name": "skeleton",
       "type": "registry:ui",
       "title": "Skeleton",
-      "description": "A pulsing placeholder block.",
+      "description": "Theme-aware pulsing placeholder.",
       "registryDependencies": [
         "https://style.p441z.my.id/r/utils.json"
       ],
@@ -1235,7 +1235,7 @@
       "name": "typography",
       "type": "registry:ui",
       "title": "Typography",
-      "description": "A namespace of text primitives.",
+      "description": "H1–H4, P, and quote on one text scale.",
       "registryDependencies": [
         "https://style.p441z.my.id/r/utils.json"
       ],

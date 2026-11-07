@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "virtual-camera",
   "title": "VirtualCamera",
-  "description": "Frames part of its content like a film camera: zoom in on a button, glide to a table, pull back to the whole screen.",
+  "description": "Zooms and glides across a UI like a film camera.",
   "dependencies": [
     "framer-motion"
   ],

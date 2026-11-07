@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "spotlight-card",
   "title": "SpotlightCard",
-  "description": "A card lit by the pointer: a soft radial glow follows the cursor across the surface, and the border brightens where the light touches it.",
+  "description": "A card lit by the pointer, border included.",
   "registryDependencies": [
     "https://style.p441z.my.id/r/utils.json"
   ],

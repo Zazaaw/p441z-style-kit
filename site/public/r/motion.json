@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "motion",
   "title": "motion",
-  "description": "Motion vocabulary shared by every component in components/motion and components/mac.",
+  "description": "Shared easing curves and durations.",
   "files": [
     {
       "path": "v4/lib/motion.ts",

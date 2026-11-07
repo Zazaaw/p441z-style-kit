@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "logo-collapse",
   "title": "LogoCollapse",
-  "description": "The outro of a product video: feature cards pop in one by one, then all of them pull into the center and become the logo.",
+  "description": "Outro: feature cards pull into the logo.",
   "dependencies": [
     "framer-motion"
   ],

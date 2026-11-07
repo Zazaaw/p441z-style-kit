@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "input",
   "title": "Input",
-  "description": "H-9 to match Button's default height, so a field and a button sit flush side by side in a row without manual alignment.",
+  "description": "Text field that sits flush with Button.",
   "registryDependencies": [
     "https://style.p441z.my.id/r/utils.json"
   ],

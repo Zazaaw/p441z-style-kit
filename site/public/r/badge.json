@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "badge",
   "title": "Badge",
-  "description": "Small labels: tags, counts, categories.",
+  "description": "Small labels for tags, counts, and status.",
   "dependencies": [
     "class-variance-authority"
   ],

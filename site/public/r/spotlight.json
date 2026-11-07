@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "spotlight",
   "title": "Spotlight",
-  "description": "A desktop-search command palette: a frosted bar floating in the upper third of the screen, results grouped under it, fully keyboard driven (↑ ↓ Enter, Esc to close).",
+  "description": "⌘K command palette, fully keyboard driven.",
   "dependencies": [
     "framer-motion"
   ],

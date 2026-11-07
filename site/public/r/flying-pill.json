@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "flying-pill",
   "title": "FlyingPill",
-  "description": "A small \"message\" that leaves one place and lands in another along an arc: \"Request sent to your manager\" flying from the laptop's button to the phone.",
+  "description": "A message that flies from one place to another.",
   "dependencies": [
     "framer-motion"
   ],

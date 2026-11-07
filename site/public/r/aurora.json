@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "aurora",
   "title": "Aurora",
-  "description": "Slow, soft light behind a hero: three blurred blobs drifting out of phase.",
+  "description": "Slow blurred light behind a hero.",
   "registryDependencies": [
     "https://style.p441z.my.id/r/utils.json"
   ],

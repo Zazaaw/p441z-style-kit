@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "element-lift",
   "title": "ElementLift",
-  "description": "The \"wow\" moment of a keynote: a card rises out of the page to the center, floats, flips in 3D to show its back, then flies home to the exact spot it came from.",
+  "description": "A card rises, flips in 3D, and flies home.",
   "dependencies": [
     "framer-motion"
   ],

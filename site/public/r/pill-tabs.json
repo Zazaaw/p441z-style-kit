@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "pill-tabs",
   "title": "PillTabs",
-  "description": "The rounded segmented filter used for status filters, view switchers, and category toggles.",
+  "description": "Rounded segmented filter that scrolls on mobile.",
   "registryDependencies": [
     "https://style.p441z.my.id/r/utils.json"
   ],

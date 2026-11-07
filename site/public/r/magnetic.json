@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "magnetic",
   "title": "Magnetic",
-  "description": "The element leans toward the pointer while it hovers nearby, then springs back.",
+  "description": "Leans toward the pointer, springs back.",
   "dependencies": [
     "framer-motion"
   ],

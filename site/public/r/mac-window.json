@@ -1,8 +1,8 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "mac-window",
-  "title": "MacWindow",
-  "description": "A desktop-style window: title centered in a slim bar, the three traffic-light buttons on the left that reveal their × – + glyphs on hover.",
+  "title": "MacWindow · TrafficLights",
+  "description": "Window with traffic lights and a centered title.",
   "registryDependencies": [
     "https://style.p441z.my.id/r/utils.json"
   ],

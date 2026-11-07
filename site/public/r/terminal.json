@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "terminal",
   "title": "Terminal",
-  "description": "A desktop terminal window whose commands type themselves when it scrolls into view; each command's output fades in after it \"runs\".",
+  "description": "Commands type themselves; one-click copy.",
   "dependencies": [
     "framer-motion"
   ],

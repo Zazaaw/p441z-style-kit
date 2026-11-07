@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "marquee",
   "title": "Marquee",
-  "description": "An endless ribbon of items (logos, component names, quotes).",
+  "description": "Endless seamless ribbon, pauses on hover.",
   "registryDependencies": [
     "https://style.p441z.my.id/r/utils.json"
   ],

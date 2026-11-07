@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "dock",
   "title": "Dock",
-  "description": "A desktop dock: icons grow as the pointer passes over them (magnification), the label floats above the hovered icon, and a small dot marks the active item.",
+  "description": "Icons magnify near the pointer, with labels.",
   "dependencies": [
     "framer-motion"
   ],

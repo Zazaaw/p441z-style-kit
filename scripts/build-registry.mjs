@@ -31,6 +31,47 @@ const nameOf = (abs) => {
 const byImport = new Map(files.map((f) => [`@/${relative(KIT, f).replace(/\\/g, "/").replace(/\.tsx?$/, "")}`, nameOf(f)]));
 const BUILTIN = new Set(["react", "react-dom", "next", "react/jsx-runtime"]);
 
+// Catalog copy: one short line per item (shown in the CLI, the registry, and the site's catalog).
+// Anything not listed falls back to the first sentence of the file's JSDoc.
+const COPY = {
+  button: ["Button", "6 variants × 4 sizes, asChild for links."],
+  badge: ["Badge", "Small labels for tags, counts, and status."],
+  card: ["Card", "The base surface, in six composable parts."],
+  input: ["Input", "Text field that sits flush with Button."],
+  "page-header": ["PageHeader", "Title, muted subtitle, and an action slot."],
+  "pill-tabs": ["PillTabs", "Rounded segmented filter that scrolls on mobile."],
+  skeleton: ["Skeleton", "Theme-aware pulsing placeholder."],
+  typography: ["Typography", "H1–H4, P, and quote on one text scale."],
+  "blur-fade": ["BlurFade", "The signature entrance: fade, un-blur, drift."],
+  "dot-pattern": ["DotPattern", "Ambient dot grid for backgrounds."],
+  "grid-pattern": ["GridPattern", "Line grid whose cells softly twinkle."],
+  "spotlight-card": ["SpotlightCard", "A card lit by the pointer, border included."],
+  magnetic: ["Magnetic", "Leans toward the pointer, springs back."],
+  marquee: ["Marquee", "Endless seamless ribbon, pauses on hover."],
+  aurora: ["Aurora", "Slow blurred light behind a hero."],
+  "border-beam": ["BorderBeam", "A beam of light circling a card's border."],
+  "mask-reveal": ["MaskReveal", "Keynote headline: words rise from a mask."],
+  "karaoke-text": ["KaraokeText", "Words light up like a narrator — by time or scroll."],
+  "word-rotator": ["WordRotator", "One word that keeps changing, without reflow."],
+  "count-up": ["CountUp", "Counts to its value in view, digits never wobble."],
+  "device-frame": ["LaptopFrame · PhoneFrame", "Brandless CSS devices that size to their container."],
+  "virtual-camera": ["VirtualCamera", "Zooms and glides across a UI like a film camera."],
+  "soft-cursor": ["SoftCursor", "A hand-like pointer that clicks without red rings."],
+  "flying-pill": ["FlyingPill", "A message that flies from one place to another."],
+  "element-lift": ["ElementLift", "A card rises, flips in 3D, and flies home."],
+  "logo-collapse": ["LogoCollapse", "Outro: feature cards pull into the logo."],
+  stepper: ["Stepper", "Story progress with a gliding active pill."],
+  "mac-window": ["MacWindow · TrafficLights", "Window with traffic lights and a centered title."],
+  terminal: ["Terminal", "Commands type themselves; one-click copy."],
+  dock: ["Dock", "Icons magnify near the pointer, with labels."],
+  spotlight: ["Spotlight", "⌘K command palette, fully keyboard driven."],
+  notification: ["Notifications", "Frosted banners that slide in and stack."],
+  "menu-bar": ["MenuBar", "Slim frosted top bar with menus and a clock."],
+  utils: ["utils", "cn() — clsx + tailwind-merge."],
+  motion: ["motion", "Shared easing curves and durations."],
+  "use-hydrated": ["useHydrated", "True after hydration, without setState-in-effect."],
+};
+
 const items = files.map((abs) => {
   const rel = relative(KIT, abs).replace(/\\/g, "/");
   const src = readFileSync(abs, "utf8");
@@ -57,11 +98,12 @@ const items = files.map((abs) => {
   const description = sentence.charAt(0).toUpperCase() + sentence.slice(1);
   const type = isLib ? "registry:lib" : group === "ui" ? "registry:ui" : "registry:component";
   const target = isLib ? `@lib/${basename(rel)}` : group === "ui" ? undefined : `@components/${group}/${basename(rel)}`;
+  const [cTitle, cDesc] = COPY[name] ?? [];
   return {
     name,
     type,
-    title: title.split(" & ")[0].split(" · ")[0].trim(),
-    description: description || `${name} from the p441z Style Kit.`,
+    title: cTitle ?? title.split(" & ")[0].split(" · ")[0].trim(),
+    description: cDesc ?? (description || `${name} from the p441z Style Kit.`),
     ...(deps.size ? { dependencies: [...deps].sort() } : {}),
     ...(reg.size ? { registryDependencies: [...reg].sort() } : {}),
     categories: [isLib ? "lib" : group === "mac" ? "desktop" : group],

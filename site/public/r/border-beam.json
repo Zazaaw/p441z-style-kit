@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "border-beam",
   "title": "BorderBeam",
-  "description": "A short beam of light that travels around a card's border.",
+  "description": "A beam of light circling a card's border.",
   "registryDependencies": [
     "https://style.p441z.my.id/r/utils.json"
   ],

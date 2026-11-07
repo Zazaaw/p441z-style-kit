@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "page-header",
   "title": "PageHeader",
-  "description": "The opening block every top-level page uses.",
+  "description": "Title, muted subtitle, and an action slot.",
   "registryDependencies": [
     "https://style.p441z.my.id/r/utils.json"
   ],

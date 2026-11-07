@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "notification",
   "title": "Notifications",
-  "description": "Desktop-style banners that slide in at the top-right, stack, and leave on their own after a few seconds (hovering pauses nothing on purpose",
+  "description": "Frosted banners that slide in and stack.",
   "dependencies": [
     "framer-motion"
   ],

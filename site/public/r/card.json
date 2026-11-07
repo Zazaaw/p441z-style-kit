@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "card",
   "title": "Card",
-  "description": "The base surface.",
+  "description": "The base surface, in six composable parts.",
   "registryDependencies": [
     "https://style.p441z.my.id/r/utils.json"
   ],

@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "menu-bar",
   "title": "MenuBar",
-  "description": "The slim frosted bar across the top of a desktop: a brand mark and menu items on the left, status items and a live clock on the right.",
+  "description": "Slim frosted top bar with menus and a clock.",
   "registryDependencies": [
     "https://style.p441z.my.id/r/utils.json"
   ],

@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "karaoke-text",
   "title": "KaraokeText",
-  "description": "Words light up one by one, like subtitles following a narrator.",
+  "description": "Words light up like a narrator — by time or scroll.",
   "dependencies": [
     "framer-motion"
   ],

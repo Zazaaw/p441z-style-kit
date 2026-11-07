@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "word-rotator",
   "title": "WordRotator",
-  "description": "One word that keeps changing (design → code → motion → ship).",
+  "description": "One word that keeps changing, without reflow.",
   "dependencies": [
     "framer-motion"
   ],

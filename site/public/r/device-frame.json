@@ -1,8 +1,8 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "device-frame",
-  "title": "LaptopFrame",
-  "description": "Brandless CSS device mockups for showing a UI inside a \"real\" device.",
+  "title": "LaptopFrame · PhoneFrame",
+  "description": "Brandless CSS devices that size to their container.",
   "registryDependencies": [
     "https://style.p441z.my.id/r/utils.json"
   ],

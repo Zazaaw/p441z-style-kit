@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "blur-fade",
   "title": "BlurFade",
-  "description": "The signature entrance of this design system.",
+  "description": "The signature entrance: fade, un-blur, drift.",
   "dependencies": [
     "framer-motion"
   ],

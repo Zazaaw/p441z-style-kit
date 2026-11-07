@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "grid-pattern",
   "title": "GridPattern",
-  "description": "A line grid where random cells softly light up and fade.",
+  "description": "Line grid whose cells softly twinkle.",
   "dependencies": [
     "framer-motion"
   ],

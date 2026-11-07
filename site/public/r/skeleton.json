@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "skeleton",
   "title": "Skeleton",
-  "description": "A pulsing placeholder block.",
+  "description": "Theme-aware pulsing placeholder.",
   "registryDependencies": [
     "https://style.p441z.my.id/r/utils.json"
   ],

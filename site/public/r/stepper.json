@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "stepper",
   "title": "Stepper",
-  "description": "The progress line at the top of a story: Request → Review → Approved → Letter.",
+  "description": "Story progress with a gliding active pill.",
   "dependencies": [
     "framer-motion"
   ],

@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "typography",
   "title": "Typography",
-  "description": "A namespace of text primitives.",
+  "description": "H1–H4, P, and quote on one text scale.",
   "registryDependencies": [
     "https://style.p441z.my.id/r/utils.json"
   ],

@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "count-up",
   "title": "CountUp",
-  "description": "A number that counts to its value when it scrolls into view.",
+  "description": "Counts to its value in view, digits never wobble.",
   "dependencies": [
     "framer-motion"
   ],

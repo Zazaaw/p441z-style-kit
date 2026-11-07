@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "dot-pattern",
   "title": "DotPattern",
-  "description": "An SVG dot grid used as an ambient page background.",
+  "description": "Ambient dot grid for backgrounds.",
   "dependencies": [
     "framer-motion"
   ],
