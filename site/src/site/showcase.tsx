@@ -76,6 +76,12 @@ export default function Showcase() {
           {rest.map((s) => (
             <GlassPanel delay={0} key={s.title} className="p-0">
               {s.video && <AutoVideo item={s} />}
+              {!s.video && s.poster && (
+                <a href={s.href} target="_blank" rel="noreferrer" tabIndex={-1} aria-hidden className="block overflow-hidden rounded-t-2xl border-b border-border/60">
+                  {/* eslint-disable-next-line @next/next/no-img-element -- static poster, sized by its container */}
+                  <img src={s.poster} alt="" width={1440} height={900} loading="lazy" className="aspect-[16/10] w-full object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[1.03]" />
+                </a>
+              )}
               <a href={s.href ?? s.video} target={s.href ? "_blank" : undefined} rel="noreferrer" className="block p-5">
                 <div className="flex items-center justify-between gap-3">
                   <div className="font-display text-xl font-extrabold tracking-tight">{t(s.title, s.titleId ?? s.title)}</div>

@@ -35,6 +35,7 @@ export const SHOWCASE: ShowcaseItem[] = [
     note: "Portfolio, blog, studio CMS, and AI agent — the site this design system was extracted from.",
     noteId: "Portofolio, blog, CMS, dan AI agent — situs tempat design system ini lahir.",
     href: "https://p441z.my.id",
+    poster: "/showcase/p441z-portfolio.jpg",
     madeWith: "the style kit",
     madeWithId: "style kit ini",
   },
