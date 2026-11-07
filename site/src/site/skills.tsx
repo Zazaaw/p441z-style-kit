@@ -12,6 +12,7 @@ import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { IconCopy, IconGitHub } from "@/site/icons";
 import { REPO } from "@/site/chrome";
+import { Compare, PREVIEWS } from "@/site/skill-previews";
 
 export type SkillView = { file: string; name: string; title: string; tagline: string; description: string; when: string; lines: number; summary: string[]; outline: string[] };
 
@@ -26,6 +27,11 @@ const split = (l: string): [string, string] => {
  *  otherwise become the containing block of this fixed overlay and clip it. */
 export function QuickLook({ s, onClose, layoutId = `skill-${s.name}` }: { s: SkillView; onClose: () => void; layoutId?: string }) {
   const notify = useNotify();
+  const preview = PREVIEWS[s.file];
+  // Condensed summary: only keyed rows (continuations dropped), first four (a 2×2 on desktop).
+  const keyed = s.summary.map(split).filter(([k]) => k);
+  const rows = keyed.slice(0, 4);
+  const more = keyed.length - rows.length;
   const install = `mkdir -p .claude/skills/${s.name} && curl -fsSL https://raw.githubusercontent.com/Zazaaw/p441z-style-kit/main/Skill.md/${s.file} -o .claude/skills/${s.name}/SKILL.md`;
   useEffect(() => {
     const k = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -35,7 +41,7 @@ export function QuickLook({ s, onClose, layoutId = `skill-${s.name}` }: { s: Ski
   return createPortal(
     <motion.div className="fixed inset-0 z-[75] grid place-items-center p-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} role="dialog" aria-modal aria-label={s.title}>
       <div className="absolute inset-0 bg-background/50 backdrop-blur-md" />
-      <motion.div layoutId={layoutId} transition={{ duration: 0.55, ease: EASE.camera }} className="relative w-[min(860px,96vw)]" onClick={(e) => e.stopPropagation()}>
+      <motion.div layoutId={layoutId} transition={{ duration: 0.55, ease: EASE.camera }} className="relative w-[min(1000px,96vw)]" onClick={(e) => e.stopPropagation()}>
         <MacWindow
           title={s.file}
           onClose={onClose}
@@ -45,47 +51,61 @@ export function QuickLook({ s, onClose, layoutId = `skill-${s.name}` }: { s: Ski
               <span className="size-3.5 [&_svg]:size-3.5"><IconGitHub /></span> Open
             </a>
           }
-          bodyClassName="max-h-[72vh] overflow-y-auto"
+          bodyClassName="max-h-[82vh] overflow-y-auto"
         >
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.25 } }} className="grid gap-6 p-6 md:grid-cols-[1fr_1.35fr]">
-            <div>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.25 } }} className="grid gap-6 p-5 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] md:p-6">
+            <div className="flex min-w-0 flex-col">
               <div className="font-display text-3xl font-extrabold tracking-tight">{s.title}</div>
               <div className="mt-1 text-[15px] font-semibold text-muted-foreground">{s.tagline}</div>
-              <p className="mt-4 text-[14px] leading-relaxed text-muted-foreground">{s.description}</p>
-              <div className="mt-5 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Open it when</div>
-              <p className="mt-1 text-[14px]">{s.when}</p>
-              <div className="mt-5 flex flex-wrap gap-2 text-[12px]">
+              <p className="mt-3 line-clamp-4 text-[14px] leading-relaxed text-muted-foreground">{s.description}</p>
+              <div className="mt-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Open it when</div>
+              <p className="mt-1 line-clamp-3 text-[14px]">{s.when}</p>
+              <div className="mt-4 flex flex-wrap gap-2 text-[12px]">
                 <code className="rounded-full border border-border px-2.5 py-1">{s.name}</code>
                 <span className="rounded-full border border-border px-2.5 py-1 text-muted-foreground">{s.lines.toLocaleString("en-US")} lines</span>
               </div>
-              <button
-                type="button"
-                onClick={() => navigator.clipboard?.writeText(install).then(() => notify({ title: "Install command copied", body: `Paste it in your project to add ${s.name} to Claude Code.`, icon: <IconCopy /> }))}
-                className="mt-5 flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-[14px] font-semibold text-primary-foreground shadow-[0_12px_28px_-12px_var(--color-primary)] transition-transform duration-200 active:scale-[0.98]"
-              >
-                <span className="size-4 [&_svg]:size-4"><IconCopy /></span> Copy install for Claude Code
-              </button>
+              <div className="mt-5 md:mt-auto md:pt-4">
+                <button
+                  type="button"
+                  onClick={() => navigator.clipboard?.writeText(install).then(() => notify({ title: "Install command copied", body: `Paste it in your project to add ${s.name} to Claude Code.`, icon: <IconCopy /> }))}
+                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-[14px] font-semibold text-primary-foreground shadow-[0_12px_28px_-12px_var(--color-primary)] transition-transform duration-200 active:scale-[0.98]"
+                >
+                  <span className="size-4 [&_svg]:size-4"><IconCopy /></span> Copy install for Claude Code
+                </button>
+              </div>
             </div>
-            <div className="rounded-xl border border-border bg-muted/40 p-4">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{s.summary.length ? "One-screen summary" : "What's inside"}</div>
-              {s.summary.length ? (
-                <div className="mt-3 space-y-1.5 font-mono text-[12.5px] leading-5">
-                  {s.summary.map((l, i) => {
-                    const [k, v] = split(l);
-                    return (
-                      <div key={i} className="grid grid-cols-[104px_1fr] gap-3">
-                        <span className="font-semibold">{k}</span>
-                        <span className="text-muted-foreground">{v}</span>
-                      </div>
-                    );
-                  })}
+            <div className="min-w-0">
+              {preview ? (
+                <>
+                  <Compare before={preview.before} after={preview.after} />
+                  <p className="mt-2 text-[12.5px] leading-snug text-muted-foreground">{preview.note}</p>
+                </>
+              ) : null}
+            </div>
+            <div className="rounded-xl border border-border bg-muted/40 px-3.5 py-3 md:col-span-2">
+              <div className="flex items-baseline justify-between gap-3">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{rows.length ? "At a glance" : "What's inside"}</span>
+                {more > 0 && (
+                  <a href={`${REPO}/blob/main/Skill.md/${s.file}`} target="_blank" rel="noreferrer" className="text-[11.5px] font-medium text-primary hover:underline">
+                    +{more} more in the skill
+                  </a>
+                )}
+              </div>
+              {rows.length ? (
+                <div className="mt-2 grid gap-x-8 gap-y-1 font-mono text-[12px] leading-5 lg:grid-cols-2">
+                  {rows.map(([k, v]) => (
+                    <div key={k} className="grid grid-cols-[88px_minmax(0,1fr)] gap-3">
+                      <span className="truncate font-semibold">{k}</span>
+                      <span className="truncate text-muted-foreground" title={v}>{v}</span>
+                    </div>
+                  ))}
                 </div>
               ) : (
-                <ul className="mt-3 space-y-1.5 text-[14px] text-muted-foreground">
-                  {s.outline.map((o) => (
-                    <li key={o}>· {o.charAt(0) + o.slice(1).toLowerCase()}</li>
+                <div className="mt-2 flex flex-wrap gap-1.5 text-[12px] text-muted-foreground">
+                  {s.outline.slice(0, 6).map((o) => (
+                    <span key={o} className="rounded-full border border-border px-2 py-0.5">{o.charAt(0) + o.slice(1).toLowerCase()}</span>
                   ))}
-                </ul>
+                </div>
               )}
             </div>
           </motion.div>
