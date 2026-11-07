@@ -8,6 +8,7 @@ import { allComponents, loadComponentDoc } from "@/site/component-doc";
 import { ComponentDemo } from "@/site/component-demos";
 import { ComponentThumb } from "@/site/component-thumbs";
 import { DEMO_NAMES, SCENES } from "@/site/component-demo-names";
+import { ProseCopy } from "@/site/prose-copy";
 import { CopyCommand, DocTopBar } from "@/site/skill-page-client";
 
 const REPO = "https://github.com/Zazaaw/p441z-style-kit";
@@ -46,6 +47,12 @@ export function ComponentPage({ lang, name }: { lang: Lang; name: string }) {
           </div>
           <div className="mt-8 max-w-3xl">
             <CopyCommand label={t("Install with the shadcn CLI", "Pasang lewat shadcn CLI")} command={doc.install} />
+            <p className="mt-3 text-[12.5px] text-muted-foreground">
+              {t("First time with the kit?", "Baru pertama pakai kit ini?")}{" "}
+              <a href={lang === "id" ? "/id/docs" : "/docs"} className="font-semibold text-primary">
+                {t("Read the install guide", "Baca panduan pemasangannya")} <span aria-hidden className="arrow">→</span>
+              </a>
+            </p>
           </div>
         </header>
 
@@ -104,6 +111,7 @@ export function ComponentPage({ lang, name }: { lang: Lang; name: string }) {
             </pre>
           </details>
         </div>
+        <ProseCopy />
 
         <DocPager
           label={t("More components", "Komponen lainnya")}
@@ -136,6 +144,9 @@ export function ComponentIndex({ lang }: { lang: Lang }) {
           <p className="mt-3 max-w-2xl text-[18px] leading-relaxed text-muted-foreground">
             {t("Every one is a single file you own: install it with the shadcn CLI, read it, change it.", "Masing-masing satu file yang jadi milikmu: pasang lewat shadcn CLI, baca, lalu ubah sesukamu.")}
           </p>
+          <a href={lang === "id" ? "/id/docs" : "/docs"} className="mt-4 inline-block text-[14px] font-semibold text-primary">
+            {t("New here? Start with the install guide", "Baru pertama? Mulai dari panduan pemasangan")} <span aria-hidden className="arrow">→</span>
+          </a>
         </header>
         <div className="mx-auto max-w-6xl space-y-14 px-6 pb-24 pt-8">
           {groups.map((g) => (

@@ -6,6 +6,7 @@ import { LangProvider, type Lang } from "@/site/i18n";
 import { loadSkillDoc } from "@/site/skill-doc";
 import { CopyCommand, DocToc, DocTopBar } from "@/site/skill-page-client";
 import { SkillPreview } from "@/site/skill-previews";
+import { ProseCopy } from "@/site/prose-copy";
 
 const REPO = "https://github.com/Zazaaw/p441z-style-kit";
 
@@ -45,7 +46,8 @@ export function SkillPage({ lang, slug }: { lang: Lang; slug: string }) {
             <CopyCommand label={t("Just this one, into your project", "Hanya skill ini, ke project-mu")} command={single} />
           </div>
           <p className="mt-3 text-[12.5px] text-muted-foreground">
-            {t("First time with the plugin? Add the marketplace once:", "Baru pertama pakai plugin-nya? Tambahkan marketplace-nya sekali:")} <code className="font-mono text-foreground">/plugin marketplace add Zazaaw/p441z-style-kit</code>
+            {t("First time with the plugin? Add the marketplace once:", "Baru pertama pakai plugin-nya? Tambahkan marketplace-nya sekali:")} <code className="font-mono text-foreground">/plugin marketplace add Zazaaw/p441z-style-kit</code>{" "}
+            · <a href={lang === "id" ? "/id/docs#jalur-3-skill-untuk-agen-ai-mu" : "/docs#route-3-skills-for-your-ai-agent"} className="font-semibold text-primary">{t("Full guide", "Panduan lengkap")} <span aria-hidden className="arrow">→</span></a>
           </p>
         </header>
 
@@ -59,6 +61,7 @@ export function SkillPage({ lang, slug }: { lang: Lang; slug: string }) {
           </aside>
           <article className="skill-prose min-w-0" dangerouslySetInnerHTML={{ __html: html }} />
         </div>
+        <ProseCopy />
 
         <DocPager
           label={t("More skills", "Skill lainnya")}

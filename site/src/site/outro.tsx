@@ -39,9 +39,7 @@ export default function Outro() {
           </a>
         </Button>
         <Button asChild size="lg" variant="outline" className="h-12 rounded-full px-7">
-          <a href={`${REPO}/blob/main/docs/GUIDE.md`} target="_blank" rel="noreferrer">
-            {t("Read the guide", "Baca panduannya")}
-          </a>
+          <a href={t("/docs", "/id/docs")}>{t("Read the guide", "Baca panduannya")}</a>
         </Button>
       </div>
       <footer className="mt-24 flex flex-col items-center gap-2 text-[13px] text-muted-foreground">

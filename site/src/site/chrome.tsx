@@ -64,6 +64,7 @@ export default function Chrome({ skills }: { skills: { name: string; title: stri
     { group: S, label: t("Motion components", "Komponen motion"), hint: "#motion", icon: <IconSpark />, onSelect: () => go("#motion") },
     { group: S, label: t("Desktop UI", "UI desktop"), hint: "#desk", icon: <IconWindow />, onSelect: () => go("#desk") },
     { group: S, label: "Skills", hint: "#skills", icon: <IconBook />, onSelect: () => go("#skills") },
+    { group: S, label: t("Getting started — install guide", "Mulai — panduan pemasangan"), hint: "/docs", icon: <IconBook />, keywords: "docs guide install setup shadcn plugin panduan pasang cara", onSelect: () => (window.location.href = lang === "id" ? "/id/docs" : "/docs") },
     { group: S, label: t("Component docs", "Dokumentasi komponen"), hint: "/components", icon: <IconWindow />, keywords: "docs registry install api props", onSelect: () => (window.location.href = lang === "id" ? "/id/components" : "/components") },
     {
       group: A,
@@ -115,6 +116,7 @@ export default function Chrome({ skills }: { skills: { name: string; title: stri
           </a>
         }
         items={[
+          { label: t("Get started", "Mulai"), href: lang === "id" ? "/id/docs" : "/docs" },
           { label: "Keynote", href: "#keynote" },
           { label: t("Components", "Komponen"), href: lang === "id" ? "/id/components" : "/components" },
           { label: t("Type", "Tipografi"), href: "#type" },
