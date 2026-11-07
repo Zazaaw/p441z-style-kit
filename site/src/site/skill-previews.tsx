@@ -3,6 +3,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { animate, useReducedMotion } from "framer-motion";
 
+import GlassPanel from "@/components/effects/glass-panel";
 import { cn } from "@/lib/utils";
 import { useT } from "@/site/i18n";
 
@@ -509,3 +510,18 @@ npm install && npm run dev    # → http://localhost:3000`}</Code>
     ),
   },
 };
+
+/** The before/after for one skill with its caption — for pages that can't import PREVIEWS directly. */
+export function SkillPreview({ file }: { file: string }) {
+  const t = useT();
+  const p = PREVIEWS[file];
+  if (!p) return null;
+  return (
+    <figure>
+      <GlassPanel tilt={0} appear={false} className="rounded-[1.25rem] p-1.5">
+        <Compare before={p.before} after={p.after} />
+      </GlassPanel>
+      <figcaption className="mt-3 text-[14px] leading-relaxed text-muted-foreground">{t(p.note, p.noteId)}</figcaption>
+    </figure>
+  );
+}
