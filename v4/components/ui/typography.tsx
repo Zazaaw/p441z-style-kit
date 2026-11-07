@@ -24,7 +24,7 @@ const Typography = () => {
   return null;
 };
 
-const TypographyH1 = ({ children, className, ...props }: any) => {
+const TypographyH1 = ({ children, className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
   return (
     <h1
       className={cn(
@@ -39,7 +39,7 @@ const TypographyH1 = ({ children, className, ...props }: any) => {
 };
 Typography.H1 = TypographyH1;
 
-const TypographyH2 = ({ children, className, ...props }: any) => {
+const TypographyH2 = ({ children, className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
   return (
     <h2
       className={cn(
@@ -54,7 +54,7 @@ const TypographyH2 = ({ children, className, ...props }: any) => {
 };
 Typography.H2 = TypographyH2;
 
-const TypographyH3 = ({ children, className, ...props }: any) => {
+const TypographyH3 = ({ children, className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
   return (
     <h3
       className={cn(
@@ -69,7 +69,7 @@ const TypographyH3 = ({ children, className, ...props }: any) => {
 };
 Typography.H3 = TypographyH3;
 
-const TypographyH4 = ({ children, className, ...props }: any) => {
+const TypographyH4 = ({ children, className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
   return (
     <h4
       className={cn(
@@ -84,7 +84,7 @@ const TypographyH4 = ({ children, className, ...props }: any) => {
 };
 Typography.H4 = TypographyH4;
 
-const TypographyP = ({ children, className, ...props }: any) => {
+const TypographyP = ({ children, className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => {
   return (
     <p className={cn("leading-7", className)} {...props}>
       {children}
@@ -93,7 +93,7 @@ const TypographyP = ({ children, className, ...props }: any) => {
 };
 Typography.P = TypographyP;
 
-const TypographyBlockquote = ({ children, className, ...props }: any) => {
+const TypographyBlockquote = ({ children, className, ...props }: React.BlockquoteHTMLAttributes<HTMLQuoteElement>) => {
   return (
     <blockquote
       className={cn("mt-6 border-l-2 pl-6 italic", className)}
