@@ -15,9 +15,10 @@
   --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
-/* Rebrand the kit the documented way — --primary and --ring only. macOS accent blue. */
-:root { --primary: 211 100% 50%; --primary-foreground: 0 0% 100%; --ring: 211 100% 50%; }
-.dark { --primary: 210 100% 52%; --primary-foreground: 0 0% 100%; --ring: 210 100% 52%; }
+/* Rebrand the kit the documented way — --primary and --ring only. macOS accent blue, one step
+   deeper so white text on it passes WCAG AA (4.76:1; the pure #007AFF is 3.97:1). */
+:root { --primary: 211 100% 45%; --primary-foreground: 0 0% 100%; --ring: 211 100% 45%; }
+.dark { --primary: 211 100% 45%; --primary-foreground: 0 0% 100%; --ring: 211 100% 52%; }
 ::selection { background: hsl(var(--primary) / 0.22); }
 
 /* Lenis smooth scroll (recommended base styles). */
@@ -72,6 +73,8 @@ html.theme-transition, html.theme-transition *, html.theme-transition *::before,
 .skill-prose strong { color: hsl(var(--foreground)); font-weight: 700; }
 .skill-prose a { color: hsl(var(--primary)); text-underline-offset: 3px; }
 .skill-prose a:hover { text-decoration: underline; }
+/* On a dark page the same blue is a touch too deep for body-size links; lift it for reading. */
+.dark .skill-prose a { color: color-mix(in oklab, hsl(var(--primary)) 72%, white); }
 .skill-prose :not(pre) > code { padding: .12em .38em; border-radius: .4em; background: hsl(var(--muted)); font-family: var(--font-mono); font-size: .86em; color: hsl(var(--foreground)); }
 .skill-prose pre { overflow-x: auto; padding: 1rem 1.15rem; border-radius: 14px; background: #0b0c10; color: #e5e7eb; font-family: var(--font-mono); font-size: 13px; line-height: 1.65; border: 1px solid rgb(255 255 255 / .06); }
 .skill-prose pre code { font-family: inherit; }
