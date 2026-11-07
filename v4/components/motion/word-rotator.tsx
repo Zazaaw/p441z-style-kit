@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 import { EASE } from "@/lib/motion";
@@ -40,16 +40,19 @@ interface WordRotatorProps {
 export default function WordRotator({ words, className, interval = 2.2, reserve = false, align = "start", wordClassName }: WordRotatorProps) {
   const [i, setI] = useState(0);
   const reduce = useReducedMotion();
+  // Only rotate while on screen: an off-screen word swap still costs a layout pass every interval.
+  const ref = useRef<HTMLSpanElement>(null);
+  const seen = useInView(ref);
 
   useEffect(() => {
-    if (reduce || words.length < 2) return;
+    if (reduce || !seen || words.length < 2) return;
     const t = setInterval(() => setI((x) => (x + 1) % words.length), interval * 1000);
     return () => clearInterval(t);
-  }, [reduce, words.length, interval]);
+  }, [reduce, seen, words.length, interval]);
 
   if (reserve) {
     return (
-      <span className={cn("relative inline-grid overflow-hidden align-bottom", className)} aria-live="polite">
+      <span ref={ref} className={cn("relative inline-grid overflow-hidden align-bottom", className)} aria-live="polite">
         {/* Every word sits invisibly in the same cell, so the cell is exactly as wide as the widest. */}
         {words.map((w) => (
           <span key={w} aria-hidden className="invisible col-start-1 row-start-1 whitespace-nowrap pb-[0.1em]">
@@ -73,7 +76,7 @@ export default function WordRotator({ words, className, interval = 2.2, reserve 
   }
 
   return (
-    <motion.span layout transition={{ duration: 0.45, ease: EASE.reveal }} className={cn("relative inline-flex overflow-hidden align-bottom", className)}>
+    <motion.span ref={ref} layout transition={{ duration: 0.45, ease: EASE.reveal }} className={cn("relative inline-flex overflow-hidden align-bottom", className)}>
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.span
           key={words[i]}
