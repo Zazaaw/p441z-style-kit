@@ -157,8 +157,9 @@ const subscribeWide = (cb: () => void) => {
   return () => m.removeEventListener("change", cb);
 };
 
-/** The skills as three glass folders — Engineering, Design, Workflow. Open one, pick a file, Quick Look. */
-export default function Skills({ skills }: { skills: SkillView[] }) {
+/** The skills as three glass folders — Engineering, Design, Workflow. Open one, pick a file, Quick Look.
+ *  Sits right under the hero's first screen; `#skills` (menu bar, dock, ⌘K) lands here. */
+export default function SkillFolders({ skills }: { skills: SkillView[] }) {
   const tr = useT();
   const num = useNum();
   const notify = useNotify();
@@ -170,7 +171,7 @@ export default function Skills({ skills }: { skills: SkillView[] }) {
   const [open, setOpen] = useState<SkillView | null>(null);
   // Build the folders only as the section approaches: their artwork is painted on the main thread.
   const box = useRef<HTMLDivElement>(null);
-  const near = useInView(box, { once: true, margin: "800px 0px" });
+  const near = useInView(box, { once: true, margin: "300px 0px" });
   const total = skills.reduce((a, s) => a + s.lines, 0);
 
   const folders = GROUPS.filter((g) => g.files).map((g, i) => {
@@ -187,7 +188,7 @@ export default function Skills({ skills }: { skills: SkillView[] }) {
     list.map((s) => `mkdir -p .claude/skills/${s.name} && curl -fsSL https://raw.githubusercontent.com/Zazaaw/p441z-style-kit/main/Skill.md/${s.file} -o .claude/skills/${s.name}/SKILL.md`).join(" && ");
 
   return (
-    <section id="skills" className="relative mx-auto max-w-6xl scroll-mt-16 px-6 py-28">
+    <div id="skills" className="relative mx-auto max-w-6xl scroll-mt-16 text-left">
       <div className="max-w-2xl">
         <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Skill.md</div>
         <MaskReveal as="h2" text={tr(`${skills.length} skills for your AI agent.`, `${skills.length} skill untuk agen AI-mu.`)} className="mt-3 font-display text-[clamp(2rem,4.5vw,3.25rem)] font-extrabold leading-[1.05] tracking-[-0.04em]" />
@@ -199,7 +200,7 @@ export default function Skills({ skills }: { skills: SkillView[] }) {
         </p>
       </div>
 
-      <div ref={box} className="mt-20 grid min-h-[340px] grid-cols-1 items-end justify-items-center gap-x-14 gap-y-20 md:grid-cols-2 xl:grid-cols-3">
+      <div ref={box} className="mt-16 grid min-h-[340px] grid-cols-1 items-end justify-items-center gap-x-14 gap-y-20 md:grid-cols-2 xl:grid-cols-3">
         {near &&
           folders.map((f, i) => (
             <GlassFolder
@@ -239,6 +240,6 @@ export default function Skills({ skills }: { skills: SkillView[] }) {
       </p>
 
       <AnimatePresence>{open && <QuickLook key={open.file} s={open} layoutId={`folder-${open.name}`} onClose={() => setOpen(null)} />}</AnimatePresence>
-    </section>
+    </div>
   );
 }

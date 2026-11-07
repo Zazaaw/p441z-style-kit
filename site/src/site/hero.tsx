@@ -15,10 +15,10 @@ import Magnetic from "@/components/effects/magnetic";
 import BorderBeam from "@/components/effects/border-beam";
 import { REPO, INSTALL } from "@/site/chrome";
 import { IconCheck, IconCopy } from "@/site/icons";
-import HeroCatalog from "@/site/hero-catalog";
 import { useNum, useT } from "@/site/i18n";
 import HeroDesk, { PointerGlow } from "@/site/hero-desk";
 import HeroCompare from "@/site/hero-compare";
+import SkillFolders from "@/site/skills";
 import { AccentDots } from "@/site/accent";
 import type { SkillView } from "@/site/skills";
 
@@ -161,10 +161,11 @@ export default function Hero({ skillCount, skillLines, componentCount, skills }:
         </div>
       </div>
 
+      {/* Right under the first screen: the skills as glass folders, then what they change. */}
       <div className="relative px-6 pb-24 pt-6">
-        <HeroCompare skills={skills} />
-        <div className="mx-auto mt-16 flex w-full max-w-6xl justify-center">
-          <HeroCatalog skills={skills} />
+        <SkillFolders skills={skills} />
+        <div className="mt-32">
+          <HeroCompare skills={skills} />
         </div>
       </div>
     </section>

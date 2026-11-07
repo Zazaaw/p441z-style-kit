@@ -10,7 +10,6 @@ import Typography from "@/site/typography";
 import MotionGallery from "@/site/motion-gallery";
 import Desk from "@/site/desk";
 import Showcase from "@/site/showcase";
-import Skills from "@/site/skills";
 import Outro from "@/site/outro";
 import { loadSkills } from "@/site/skills-data";
 import { kitComponents } from "@/site/kit-stats";
@@ -51,7 +50,6 @@ export default function Home({ lang }: { lang: Lang }) {
           <MotionGallery />
           <Desk />
           <Showcase />
-          <Skills skills={skills} />
           <Outro />
         </main>
       </div>
