@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 // Two languages, two routes: "/" is English, "/id" is Indonesian. Every section reads the page
 // language from this context and keeps its two strings side by side:
@@ -41,8 +41,15 @@ export const LANG_BOOT = `if(location.pathname==="/id"||location.pathname.indexO
 export function LangSwitch({ paths }: { paths?: Partial<Record<Lang, string>> }) {
   const lang = useLang();
   const to = (l: Lang) => paths?.[l] ?? homeFor(l);
+  // The white key is one element: on click it springs to the other language while the page loads.
+  const [shown, setShown] = useState<Lang>(lang);
   return (
-    <div role="group" aria-label={lang === "id" ? "Bahasa" : "Language"} className="flex items-center rounded-md bg-foreground/[0.06] p-0.5 text-[11px] font-semibold">
+    <div role="group" aria-label={lang === "id" ? "Bahasa" : "Language"} className="relative grid grid-cols-2 items-center rounded-md bg-foreground/[0.06] p-0.5 text-[11px] font-semibold">
+      <span
+        aria-hidden
+        className="absolute inset-y-0.5 left-0.5 w-[calc(50%-2px)] rounded-[5px] bg-background shadow-[0_1px_2px_rgba(0,0,0,0.12)] transition-transform duration-500 ease-spring motion-reduce:transition-none"
+        style={{ transform: shown === "id" ? "translateX(100%)" : "none" }}
+      />
       {(["en", "id"] as const).map((l) => (
         <a
           key={l}
@@ -52,11 +59,12 @@ export function LangSwitch({ paths }: { paths?: Partial<Record<Lang, string>> })
           aria-current={l === lang ? "page" : undefined}
           title={l === "en" ? "English" : "Bahasa Indonesia"}
           onClick={(e) => {
-            if (l === lang) return e.preventDefault();
             e.preventDefault();
+            if (l === lang) return;
+            setShown(l);
             window.location.href = to(l) + window.location.hash;
           }}
-          className={l === lang ? "grid min-h-6 min-w-7 place-items-center rounded-[5px] bg-background px-1.5 text-foreground shadow-[0_1px_2px_rgba(0,0,0,0.12)]" : "grid min-h-6 min-w-7 place-items-center px-1.5 text-foreground/55 transition-colors hover:text-foreground"}
+          className={`relative grid min-h-6 min-w-7 place-items-center px-1.5 transition-[color,scale] duration-300 ease-spring active:scale-90 active:duration-100 ${l === shown ? "text-foreground" : "text-foreground/55 hover:text-foreground"}`}
         >
           {l.toUpperCase()}
         </a>
