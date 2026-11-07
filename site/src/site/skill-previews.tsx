@@ -469,4 +469,43 @@ npm install && npm run dev    # → http://localhost:3000`}</Code>
       <img src="/showcase/p441z-keynote.jpg" alt="A frame from the p441z keynote video" className="h-full w-full object-cover" />
     ),
   },
+  "skill-darkmode.md": {
+    note: "One attribute swaps a dozen tokens, the theme is set before the first paint, and the switch crossfades.",
+    noteId: "Satu atribut menukar belasan token, tema terpasang sebelum halaman tergambar, dan pergantiannya crossfade.",
+    before: (
+      <Slop>
+        <div className="text-[13px] font-bold">Reload on dark</div>
+        <div className="mt-2 flex gap-2">
+          {[["0 ms", "#ffffff", "#000"], ["120 ms", "#ffffff", "#000"], ["300 ms", "#111111", "#fff"]].map(([ms, bg, fg]) => (
+            <div key={ms} className="flex-1">
+              <div className="grid h-20 place-items-center rounded border border-gray-300 text-[11px] font-bold" style={{ background: bg, color: fg }}>{ms === "120 ms" ? "FLASH!" : "page"}</div>
+              <div className="mt-1 text-center text-[10px] text-gray-500">{ms}</div>
+            </div>
+          ))}
+        </div>
+        <Code dark={false}>{`<div className="bg-white dark:bg-gray-900
+  text-black dark:text-white border
+  dark:border-gray-700 …">  // × 2,400`}</Code>
+      </Slop>
+    ),
+    after: (
+      <Kit>
+        <div className="text-[13px] font-bold">Reload on dark</div>
+        <div className="mt-2 flex gap-2">
+          {[["0 ms", "page"], ["120 ms", "page"], ["300 ms", "page"]].map(([ms]) => (
+            <div key={ms} className="flex-1">
+              <div className="grid h-20 place-items-center rounded-lg border border-white/10 bg-neutral-950 text-[11px] font-semibold text-neutral-200">page</div>
+              <div className="mt-1 text-center text-[10px] text-muted-foreground">{ms}</div>
+            </div>
+          ))}
+        </div>
+        <Code>{`[data-theme="dark"] {
+  --surface: #12191a; --ink: #e6efe9; …
+}  // one attribute, a dozen tokens`}</Code>
+        <div className="mt-2 flex items-center gap-2 text-[11.5px] text-muted-foreground">
+          <Tick /> pre-paint script · <Tick /> 350 ms crossfade
+        </div>
+      </Kit>
+    ),
+  },
 };
