@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   });
   return [
     pair("/", 1),
+    pair("/docs", 0.9),
     pair("/components", 0.8),
     ...allSkillSlugs().map(({ slug }) => pair(`/skills/${slug}`, 0.7)),
     ...allComponents().map(({ name }) => pair(`/components/${name}`, 0.6)),
