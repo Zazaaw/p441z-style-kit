@@ -98,6 +98,8 @@ export default function Chrome({ skills }: { skills: { name: string; title: stri
       icon: <IconBell />,
       onSelect: () => notify({ title: t("Hello from p441z", "Halo dari p441z"), body: t("This banner is <Notification>, part of the kit.", "Banner ini komponen <Notification> dari kit."), icon: <IconBell /> }),
     },
+    { group: A, label: t("Faiz's portfolio", "Portofolio Faiz"), icon: <IconHome />, hint: "p441z.my.id", keywords: "portfolio author faiz", onSelect: () => window.open("https://p441z.my.id", "_blank", "noopener") },
+    { group: A, label: "Satu Visual", icon: <IconWindow />, hint: "satuvisual.p441z.my.id", keywords: "studio photo video creative", onSelect: () => window.open("https://satuvisual.p441z.my.id", "_blank", "noopener") },
     { group: A, label: t("Open on GitHub", "Buka di GitHub"), icon: <IconGitHub />, hint: "github.com", onSelect: () => window.open(REPO, "_blank", "noopener") },
     ...skills.map((s) => ({ group: "Skills", label: s.title, hint: s.name, keywords: s.file, icon: <IconBook />, onSelect: () => window.open(`${REPO}/blob/main/Skill.md/${s.file}`, "_blank", "noopener") })),
   ];
@@ -106,7 +108,11 @@ export default function Chrome({ skills }: { skills: { name: string; title: stri
     <>
       <MenuBar
         className="fixed inset-x-0 top-0"
-        brand={<span className="font-display tracking-tight">p441z</span>}
+        brand={
+          <a href="https://p441z.my.id" target="_blank" rel="noreferrer" title={t("Faiz's portfolio — p441z.my.id", "Portofolio Faiz — p441z.my.id")} className="font-display tracking-tight transition-opacity hover:opacity-70">
+            p441z
+          </a>
+        }
         items={[
           { label: "Keynote", href: "#keynote" },
           { label: t("Type", "Tipografi"), href: "#type" },
