@@ -107,7 +107,7 @@ export default function Hero({ skillCount, skillLines, componentCount, skills }:
             <span className="hero-line block whitespace-nowrap">{t("like a keynote.", "seperti keynote.")}</span>
           </h1>
 
-          <p className="hero-fade mx-auto mt-6 max-w-[34rem] text-pretty text-[clamp(1.05rem,1.4vw,1.25rem)] leading-relaxed text-muted-foreground">
+          <p className="mx-auto mt-6 max-w-[34rem] text-pretty text-[clamp(1.05rem,1.4vw,1.25rem)] leading-relaxed text-muted-foreground">
             {t(
               "A quiet design system for React + Tailwind — components, keynote-grade motion, desktop windows, and skills that keep your AI agent from shipping slop.",
               "Design system yang kalem untuk React + Tailwind: komponen, motion sekelas keynote, jendela ala desktop, plus skill supaya agen AI-mu tidak lagi kerja asal jadi.",
@@ -131,8 +131,8 @@ export default function Hero({ skillCount, skillLines, componentCount, skills }:
             type="button"
             onClick={copy}
             className="hero-fade group mt-5 inline-flex max-w-full items-center gap-3 rounded-full border border-border bg-background/70 py-2 pl-4 pr-2 font-mono text-[12.5px] text-muted-foreground backdrop-blur transition-colors hover:text-foreground"
-            aria-label={t("Copy install command", "Salin perintah install")}
           >
+            <span className="sr-only">{t("Copy:", "Salin:")} </span>
             <span className="text-primary">$</span>
             <span className="truncate">npx shadcn@latest add style.p441z.my.id/r/style-kit.json</span>
             <span className="grid size-7 shrink-0 place-items-center rounded-full bg-muted text-foreground [&_svg]:size-3.5">{copied ? <IconCheck /> : <IconCopy />}</span>
@@ -156,7 +156,7 @@ export default function Hero({ skillCount, skillLines, componentCount, skills }:
           {/* Phones get the accent picker inline. From md up the menu bar has it (and the dock would cover this row). */}
           <div className="hero-fade mt-5 flex items-center gap-3 rounded-full border border-border bg-background/70 px-3.5 py-2 backdrop-blur md:hidden">
             <span className="text-[12px] font-semibold text-muted-foreground">{t("Accent", "Aksen")}</span>
-            <AccentDots size={16} className="gap-1.5" />
+            <AccentDots size={20} className="gap-2" />
           </div>
         </div>
       </div>
