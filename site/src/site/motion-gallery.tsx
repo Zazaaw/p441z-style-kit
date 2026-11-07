@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { useInView } from "framer-motion";
 
 import SpotlightCard from "@/components/effects/spotlight-card";
 import MaskReveal from "@/components/motion/mask-reveal";
@@ -24,6 +25,21 @@ import { installFor } from "@/site/chrome";
 import { useNum, useT } from "@/site/i18n";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+/** Ticks `fn` every `ms` — only while `ref` is on screen. Off-screen demos cost nothing (Safari
+ *  was re-laying-out the whole page every time an unseen Stepper pill moved). */
+function useVisibleInterval(ref: React.RefObject<Element | null>, fn: () => void, ms: number) {
+  const seen = useInView(ref);
+  const cb = useRef(fn);
+  useEffect(() => {
+    cb.current = fn;
+  });
+  useEffect(() => {
+    if (!seen) return;
+    const t = setInterval(() => cb.current(), ms);
+    return () => clearInterval(t);
+  }, [seen, ms]);
+}
 
 function Demo({ name, file, wide, children, onReplay, note }: { name: string; file: string; wide?: boolean; children: React.ReactNode; onReplay?: () => void; note: string }) {
   const t = useT();
@@ -98,12 +114,10 @@ function PillDemo() {
   const [run, setRun] = useState(1);
   const [got, setGot] = useState(0);
   const tr = useT();
-  useEffect(() => {
-    const t = setInterval(() => setRun((r) => r + 1), 3200);
-    return () => clearInterval(t);
-  }, []);
+  const box = useRef<HTMLDivElement>(null);
+  useVisibleInterval(box, () => setRun((r) => r + 1), 3200);
   return (
-    <div className="relative h-40 w-full">
+    <div ref={box} className="relative h-40 w-full">
       <div className="absolute left-[6%] top-1/2 grid size-20 -translate-y-1/2 place-items-center rounded-2xl border border-border bg-background text-[12px] font-medium">Laptop</div>
       <div className="absolute right-[6%] top-1/2 grid size-20 -translate-y-1/2 place-items-center rounded-2xl border border-border bg-background text-[12px] font-medium">
         {tr("Phone", "Ponsel")}
@@ -156,11 +170,13 @@ function LiftDemo() {
 function StepperDemo() {
   const [i, setI] = useState(0);
   const t = useT();
-  useEffect(() => {
-    const t = setInterval(() => setI((x) => (x + 1) % 4), 1400);
-    return () => clearInterval(t);
-  }, []);
-  return <Stepper id="gallery-stepper" steps={[t("Request", "Pengajuan"), t("Review", "Peninjauan"), t("Approved", "Persetujuan"), t("Letter", "Surat")]} active={i} className="scale-90" />;
+  const box = useRef<HTMLDivElement>(null);
+  useVisibleInterval(box, () => setI((x) => (x + 1) % 4), 1400);
+  return (
+    <div ref={box}>
+      <Stepper id="gallery-stepper" steps={[t("Request", "Pengajuan"), t("Review", "Peninjauan"), t("Approved", "Persetujuan"), t("Letter", "Surat")]} active={i} className="scale-90" />
+    </div>
+  );
 }
 
 function CameraDemo() {
@@ -171,13 +187,10 @@ function CameraDemo() {
     [t("Button", "Tombol"), { x: 0.83, y: 0.2, zoom: 2.6 }],
   ];
   const [s, setS] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setS((x) => (x + 1) % shots.length), 2200);
-    return () => clearInterval(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const box = useRef<HTMLDivElement>(null);
+  useVisibleInterval(box, () => setS((x) => (x + 1) % shots.length), 2200);
   return (
-    <div className="w-full">
+    <div ref={box} className="w-full">
       <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-border bg-background">
         <VirtualCamera shot={shots[s][1]}>
           <div className="absolute inset-0 p-3">
