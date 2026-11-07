@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "swap",
+  "title": "Swap",
+  "description": "Trades an icon or a label for another on a spring — turn, roll, or pop.",
+  "dependencies": [
+    "framer-motion"
+  ],
+  "registryDependencies": [
+    "https://style.p441z.my.id/r/motion.json",
+    "https://style.p441z.my.id/r/utils.json"
+  ],
+  "files": [
+    {
+      "path": "v4/components/motion/swap.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { AnimatePresence, motion, useReducedMotion } from \"framer-motion\";\n\nimport { cn } from \"@/lib/utils\";\nimport { SPRING } from \"@/lib/motion\";\n\n/**\n * Swap — trades one small thing for another on a spring: an icon turns in while the old one turns\n * out, a label rolls up, a dot pops. Change `id` and it plays; same `id`, nothing moves.\n *\n * Both states share one grid cell while they cross, so nothing around it jumps. `roll` clips to its\n * own box (the words slide through a slot); `turn` and `pop` don't, so a rotating icon never gets\n * its corners cut. Reduced motion: a plain crossfade.\n *\n * USAGE\n *   <Swap id={copied ? \"done\" : \"idle\"}>{copied ? <CheckIcon /> : <CopyIcon />}</Swap>\n *   <Swap id={dark ? \"moon\" : \"sun\"} mode=\"turn\">{dark ? <Moon /> : <Sun />}</Swap>\n *   <Swap id={label} mode=\"roll\">{label}</Swap>\n */\n\ntype Mode = \"turn\" | \"roll\" | \"pop\";\n\nconst MOVES = {\n  turn: { from: { rotate: -90, scale: 0.4, opacity: 0 }, to: { rotate: 0, scale: 1, opacity: 1 }, out: { rotate: 90, scale: 0.4, opacity: 0 } },\n  roll: { from: { y: \"110%\", opacity: 0 }, to: { y: \"0%\", opacity: 1 }, out: { y: \"-110%\", opacity: 0 } },\n  pop: { from: { scale: 0.3, opacity: 0 }, to: { scale: 1, opacity: 1 }, out: { scale: 0.3, opacity: 0 } },\n} as const;\n\ninterface SwapProps {\n  /** What is showing. A new value plays the swap. */\n  id: string | number;\n  mode?: Mode;\n  children: React.ReactNode;\n  className?: string;\n}\n\nexport default function Swap({ id, mode = \"turn\", children, className }: SwapProps) {\n  const reduce = useReducedMotion();\n  const m = MOVES[mode];\n  return (\n    <span className={cn(\"relative inline-grid place-items-center\", mode === \"roll\" && \"overflow-hidden\", className)}>\n      <AnimatePresence initial={false}>\n        <motion.span\n          key={id}\n          className=\"col-start-1 row-start-1 inline-grid place-items-center\"\n          initial={reduce ? { opacity: 0 } : m.from}\n          animate={reduce ? { opacity: 1 } : m.to}\n          exit={reduce ? { opacity: 0 } : m.out}\n          transition={{ ...(mode === \"roll\" ? SPRING.slide : SPRING.pop), opacity: { duration: 0.16 } }}\n        >\n          {children}\n        </motion.span>\n      </AnimatePresence>\n    </span>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "@components/motion/swap.tsx"
+    }
+  ],
+  "categories": [
+    "motion"
+  ],
+  "type": "registry:component"
+}

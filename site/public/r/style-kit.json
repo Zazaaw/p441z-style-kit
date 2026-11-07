@@ -15,7 +15,9 @@
     "https://style.p441z.my.id/r/grid-pattern.json",
     "https://style.p441z.my.id/r/magnetic.json",
     "https://style.p441z.my.id/r/marquee.json",
+    "https://style.p441z.my.id/r/pocket-card.json",
     "https://style.p441z.my.id/r/spotlight-card.json",
+    "https://style.p441z.my.id/r/stack-card.json",
     "https://style.p441z.my.id/r/dock.json",
     "https://style.p441z.my.id/r/menu-bar.json",
     "https://style.p441z.my.id/r/notification.json",
@@ -31,11 +33,13 @@
     "https://style.p441z.my.id/r/mask-reveal.json",
     "https://style.p441z.my.id/r/soft-cursor.json",
     "https://style.p441z.my.id/r/stepper.json",
+    "https://style.p441z.my.id/r/swap.json",
     "https://style.p441z.my.id/r/virtual-camera.json",
     "https://style.p441z.my.id/r/word-rotator.json",
     "https://style.p441z.my.id/r/badge.json",
     "https://style.p441z.my.id/r/button.json",
     "https://style.p441z.my.id/r/card.json",
+    "https://style.p441z.my.id/r/copy-button.json",
     "https://style.p441z.my.id/r/input.json",
     "https://style.p441z.my.id/r/page-header.json",
     "https://style.p441z.my.id/r/pill-tabs.json",
@@ -62,7 +66,13 @@
       "animate-rainbow": "rainbow 3s linear infinite",
       "animate-border-beam": "border-beam var(--duration, 4s) linear infinite",
       "animate-meteor": "meteor 5s linear infinite",
-      "animate-orbit": "orbit var(--duration, 20s) linear infinite"
+      "animate-orbit": "orbit var(--duration, 20s) linear infinite",
+      "ease-spring": "cubic-bezier(.34, 1.36, .5, 1)",
+      "ease-reveal": "cubic-bezier(.22, 1, .36, 1)",
+      "ease-toggle": "cubic-bezier(.4, 0, .2, 1)",
+      "animate-drop-in": "drop-in .75s var(--ease-spring) both",
+      "animate-pop-in": "pop-in .5s var(--ease-spring) both",
+      "animate-launch": "launch .9s var(--ease-reveal)"
     },
     "light": {
       "background": "hsl(0 0% 100%)",
@@ -124,6 +134,54 @@
     }
   },
   "css": {
+    "@keyframes drop-in": {
+      "0%": {
+        "translate": "0 -24px",
+        "rotate": "-2deg",
+        "opacity": "0"
+      },
+      "70%": {
+        "translate": "0 3px",
+        "rotate": ".4deg",
+        "opacity": "1"
+      },
+      "100%": {
+        "translate": "0 0",
+        "rotate": "0deg",
+        "opacity": "1"
+      }
+    },
+    "@keyframes pop-in": {
+      "0%": {
+        "scale": ".4",
+        "opacity": "0"
+      },
+      "60%": {
+        "scale": "1.12",
+        "opacity": "1"
+      },
+      "100%": {
+        "scale": "1",
+        "opacity": "1"
+      }
+    },
+    "@keyframes launch": {
+      "0%, 100%": {
+        "translate": "0 0"
+      },
+      "25%": {
+        "translate": "0 -38%"
+      },
+      "50%": {
+        "translate": "0 0"
+      },
+      "70%": {
+        "translate": "0 -16%"
+      },
+      "85%": {
+        "translate": "0 0"
+      }
+    },
     "@keyframes gradient-x": {
       "0%, 100%": {
         "background-position": "0% 50%"

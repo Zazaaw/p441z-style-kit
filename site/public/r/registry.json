@@ -20,7 +20,9 @@
         "https://style.p441z.my.id/r/grid-pattern.json",
         "https://style.p441z.my.id/r/magnetic.json",
         "https://style.p441z.my.id/r/marquee.json",
+        "https://style.p441z.my.id/r/pocket-card.json",
         "https://style.p441z.my.id/r/spotlight-card.json",
+        "https://style.p441z.my.id/r/stack-card.json",
         "https://style.p441z.my.id/r/dock.json",
         "https://style.p441z.my.id/r/menu-bar.json",
         "https://style.p441z.my.id/r/notification.json",
@@ -36,11 +38,13 @@
         "https://style.p441z.my.id/r/mask-reveal.json",
         "https://style.p441z.my.id/r/soft-cursor.json",
         "https://style.p441z.my.id/r/stepper.json",
+        "https://style.p441z.my.id/r/swap.json",
         "https://style.p441z.my.id/r/virtual-camera.json",
         "https://style.p441z.my.id/r/word-rotator.json",
         "https://style.p441z.my.id/r/badge.json",
         "https://style.p441z.my.id/r/button.json",
         "https://style.p441z.my.id/r/card.json",
+        "https://style.p441z.my.id/r/copy-button.json",
         "https://style.p441z.my.id/r/input.json",
         "https://style.p441z.my.id/r/page-header.json",
         "https://style.p441z.my.id/r/pill-tabs.json",
@@ -67,7 +71,13 @@
           "animate-rainbow": "rainbow 3s linear infinite",
           "animate-border-beam": "border-beam var(--duration, 4s) linear infinite",
           "animate-meteor": "meteor 5s linear infinite",
-          "animate-orbit": "orbit var(--duration, 20s) linear infinite"
+          "animate-orbit": "orbit var(--duration, 20s) linear infinite",
+          "ease-spring": "cubic-bezier(.34, 1.36, .5, 1)",
+          "ease-reveal": "cubic-bezier(.22, 1, .36, 1)",
+          "ease-toggle": "cubic-bezier(.4, 0, .2, 1)",
+          "animate-drop-in": "drop-in .75s var(--ease-spring) both",
+          "animate-pop-in": "pop-in .5s var(--ease-spring) both",
+          "animate-launch": "launch .9s var(--ease-reveal)"
         },
         "light": {
           "background": "hsl(0 0% 100%)",
@@ -129,6 +139,54 @@
         }
       },
       "css": {
+        "@keyframes drop-in": {
+          "0%": {
+            "translate": "0 -24px",
+            "rotate": "-2deg",
+            "opacity": "0"
+          },
+          "70%": {
+            "translate": "0 3px",
+            "rotate": ".4deg",
+            "opacity": "1"
+          },
+          "100%": {
+            "translate": "0 0",
+            "rotate": "0deg",
+            "opacity": "1"
+          }
+        },
+        "@keyframes pop-in": {
+          "0%": {
+            "scale": ".4",
+            "opacity": "0"
+          },
+          "60%": {
+            "scale": "1.12",
+            "opacity": "1"
+          },
+          "100%": {
+            "scale": "1",
+            "opacity": "1"
+          }
+        },
+        "@keyframes launch": {
+          "0%, 100%": {
+            "translate": "0 0"
+          },
+          "25%": {
+            "translate": "0 -38%"
+          },
+          "50%": {
+            "translate": "0 0"
+          },
+          "70%": {
+            "translate": "0 -16%"
+          },
+          "85%": {
+            "translate": "0 0"
+          }
+        },
         "@keyframes gradient-x": {
           "0%, 100%": {
             "background-position": "0% 50%"
@@ -300,7 +358,13 @@
           "animate-rainbow": "rainbow 3s linear infinite",
           "animate-border-beam": "border-beam var(--duration, 4s) linear infinite",
           "animate-meteor": "meteor 5s linear infinite",
-          "animate-orbit": "orbit var(--duration, 20s) linear infinite"
+          "animate-orbit": "orbit var(--duration, 20s) linear infinite",
+          "ease-spring": "cubic-bezier(.34, 1.36, .5, 1)",
+          "ease-reveal": "cubic-bezier(.22, 1, .36, 1)",
+          "ease-toggle": "cubic-bezier(.4, 0, .2, 1)",
+          "animate-drop-in": "drop-in .75s var(--ease-spring) both",
+          "animate-pop-in": "pop-in .5s var(--ease-spring) both",
+          "animate-launch": "launch .9s var(--ease-reveal)"
         },
         "light": {
           "background": "hsl(0 0% 100%)",
@@ -362,6 +426,54 @@
         }
       },
       "css": {
+        "@keyframes drop-in": {
+          "0%": {
+            "translate": "0 -24px",
+            "rotate": "-2deg",
+            "opacity": "0"
+          },
+          "70%": {
+            "translate": "0 3px",
+            "rotate": ".4deg",
+            "opacity": "1"
+          },
+          "100%": {
+            "translate": "0 0",
+            "rotate": "0deg",
+            "opacity": "1"
+          }
+        },
+        "@keyframes pop-in": {
+          "0%": {
+            "scale": ".4",
+            "opacity": "0"
+          },
+          "60%": {
+            "scale": "1.12",
+            "opacity": "1"
+          },
+          "100%": {
+            "scale": "1",
+            "opacity": "1"
+          }
+        },
+        "@keyframes launch": {
+          "0%, 100%": {
+            "translate": "0 0"
+          },
+          "25%": {
+            "translate": "0 -38%"
+          },
+          "50%": {
+            "translate": "0 0"
+          },
+          "70%": {
+            "translate": "0 -16%"
+          },
+          "85%": {
+            "translate": "0 0"
+          }
+        },
         "@keyframes gradient-x": {
           "0%, 100%": {
             "background-position": "0% 50%"
@@ -517,6 +629,7 @@
         "framer-motion"
       ],
       "registryDependencies": [
+        "https://style.p441z.my.id/r/motion.json",
         "https://style.p441z.my.id/r/utils.json"
       ],
       "categories": [
@@ -720,7 +833,7 @@
       "name": "glass-panel",
       "type": "registry:component",
       "title": "GlassPanel",
-      "description": "Frosted glass with a light rim, a pointer specular, and an entrance.",
+      "description": "Frosted glass with a light rim, a pointer specular, and a springy landing.",
       "registryDependencies": [
         "https://style.p441z.my.id/r/utils.json"
       ],
@@ -799,6 +912,25 @@
       ]
     },
     {
+      "name": "pocket-card",
+      "type": "registry:component",
+      "title": "PocketCard",
+      "description": "A picture tucked in a card like a sheet in a pocket.",
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "files": [
+        {
+          "path": "v4/components/effects/pocket-card.tsx",
+          "type": "registry:component",
+          "target": "@components/effects/pocket-card.tsx"
+        }
+      ]
+    },
+    {
       "name": "spotlight-card",
       "type": "registry:component",
       "title": "SpotlightCard",
@@ -818,10 +950,29 @@
       ]
     },
     {
+      "name": "stack-card",
+      "type": "registry:component",
+      "title": "StackCard",
+      "description": "A card with sheets behind it that fan out on hover.",
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "files": [
+        {
+          "path": "v4/components/effects/stack-card.tsx",
+          "type": "registry:component",
+          "target": "@components/effects/stack-card.tsx"
+        }
+      ]
+    },
+    {
       "name": "motion",
       "type": "registry:lib",
       "title": "motion",
-      "description": "Shared easing curves and durations.",
+      "description": "Shared easing curves, springs, and durations.",
       "categories": [
         "lib"
       ],
@@ -1053,7 +1204,31 @@
       "name": "stepper",
       "type": "registry:component",
       "title": "Stepper",
-      "description": "Story progress with a gliding active pill.",
+      "description": "Story progress: a pill that springs between steps, checks that draw themselves.",
+      "dependencies": [
+        "framer-motion"
+      ],
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/motion.json",
+        "https://style.p441z.my.id/r/swap.json",
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "v4/components/motion/stepper.tsx",
+          "type": "registry:component",
+          "target": "@components/motion/stepper.tsx"
+        }
+      ]
+    },
+    {
+      "name": "swap",
+      "type": "registry:component",
+      "title": "Swap",
+      "description": "Trades an icon or a label for another on a spring — turn, roll, or pop.",
       "dependencies": [
         "framer-motion"
       ],
@@ -1066,9 +1241,9 @@
       ],
       "files": [
         {
-          "path": "v4/components/motion/stepper.tsx",
+          "path": "v4/components/motion/swap.tsx",
           "type": "registry:component",
-          "target": "@components/motion/stepper.tsx"
+          "target": "@components/motion/swap.tsx"
         }
       ]
     },
@@ -1143,7 +1318,7 @@
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
-      "description": "6 variants × 4 sizes, asChild for links.",
+      "description": "6 variants × 4 sizes, asChild for links, squishes when pressed.",
       "dependencies": [
         "@radix-ui/react-slot",
         "class-variance-authority"
@@ -1175,6 +1350,28 @@
       "files": [
         {
           "path": "v4/components/ui/card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "copy-button",
+      "type": "registry:ui",
+      "title": "CopyButton",
+      "description": "Copy with proof: the icon turns into a self-drawing check.",
+      "dependencies": [
+        "framer-motion"
+      ],
+      "registryDependencies": [
+        "https://style.p441z.my.id/r/swap.json",
+        "https://style.p441z.my.id/r/utils.json"
+      ],
+      "categories": [
+        "ui"
+      ],
+      "files": [
+        {
+          "path": "v4/components/ui/copy-button.tsx",
           "type": "registry:ui"
         }
       ]
@@ -1219,8 +1416,12 @@
       "name": "pill-tabs",
       "type": "registry:ui",
       "title": "PillTabs",
-      "description": "Rounded segmented filter that scrolls on mobile.",
+      "description": "Segmented filter whose pill springs to the tab you pick.",
+      "dependencies": [
+        "framer-motion"
+      ],
       "registryDependencies": [
+        "https://style.p441z.my.id/r/motion.json",
         "https://style.p441z.my.id/r/utils.json"
       ],
       "categories": [

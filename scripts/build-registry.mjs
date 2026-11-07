@@ -34,12 +34,12 @@ const BUILTIN = new Set(["react", "react-dom", "next", "react/jsx-runtime"]);
 // Catalog copy: one short line per item (shown in the CLI, the registry, and the site's catalog).
 // Anything not listed falls back to the first sentence of the file's JSDoc.
 const COPY = {
-  button: ["Button", "6 variants × 4 sizes, asChild for links."],
+  button: ["Button", "6 variants × 4 sizes, asChild for links, squishes when pressed."],
   badge: ["Badge", "Small labels for tags, counts, and status."],
   card: ["Card", "The base surface, in six composable parts."],
   input: ["Input", "Text field that sits flush with Button."],
   "page-header": ["PageHeader", "Title, muted subtitle, and an action slot."],
-  "pill-tabs": ["PillTabs", "Rounded segmented filter that scrolls on mobile."],
+  "pill-tabs": ["PillTabs", "Segmented filter whose pill springs to the tab you pick."],
   skeleton: ["Skeleton", "Theme-aware pulsing placeholder."],
   typography: ["Typography", "H1–H4, P, and quote on one text scale."],
   "blur-fade": ["BlurFade", "The signature entrance: fade, un-blur, drift."],
@@ -50,7 +50,9 @@ const COPY = {
   marquee: ["Marquee", "Endless seamless ribbon, pauses on hover."],
   aurora: ["Aurora", "Slow blurred light behind a hero."],
   "border-beam": ["BorderBeam", "A beam of light circling a card's border."],
-  "glass-panel": ["GlassPanel", "Frosted glass with a light rim, a pointer specular, and an entrance."],
+  "glass-panel": ["GlassPanel", "Frosted glass with a light rim, a pointer specular, and a springy landing."],
+  "stack-card": ["StackCard", "A card with sheets behind it that fan out on hover."],
+  "pocket-card": ["PocketCard", "A picture tucked in a card like a sheet in a pocket."],
   "mask-reveal": ["MaskReveal", "Keynote headline: words rise from a mask."],
   "karaoke-text": ["KaraokeText", "Words light up like a narrator — by time or scroll."],
   "word-rotator": ["WordRotator", "One word that keeps changing, without reflow."],
@@ -61,7 +63,9 @@ const COPY = {
   "flying-pill": ["FlyingPill", "A message that flies from one place to another."],
   "element-lift": ["ElementLift", "A card rises, flips in 3D, and flies home."],
   "logo-collapse": ["LogoCollapse", "Outro: feature cards pull into the logo."],
-  stepper: ["Stepper", "Story progress with a gliding active pill."],
+  stepper: ["Stepper", "Story progress: a pill that springs between steps, checks that draw themselves."],
+  swap: ["Swap", "Trades an icon or a label for another on a spring — turn, roll, or pop."],
+  "copy-button": ["CopyButton", "Copy with proof: the icon turns into a self-drawing check."],
   "mac-window": ["MacWindow · TrafficLights", "Window with traffic lights and a centered title."],
   terminal: ["Terminal", "Commands type themselves; one-click copy."],
   dock: ["Dock", "Icons magnify near the pointer, with labels."],
@@ -69,7 +73,7 @@ const COPY = {
   notification: ["Notifications", "Frosted banners that slide in and stack."],
   "menu-bar": ["MenuBar", "Slim frosted top bar with menus and a clock."],
   utils: ["utils", "cn() — clsx + tailwind-merge."],
-  motion: ["motion", "Shared easing curves and durations."],
+  motion: ["motion", "Shared easing curves, springs, and durations."],
   "use-hydrated": ["useHydrated", "True after hydration, without setState-in-effect."],
 };
 
