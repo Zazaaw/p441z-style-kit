@@ -2,8 +2,8 @@
 // so server pages can check it without importing the client file.
 export const DEMO_NAMES = new Set([
   "button", "badge", "card", "input", "skeleton", "pill-tabs",
-  "glass-panel", "spotlight-card", "border-beam", "marquee", "magnetic", "aurora", "dot-pattern", "grid-pattern", "blur-fade",
-  "word-rotator", "count-up", "mask-reveal", "stepper",
+  "glass-panel", "stack-card", "pocket-card", "spotlight-card", "border-beam", "marquee", "magnetic", "aurora", "dot-pattern", "grid-pattern", "blur-fade",
+  "word-rotator", "count-up", "mask-reveal", "stepper", "swap", "copy-button",
   "mac-window", "terminal", "notification",
 ]);
 

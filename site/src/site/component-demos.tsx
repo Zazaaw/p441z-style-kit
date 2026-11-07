@@ -7,6 +7,8 @@ import BlurFade from "@/components/effects/blur-fade";
 import BorderBeam from "@/components/effects/border-beam";
 import { DotPattern } from "@/components/effects/dot-pattern";
 import GlassPanel, { GlassBackdrop } from "@/components/effects/glass-panel";
+import PocketCard from "@/components/effects/pocket-card";
+import StackCard from "@/components/effects/stack-card";
 import { GridPattern } from "@/components/effects/grid-pattern";
 import Magnetic from "@/components/effects/magnetic";
 import Marquee from "@/components/effects/marquee";
@@ -17,10 +19,12 @@ import { MacWindow } from "@/components/mac/window";
 import CountUp from "@/components/motion/count-up";
 import MaskReveal from "@/components/motion/mask-reveal";
 import Stepper from "@/components/motion/stepper";
+import Swap from "@/components/motion/swap";
 import WordRotator from "@/components/motion/word-rotator";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import CopyButton from "@/components/ui/copy-button";
 import { Input } from "@/components/ui/input";
 import PillTabs from "@/components/ui/pill-tabs";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -43,6 +47,30 @@ function Steps() {
       <Stepper id="doc-stepper" steps={steps} active={i} />
       <Button size="sm" variant="outline" onClick={() => setI((x) => (x + 1) % steps.length)}>
         Next step
+      </Button>
+    </div>
+  );
+}
+
+function Swaps() {
+  const [on, setOn] = useState(false);
+  return (
+    <div className="flex flex-col items-center gap-5">
+      <div className="flex items-center gap-8 text-foreground">
+        <Swap id={on ? "moon" : "sun"} mode="turn" className="size-8">
+          <svg viewBox="0 0 24 24" className="size-8" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+            {on ? <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" /> : (<><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></>)}
+          </svg>
+        </Swap>
+        <Swap id={on ? "night" : "day"} mode="roll" className="font-display text-2xl font-extrabold">
+          {on ? "Night" : "Day"}
+        </Swap>
+        <Swap id={on ? "a" : "b"} mode="pop">
+          <span className={`block size-6 rounded-full ${on ? "bg-primary" : "bg-muted-foreground/40"}`} />
+        </Swap>
+      </div>
+      <Button size="sm" variant="outline" onClick={() => setOn((v) => !v)}>
+        Swap
       </Button>
     </div>
   );
@@ -174,6 +202,42 @@ const DEMOS: Record<string, React.ReactNode> = {
   ),
   terminal: <Terminal className="w-full max-w-md" title="zsh" lines={[{ cmd: "npx shadcn@latest add style.p441z.my.id/r/terminal.json" }, { out: "✓ Created components/mac/terminal.tsx" }, { out: "Done in 1.8s", dim: true }]} />,
   notification: <Notify />,
+  swap: <Swaps />,
+  "copy-button": (
+    <div className="flex items-center gap-3 rounded-xl border border-border bg-background/70 py-2 pl-4 pr-2 font-mono text-[13px] text-muted-foreground">
+      <span className="text-primary">$</span> npx shadcn@latest add …/copy-button.json
+      <CopyButton value="npx shadcn@latest add https://style.p441z.my.id/r/copy-button.json" label="Copy" />
+    </div>
+  ),
+  "stack-card": (
+    <div className="relative grid w-full place-items-center py-6">
+      <GlassBackdrop strength={1.4} />
+      <StackCard layers={3} className="w-full max-w-xs">
+        <GlassPanel appear={false} press className="p-6">
+          <div className="text-[12px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Hover me</div>
+          <div className="mt-2 font-display text-2xl font-extrabold tracking-tight">Three sheets behind.</div>
+          <p className="mt-1 text-[14px] text-muted-foreground">They fan out one after another, then settle.</p>
+        </GlassPanel>
+      </StackCard>
+    </div>
+  ),
+  "pocket-card": (
+    <div className="relative grid w-full place-items-center py-6">
+      <GlassBackdrop strength={1.4} />
+      <PocketCard
+        className="w-full max-w-sm"
+        sheet={
+          // eslint-disable-next-line @next/next/no-img-element -- static demo screenshot
+          <img src="/showcase/p441z-portfolio.jpg" alt="" width={1440} height={900} className="aspect-[16/9] w-full object-cover object-top" />
+        }
+      >
+        <GlassPanel appear={false} tilt={0} className="p-5 pt-6">
+          <div className="font-display text-xl font-extrabold tracking-tight">Hover the card.</div>
+          <p className="mt-1 text-[14px] text-muted-foreground">The picture slides out of its pocket.</p>
+        </GlassPanel>
+      </PocketCard>
+    </div>
+  ),
 };
 
 export function ComponentDemo({ name }: { name: string }) {
