@@ -1,5 +1,7 @@
 # Component Reference
 
+> Every component below also has a page with a live preview, the install command, usage, and its source: **[style.p441z.my.id/components](https://style.p441z.my.id/components)**.
+
 Thirty-five components — 8 UI, 8 effects, 12 motion, 7 desktop (the new effects, motion, and desktop are v4 only). Props, variants, and when to reach for each.
 
 ---
