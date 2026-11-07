@@ -124,7 +124,7 @@ export function QuickLook({ s, onClose, layoutId = `skill-${s.name}` }: { s: Ski
 export const GROUPS = [
   { key: "all", label: "All", labelId: "Semua", files: null },
   { key: "eng", label: "Engineering", labelId: "Engineering", files: ["backend.api", "database", "security", "performance", "testing", "debugging"] },
-  { key: "design", label: "Design", labelId: "Desain", files: ["ui.ux", "landing.page", "typography", "dashboard", "export.report", "motion.video"] },
+  { key: "design", label: "Design", labelId: "Desain", files: ["ui.ux", "landing.page", "typography", "darkmode", "dashboard", "export.report", "motion.video"] },
   { key: "flow", label: "Workflow", labelId: "Alur kerja", files: ["analysis", "git.workflow", "documentation"] },
 ] as const;
 export const inGroup = (g: (typeof GROUPS)[number], s: SkillView) => !g.files || (g.files as readonly string[]).includes(s.file.replace(/^skill-|\.md$/g, ""));
@@ -214,7 +214,7 @@ export default function SkillFolders({ skills }: { skills: SkillView[] }) {
               art={f.art}
               seed={[3, 11, 7][i]}
               width={wide ? 340 : 300}
-              maxVisible={6}
+              maxVisible={f.list.length}
               files={f.list.map((s) => ({ name: s.title, meta: `${num(s.lines)} ${tr("lines", "baris")}` }))}
               action="more"
               menu={[
