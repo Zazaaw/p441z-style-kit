@@ -12,6 +12,7 @@ import MaskReveal from "@/components/motion/mask-reveal";
 import CountUp from "@/components/motion/count-up";
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { AccentDots } from "@/site/accent";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -120,7 +121,10 @@ export default function Bento({ componentCount, skillCount }: { componentCount: 
               <div className="mt-1.5 font-mono text-[10.5px] text-primary">--primary</div>
             </div>
           </div>
-          <div className="mt-4 text-[13px] text-muted-foreground">Rebrand in two lines: change <code>--primary</code> and <code>--ring</code>. This page uses the desktop accent blue.</div>
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+            <div className="text-[13px] text-muted-foreground">Rebrand in two lines: change <code>--primary</code> and <code>--ring</code>. Try it — the whole page follows.</div>
+            <AccentDots size={20} />
+          </div>
         </SpotlightCard>
         <SpotlightCard className="bento-tile flex flex-col justify-between p-6 md:col-span-2">
           <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Components</div>

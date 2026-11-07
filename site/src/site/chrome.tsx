@@ -11,6 +11,7 @@ import Spotlight, { useSpotlightHotkey, type SpotlightItem } from "@/components/
 import Dock from "@/components/mac/dock";
 import { useNotify } from "@/components/mac/notification";
 import { ThemeToggle } from "@/site/theme";
+import { ACCENTS, AccentMenu, setAccent } from "@/site/accent";
 import { IconBell, IconBook, IconCopy, IconGitHub, IconHome, IconMoon, IconPlay, IconSearch, IconSpark, IconWindow } from "@/site/icons";
 
 export const REPO = "https://github.com/Zazaaw/p441z-style-kit";
@@ -67,6 +68,13 @@ export default function Chrome({ skills }: { skills: { name: string; title: stri
       onSelect: () => navigator.clipboard?.writeText(INSTALL).then(() => notify({ title: "Copied", body: "Install command is on your clipboard.", icon: <IconCopy /> })),
     },
     { group: "Actions", label: `Switch to ${resolvedTheme === "dark" ? "light" : "dark"} mode`, icon: <IconMoon />, keywords: "theme dark light", onSelect: () => setTheme(resolvedTheme === "dark" ? "light" : "dark") },
+    ...ACCENTS.map((a) => ({
+      group: "Accent",
+      label: `Accent: ${a.label}`,
+      keywords: "color colour theme primary",
+      icon: <span className="size-3.5 rounded-full ring-1 ring-black/15" style={{ background: `hsl(${a.hsl})` }} />,
+      onSelect: () => setAccent(a.key),
+    })),
     { group: "Actions", label: "Send a test notification", icon: <IconBell />, onSelect: () => notify({ title: "Hello from p441z", body: "This banner is <Notification>, part of the kit.", icon: <IconBell /> }) },
     { group: "Actions", label: "Open on GitHub", icon: <IconGitHub />, hint: "github.com", onSelect: () => window.open(REPO, "_blank", "noopener") },
     ...skills.map((s) => ({ group: "Skills", label: s.title, hint: s.name, keywords: s.file, icon: <IconBook />, onSelect: () => window.open(`${REPO}/blob/main/Skill.md/${s.file}`, "_blank", "noopener") })),
@@ -93,6 +101,7 @@ export default function Chrome({ skills }: { skills: { name: string; title: stri
               </span>
               <kbd className="font-sans text-[12px]">⌘K</kbd>
             </button>
+            <AccentMenu />
             <ThemeToggle />
           </>
         }
