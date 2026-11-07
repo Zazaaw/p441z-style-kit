@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-import { EASE } from "@/lib/motion";
+import { EASE, SPRING } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { useT } from "@/site/i18n";
 
@@ -83,11 +83,12 @@ export function AccentDots({ size = 18, className }: { size?: number; className?
             aria-label={t(a.label, a.labelId)}
             title={t(a.label, a.labelId)}
             onClick={() => setAccent(a.key)}
-            className="relative grid place-items-center rounded-full outline-hidden transition-transform duration-150 hover:scale-110 focus-visible:ring-2 focus-visible:ring-ring"
+            className="relative grid place-items-center rounded-full outline-hidden transition-[scale] duration-300 ease-spring hover:scale-115 active:scale-90 active:duration-100 focus-visible:ring-2 focus-visible:ring-ring"
             style={{ width: size, height: size, background: `hsl(${a.hsl})`, boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.12)" }}
           >
-            {on && <motion.span layoutId={`accent-ring-${size}`} className="absolute -inset-[3px] rounded-full border-2" style={{ borderColor: `hsl(${a.hsl})` }} transition={{ duration: 0.3, ease: EASE.reveal }} />}
-            {on && <span className="size-[35%] rounded-full" style={{ background: `hsl(${a.fg})` }} />}
+            {/* The ring springs over to the new color; the center dot pops in. */}
+            {on && <motion.span layoutId={`accent-ring-${size}`} className="absolute -inset-[3px] rounded-full border-2" style={{ borderColor: `hsl(${a.hsl})` }} transition={SPRING.slide} />}
+            {on && <span className="size-[35%] animate-pop-in rounded-full motion-reduce:animate-none" style={{ background: `hsl(${a.fg})` }} />}
           </button>
         );
       })}
@@ -115,17 +116,17 @@ export function AccentMenu() {
   const a = ACCENTS.find((x) => x.key === current)!;
   return (
     <div ref={box} className="relative">
-      <button type="button" onClick={() => setOpen((o) => !o)} aria-label={`${t("Accent color", "Warna aksen")}: ${t(a.label, a.labelId)}`} aria-expanded={open} className="grid size-6 place-items-center rounded transition-colors duration-150 hover:bg-foreground/10">
-        <span className="size-3 rounded-full ring-1 ring-black/15" style={{ background: `hsl(${a.hsl})` }} />
+      <button type="button" onClick={() => setOpen((o) => !o)} aria-label={`${t("Accent color", "Warna aksen")}: ${t(a.label, a.labelId)}`} aria-expanded={open} className="grid size-6 place-items-center rounded transition-[background-color,scale] duration-300 ease-spring hover:bg-foreground/10 active:scale-[.85] active:duration-100">
+        <span key={a.key} className="size-3 animate-pop-in rounded-full ring-1 ring-black/15 motion-reduce:animate-none" style={{ background: `hsl(${a.hsl})` }} />
       </button>
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: -6, scale: 0.97 }}
+            initial={{ opacity: 0, y: -10, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -4, scale: 0.98 }}
-            transition={{ duration: 0.18, ease: EASE.reveal }}
-            className="absolute right-0 top-8 z-[60] w-max rounded-xl border border-black/10 bg-background/80 p-3 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.45)] backdrop-blur-2xl backdrop-saturate-150 dark:border-white/10"
+            exit={{ opacity: 0, y: -4, scale: 0.97, transition: { duration: 0.14, ease: EASE.toggle } }}
+            transition={{ ...SPRING.drop, opacity: { duration: 0.16 } }}
+            className="absolute right-0 top-8 origin-top-right z-[60] w-max rounded-xl border border-black/10 bg-background/80 p-3 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.45)] backdrop-blur-2xl backdrop-saturate-150 dark:border-white/10"
           >
             <div className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">{t("Accent color", "Warna aksen")}</div>
             <AccentDots />
