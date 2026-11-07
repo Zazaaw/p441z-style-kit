@@ -63,7 +63,7 @@ export default function Showcase() {
       {featured && (
         <div className="mt-14 [perspective:1600px]">
           <div className="show-window relative mx-auto max-w-5xl rounded-xl">
-            <MacWindow title={t(featured.title, featured.titleId ?? featured.title)} className="relative shadow-[0_60px_120px_-50px_hsl(var(--primary)/0.55)]" toolbar={<span className="rounded-full bg-primary px-2 py-0.5 text-[11px] font-semibold text-primary-foreground">{t(featured.madeWith ?? "", featured.madeWithId ?? featured.madeWith ?? "")}</span>}>
+            <MacWindow title={t(featured.title, featured.titleId ?? featured.title)} className="relative shadow-[0_60px_120px_-50px_hsl(var(--primary)/0.55)]" toolbar={<span className="hidden rounded-full bg-primary px-2 py-0.5 sm:inline text-[11px] font-semibold text-primary-foreground">{t(featured.madeWith ?? "", featured.madeWithId ?? featured.madeWith ?? "")}</span>}>
               <AutoVideo item={featured} />
             </MacWindow>
             <BorderBeam duration={10} />
