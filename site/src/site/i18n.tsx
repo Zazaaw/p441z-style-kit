@@ -56,7 +56,7 @@ export function LangSwitch({ paths }: { paths?: Partial<Record<Lang, string>> })
             e.preventDefault();
             window.location.href = to(l) + window.location.hash;
           }}
-          className={l === lang ? "rounded-[5px] bg-background px-1.5 py-px text-foreground shadow-[0_1px_2px_rgba(0,0,0,0.12)]" : "px-1.5 py-px text-foreground/55 transition-colors hover:text-foreground"}
+          className={l === lang ? "grid min-h-6 min-w-7 place-items-center rounded-[5px] bg-background px-1.5 text-foreground shadow-[0_1px_2px_rgba(0,0,0,0.12)]" : "grid min-h-6 min-w-7 place-items-center px-1.5 text-foreground/55 transition-colors hover:text-foreground"}
         >
           {l.toUpperCase()}
         </a>
