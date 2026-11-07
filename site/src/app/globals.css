@@ -55,3 +55,33 @@ body { font-family: var(--font-sans); }
 html.theme-transition, html.theme-transition *, html.theme-transition *::before, html.theme-transition *::after {
   transition: background-color .4s ease, color .4s ease, border-color .4s ease, fill .4s ease, stroke .4s ease !important;
 }
+
+/* Skill pages: the guide as long-form reading. */
+.skill-prose { font-size: 16px; line-height: 1.75; color: hsl(var(--foreground) / .86); overflow-wrap: break-word; }
+.skill-prose > :first-child { margin-top: 0; }
+.skill-prose h2 { margin: 3.5rem 0 1rem; padding-top: 2rem; border-top: 1px solid hsl(var(--border)); font-family: var(--font-display); font-size: 1.75rem; font-weight: 800; line-height: 1.15; letter-spacing: -.03em; color: hsl(var(--foreground)); scroll-margin-top: 4.5rem; }
+.skill-prose h3 { margin: 2.25rem 0 .6rem; font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; letter-spacing: -.015em; color: hsl(var(--foreground)); scroll-margin-top: 4.5rem; }
+.skill-prose h4 { margin: 1.6rem 0 .4rem; font-weight: 700; color: hsl(var(--foreground)); scroll-margin-top: 4.5rem; }
+.skill-prose h2, .skill-prose h3, .skill-prose h4 { position: relative; }
+.skill-prose .anchor { position: absolute; left: -1.1em; color: hsl(var(--primary)); opacity: 0; text-decoration: none; transition: opacity .2s; }
+.skill-prose h2:hover .anchor, .skill-prose h3:hover .anchor, .skill-prose h4:hover .anchor { opacity: 1; }
+.skill-prose p, .skill-prose ul, .skill-prose ol, .skill-prose blockquote, .skill-prose pre, .skill-prose .table-wrap { margin: 1rem 0; }
+.skill-prose ul, .skill-prose ol { padding-left: 1.4rem; }
+.skill-prose ul { list-style: disc; } .skill-prose ol { list-style: decimal; }
+.skill-prose li { margin: .3rem 0; } .skill-prose li::marker { color: hsl(var(--muted-foreground)); }
+.skill-prose strong { color: hsl(var(--foreground)); font-weight: 700; }
+.skill-prose a { color: hsl(var(--primary)); text-underline-offset: 3px; }
+.skill-prose a:hover { text-decoration: underline; }
+.skill-prose :not(pre) > code { padding: .12em .38em; border-radius: .4em; background: hsl(var(--muted)); font-family: var(--font-mono); font-size: .86em; color: hsl(var(--foreground)); }
+.skill-prose pre { overflow-x: auto; padding: 1rem 1.15rem; border-radius: 14px; background: #0b0c10; color: #e5e7eb; font-family: var(--font-mono); font-size: 13px; line-height: 1.65; border: 1px solid rgb(255 255 255 / .06); }
+.skill-prose pre code { font-family: inherit; }
+.skill-prose blockquote { padding: .2rem 0 .2rem 1rem; border-left: 3px solid hsl(var(--primary)); color: hsl(var(--muted-foreground)); }
+.skill-prose hr { margin: 2.5rem 0; border: 0; border-top: 1px solid hsl(var(--border)); }
+/* The guides put a rule before every section; the h2 already draws one. */
+.skill-prose hr:has(+ h2) { display: none; }
+.skill-prose .table-wrap { overflow-x: auto; border: 1px solid hsl(var(--border)); border-radius: 14px; }
+.skill-prose table { width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.55; }
+.skill-prose th { background: hsl(var(--muted) / .6); font-weight: 600; color: hsl(var(--foreground)); text-align: left; }
+.skill-prose th, .skill-prose td { padding: .55rem .8rem; border-bottom: 1px solid hsl(var(--border)); vertical-align: top; }
+.skill-prose th { white-space: nowrap; }
+.skill-prose tr:last-child td { border-bottom: 0; }
