@@ -37,7 +37,7 @@ export default function Home({ lang }: { lang: Lang }) {
           <div className="border-y border-border bg-background/60 py-5 backdrop-blur">
             <Marquee duration="60s" gap="2.75rem">
               {comps.map((c) => (
-                <span key={`${c.group}-${c.name}`} className="flex items-center gap-2.5 whitespace-nowrap font-display text-[15px] font-semibold text-muted-foreground">
+                <span key={`${c.group}-${c.name}`} className="flex items-center gap-2.5 whitespace-nowrap font-display text-[15px] font-semibold text-foreground/70">
                   <span className="size-1.5 rounded-full bg-primary" />
                   {c.name}
                 </span>
