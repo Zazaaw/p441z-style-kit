@@ -82,7 +82,7 @@ export const MacWindow = React.forwardRef<HTMLDivElement, MacWindowProps>(
     >
       <div className={cn("relative flex h-10 items-center gap-3 border-b border-border/70 px-3.5", glass ? "bg-transparent" : "bg-muted/50")}>
         <TrafficLights onClose={onClose} onMinimize={onMinimize} onZoom={onZoom} />
-        {title && <div className="pointer-events-none absolute inset-x-24 truncate text-center text-[13px] font-semibold text-foreground/80">{title}</div>}
+        {title && <div className="pointer-events-none absolute inset-x-[4.5rem] truncate text-center text-[13px] font-semibold text-foreground/80">{title}</div>}
         <div className="ml-auto flex items-center gap-2">{toolbar}</div>
       </div>
       <div className={cn("relative", bodyClassName)}>{children}</div>
