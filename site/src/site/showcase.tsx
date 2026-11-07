@@ -9,6 +9,7 @@ import MaskReveal from "@/components/motion/mask-reveal";
 import { MacWindow } from "@/components/mac/window";
 import BorderBeam from "@/components/effects/border-beam";
 import GlassPanel, { GlassBackdrop } from "@/components/effects/glass-panel";
+import PocketCard from "@/components/effects/pocket-card";
 import { SHOWCASE, type ShowcaseItem } from "@/site/showcase-data";
 import { useT } from "@/site/i18n";
 
@@ -74,35 +75,46 @@ export default function Showcase() {
       {rest.length > 0 && (
         <div className="mx-auto mt-24 max-w-5xl">
           <div className="text-center text-[12px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">{t("From the same hands", "Dari tangan yang sama")}</div>
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
-            {rest.map((s, i) => (
-              <GlassPanel key={s.title} delay={i * 90} className="group overflow-hidden p-0">
-                {s.video ? (
+          <div className="mt-10 grid gap-10 md:grid-cols-2 md:gap-6">
+            {rest.map((s, i) =>
+              s.video ? (
+                <GlassPanel key={s.title} delay={i * 90} className="overflow-hidden p-0">
                   <AutoVideo item={s} />
-                ) : (
-                  <a href={s.href} target="_blank" rel="noreferrer" className="block">
-                    {s.poster && (
-                      <div className="overflow-hidden border-b border-border/60">
-                        {/* eslint-disable-next-line @next/next/no-img-element -- static screenshot, sized by its container */}
-                        <img src={s.poster} alt="" width={1440} height={900} loading="lazy" className="aspect-[16/9] w-full object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]" />
+                </GlassPanel>
+              ) : (
+                // The screenshot sits in the card like a sheet in a pocket: it drops in, and slides out on hover.
+                <a key={s.title} href={s.href} target="_blank" rel="noreferrer" className="group block rounded-2xl outline-hidden transition-[scale] duration-300 ease-spring focus-visible:ring-2 focus-visible:ring-ring active:scale-[.985] active:duration-100">
+                  <PocketCard
+                    delay={i * 120}
+                    tuck={56}
+                    sheet={
+                      s.poster && (
+                        // eslint-disable-next-line @next/next/no-img-element -- static screenshot, sized by its container
+                        <img src={s.poster} alt="" width={1440} height={900} loading="lazy" className="aspect-[16/9] w-full object-cover object-top" />
+                      )
+                    }
+                  >
+                    <GlassPanel delay={i * 90} tilt={2} className="p-0">
+                      <div className="p-5 pt-6">
+                        <div className="flex items-baseline justify-between gap-3">
+                          <span className="font-display text-xl font-extrabold tracking-tight">{t(s.title, s.titleId ?? s.title)}</span>
+                          {s.host ? (
+                            <span className="font-mono text-[12px] text-muted-foreground">{s.host}</span>
+                          ) : (
+                            s.madeWith && <span className="shrink-0 rounded-full border border-border px-2.5 py-0.5 text-[12px] text-muted-foreground">{t(s.madeWith, s.madeWithId ?? s.madeWith)}</span>
+                          )}
+                        </div>
+                        <p className="mt-1.5 text-[14px] leading-relaxed text-muted-foreground">{t(s.note, s.noteId ?? s.note)}</p>
+                        <div className="mt-3 inline-flex items-center gap-1 text-[13px] font-semibold text-primary">
+                          {t(s.cta ?? "Visit", s.ctaId ?? "Kunjungi")}
+                          <span aria-hidden className="inline-block transition-transform duration-500 ease-spring group-hover:translate-x-1.5">→</span>
+                        </div>
                       </div>
-                    )}
-                    <div className="p-5">
-                      <div className="flex items-baseline justify-between gap-3">
-                        <span className="font-display text-xl font-extrabold tracking-tight">{t(s.title, s.titleId ?? s.title)}</span>
-                        {s.host ? (
-                          <span className="font-mono text-[12px] text-muted-foreground">{s.host}</span>
-                        ) : (
-                          s.madeWith && <span className="shrink-0 rounded-full border border-border px-2.5 py-0.5 text-[12px] text-muted-foreground">{t(s.madeWith, s.madeWithId ?? s.madeWith)}</span>
-                        )}
-                      </div>
-                      <p className="mt-1.5 text-[14px] leading-relaxed text-muted-foreground">{t(s.note, s.noteId ?? s.note)}</p>
-                      <div className="mt-3 text-[13px] font-semibold text-primary transition-transform duration-300 group-hover:translate-x-0.5">{t(s.cta ?? "Visit", s.ctaId ?? "Kunjungi")} →</div>
-                    </div>
-                  </a>
-                )}
-              </GlassPanel>
-            ))}
+                    </GlassPanel>
+                  </PocketCard>
+                </a>
+              ),
+            )}
           </div>
         </div>
       )}
