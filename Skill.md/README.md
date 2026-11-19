@@ -49,6 +49,7 @@ every skill file.
 | [skill-ui.ux.md](skill-ui.ux.md) | `design-taste-frontend` (attribution: `skill-ui-ux`) | Anti-slop frontend for landing pages, portfolios, redesigns | Public pages that need real design taste |
 | [skill-landing.page.md](skill-landing.page.md) | `skill-landing-page` | Strict build prompt for a single-screen hero (carousel + marquee) | Replicating a hero design pixel-close |
 | [skill-motion.video.md](skill-motion.video.md) | `skill-motion-video` | Keynote-style tutorial and explainer videos of a web app: script, animatic, per-line TTS with word timestamps, real CDP screen recording with data masking, Remotion composition, sound, 60fps render, web export | Making or revising any tutorial, walkthrough, or explainer video of software |
+| [skill-event.video.md](skill-event.video.md) | `skill-event-video` | Real-footage event videos (school dramas, performances, graduations) with Remotion motion graphics handed to DaVinci Resolve free as editable layers; segment-only revisions, auto-framing camera, identity checks | Editing any event video from real footage, or fixing one part of a video already being edited in DaVinci |
 
 ### Previews
 
