@@ -47,13 +47,13 @@ writeFileSync(
     name: "p441z-skills",
     version: "1.0.0",
     displayName: "p441z Skills",
-    description: `${shipped.length} working skills for AI coding agents: analysis, backend, database, testing, security, performance, debugging, git, dashboards, exports, docs, typography, dark mode, UI/UX taste, landing pages, and motion video.`,
+    description: `${shipped.length} working skills for AI coding agents: analysis, backend, database, testing, security, performance, debugging, git, dashboards, exports, docs, typography, dark mode, UI/UX taste, landing pages, motion video, and event video editing.`,
     author: { name: "Faiz Hazim Hawari", url: "https://p441z.my.id" },
     homepage: "https://style.p441z.my.id",
     repository: REPO,
     license: "MIT",
     icon: ".claude-plugin/icon.png",
-    keywords: ["skills", "design-system", "frontend", "backend", "typography", "dark-mode", "testing", "workflow"],
+    keywords: ["skills", "design-system", "frontend", "backend", "typography", "dark-mode", "testing", "workflow", "video"],
   }),
 );
 mkdirSync(join(ROOT, ".claude-plugin"), { recursive: true });

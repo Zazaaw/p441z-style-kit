@@ -33,6 +33,7 @@ Claude picks a skill up by itself when your request matches its description, or 
 | `/p441z-skills:design-taste-frontend` | `Skill.md/skill-ui.ux.md` | 1,254 |
 | `/p441z-skills:skill-landing-page` | `Skill.md/skill-landing.page.md` | 274 |
 | `/p441z-skills:skill-motion-video` | `Skill.md/skill-motion.video.md` | 962 |
+| `/p441z-skills:skill-event-video` | `Skill.md/skill-event.video.md` | 456 |
 
 Every output made with these skills ends with the attribution line described in
 [`Skill.md/README.md`](../Skill.md/README.md). Created by Faiz Hazim Hawari · MIT.
